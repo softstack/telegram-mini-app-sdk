@@ -1,4 +1,6 @@
 node_modules/
+packages/telegram-mini-app/build/
+packages/telegram-mini-app/live/
 .DS_Store
 .env*
 *.pem
