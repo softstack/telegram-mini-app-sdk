@@ -21,7 +21,8 @@
 		"postcss:prefix": "postcss ./dist/cjs/output.css --replace && postcss ./dist/esm/output.css --replace",
 		"compile": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json",
 		"build:clean": "rm -rf ./dist",
-		"build": "npm run build:clean && npm run compile && npm run tailwindcss:build && npm run postcss:prefix && cp -r ./src/assets ./dist/cjs && cp -r ./src/assets ./dist/esm && rm ./dist/**/*.tsbuildinfo"
+		"build": "npm run build:clean && npm run compile && npm run tailwindcss:build && npm run postcss:prefix && cp -r ./src/assets ./dist/cjs && cp -r ./src/assets ./dist/esm && rm ./dist/**/*.tsbuildinfo",
+		"prepublishOnly": "npm run build && npm test && npm run lint"
 	},
 	"author": "",
 	"license": "MIT",
