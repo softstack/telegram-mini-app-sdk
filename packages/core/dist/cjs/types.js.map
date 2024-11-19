@@ -1,0 +1,1 @@
+{"version":3,"file":"types.js","sourceRoot":"","sources":["../../src/types.ts"],"names":[],"mappings":"","sourcesContent":["import { StringifyType } from '@softstack/typed-stringify';\n\nexport type CustomStrigifyType = StringifyType | 'Buffer';\n"]}

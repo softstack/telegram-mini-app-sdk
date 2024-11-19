@@ -1,0 +1,1 @@
+{"version":3,"file":"constants.js","sourceRoot":"","sources":["../../src/constants.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,kBAAkB,GAAG,MAAO,CAAC","sourcesContent":["export const ETHERLINK_CHAIN_ID = 42_793n;\n"]}

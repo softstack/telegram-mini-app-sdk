@@ -1,0 +1,11 @@
+import { TezosBeaconErrorResponse, TezosBeaconEvent, TezosBeaconResponse } from '@tconnect.io/tezos-beacon-api-types';
+import { BaseMessage, DisconnectMessage, ErrorResponse, OperationResponse, PeerInfo, PermissionResponse, SignPayloadResponse } from './types';
+export declare const validateTezosBeaconResponse: (value: TezosBeaconResponse | TezosBeaconErrorResponse) => TezosBeaconResponse | TezosBeaconErrorResponse;
+export declare const validateTezosBeaconEvent: (value: TezosBeaconEvent) => TezosBeaconEvent;
+export declare const isPeerInfo: (value: unknown) => value is PeerInfo;
+export declare const isBaseMessage: (value: unknown) => value is BaseMessage;
+export declare const isPermissionResponse: (value: unknown) => value is PermissionResponse;
+export declare const isOperationResponse: (value: unknown) => value is OperationResponse;
+export declare const isSignPayloadResponse: (value: unknown) => value is SignPayloadResponse;
+export declare const isDisconnectMessage: (value: unknown) => value is DisconnectMessage;
+export declare const isErrorResponse: (value: unknown) => value is ErrorResponse;

@@ -1,0 +1,32 @@
+{
+	"name": "telegram-mini-app-sdk",
+	"version": "0.0.1",
+	"description": "Based on the Grant Proposal \"Unlocking Tezos Integration for Telegram’s 800 Million Users\"",
+	"main": "index.js",
+	"workspaces": [
+		"packages/*"
+	],
+	"scripts": {
+		"prettier": "prettier --no-error-on-unmatched-pattern --write \"./**/*.cjs\" \"./**/*.css\" \"./**/*.html\" \"./**/*.js\" \"./**/*.json\" \"./**/*.mjs\" \"./**/*.ts\" \"./**/*.tsx\"",
+		"lint": "eslint ./packages",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"reinstall": "rm -rf ./node_modules && rm -rf ./packages/*/node_modules && npm install",
+		"build": "npm run build --workspaces --if-present"
+	},
+	"author": "",
+	"license": "MIT",
+	"devDependencies": {
+		"@eslint/js": "^9.10.0",
+		"eslint": "^8.57.1",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-react": "^7.36.1",
+		"eslint-plugin-react-hooks": "^4.6.2",
+		"eslint-plugin-unicorn": "^55.0.0",
+		"globals": "^15.9.0",
+		"prettier": "^3.3.3",
+		"prettier-plugin-tailwindcss": "^0.6.8",
+		"typescript": "^5.6.3",
+		"typescript-eslint": "^8.6.0"
+	},
+	"type": "module"
+}

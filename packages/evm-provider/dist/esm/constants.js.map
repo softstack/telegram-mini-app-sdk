@@ -1,0 +1,1 @@
+{"version":3,"file":"constants.js","sourceRoot":"","sources":["../../src/constants.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,cAAc,GAAG,uBAAuB,CAAC","sourcesContent":["export const SOCKET_IO_PATH = '/api/v1/socket.io/evm';\n"]}

@@ -1,0 +1,52 @@
+{
+	"name": "@tconnect.io/modal",
+	"version": "0.0.1",
+	"main": "dist/cjs/index.js",
+	"module": "dist/esm/index.js",
+	"types": "dist/types/index.d.ts",
+	"exports": {
+		"require": "./dist/cjs/index.js",
+		"import": "./dist/esm/index.js",
+		"types": "./dist/types/index.d.ts"
+	},
+	"files": [
+		"dist/**/*",
+		"src/**/*"
+	],
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"prettier": "prettier --write \"./**/*.css\" \"./**/*.js\" \"./**/*.json\" \"./**/*.mjs\" \"./**/*.ts\" \"./**/*.tsx\" \"./**/*.html\" --ignore-path ../../.prettierignore --no-error-on-unmatched-pattern",
+		"lint": "eslint ./src",
+		"tailwindcss:build": "tailwindcss build -i ./src/input.css -o ./dist/cjs/output.css && cp ./dist/cjs/output.css ./dist/esm/output.css",
+		"postcss:prefix": "postcss ./dist/cjs/output.css --replace && postcss ./dist/esm/output.css --replace",
+		"compile": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json",
+		"build:clean": "rm -rf ./dist",
+		"build": "npm run build:clean && npm run compile && npm run tailwindcss:build && npm run postcss:prefix && cp -r ./src/assets ./dist/cjs && cp -r ./src/assets ./dist/esm && rm ./dist/**/*.tsbuildinfo"
+	},
+	"author": "",
+	"license": "MIT",
+	"description": "",
+	"dependencies": {
+		"@tconnect.io/browser-utils": "^0.0.1",
+		"@tconnect.io/evm-provider": "^0.0.1",
+		"@tconnect.io/tezos-beacon-provider": "^0.0.1",
+		"@tconnect.io/tezos-wc-provider": "^0.0.1",
+		"@twa-dev/sdk": "^7.10.1",
+		"clsx": "^2.1.1",
+		"react-inlinesvg": "^4.1.3",
+		"react-jazzicon": "^1.0.4",
+		"react-spinners": "^0.14.1",
+		"tailwind-merge": "^2.5.4"
+	},
+	"peerDependencies": {
+		"react": "*",
+		"react-dom": "*"
+	},
+	"devDependencies": {
+		"@types/react": "^18.3.1",
+		"@types/react-dom": "^18.3.1",
+		"postcss-cli": "^11.0.0",
+		"postcss-prefix-selector": "^2.1.0",
+		"tailwindcss": "^3.4.13"
+	}
+}

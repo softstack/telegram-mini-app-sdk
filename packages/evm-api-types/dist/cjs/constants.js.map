@@ -1,0 +1,1 @@
+{"version":3,"file":"constants.js","sourceRoot":"","sources":["../../src/constants.ts"],"names":[],"mappings":";;;AAAa,QAAA,eAAe,GAAG,YAAY,CAAC;AAE/B,QAAA,aAAa,GAAG,UAAU,CAAC","sourcesContent":["export const REQUEST_CHANNEL = 'evmRequest';\n\nexport const EVENT_CHANNEL = 'evmEvent';\n"]}

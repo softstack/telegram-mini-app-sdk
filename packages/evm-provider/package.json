@@ -1,0 +1,34 @@
+{
+	"name": "@tconnect.io/evm-provider",
+	"version": "0.0.1",
+	"main": "dist/cjs/index.js",
+	"module": "dist/esm/index.js",
+	"types": "dist/types/index.d.ts",
+	"exports": {
+		"require": "./dist/cjs/index.js",
+		"import": "./dist/esm/index.js",
+		"types": "./dist/types/index.d.ts"
+	},
+	"files": [
+		"dist/**/*",
+		"src/**/*"
+	],
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"prettier": "prettier --write \"./**/*.css\" \"./**/*.js\" \"./**/*.json\" \"./**/*.mjs\" \"./**/*.ts\" \"./**/*.tsx\" \"./**/*.html\" --ignore-path ../../.prettierignore --no-error-on-unmatched-pattern",
+		"lint": "eslint ./src",
+		"compile": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json",
+		"build:clean": "rm -rf ./dist",
+		"build": "npm run build:clean && npm run compile && rm ./dist/**/*.tsbuildinfo"
+	},
+	"author": "",
+	"license": "MIT",
+	"description": "",
+	"dependencies": {
+		"@tconnect.io/core": "^0.0.1",
+		"@tconnect.io/dapp-communication": "^0.0.1",
+		"@tconnect.io/evm-api-types": "^0.0.1",
+		"@twa-dev/sdk": "^7.10.1",
+		"joi": "^17.13.3"
+	}
+}
