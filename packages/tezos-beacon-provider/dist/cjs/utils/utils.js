@@ -9,7 +9,6 @@ const ed25519_1 = require("@stablelib/ed25519");
 const nacl_1 = require("@stablelib/nacl");
 const utf8_1 = require("@stablelib/utf8");
 const x25519_session_1 = require("@stablelib/x25519-session");
-const browser_utils_1 = require("@tconnect.io/browser-utils");
 const tezos_beacon_api_types_1 = require("@tconnect.io/tezos-beacon-api-types");
 const bs58check_1 = __importDefault(require("bs58check"));
 const isHex = (value) => /^[\da-f]+$/i.test(value);
@@ -130,11 +129,11 @@ const getUniversalLink = (walletApp) => {
 };
 exports.getUniversalLink = getUniversalLink;
 const getConnectionStringUniversalLink = (walletApp, connectionString, genericWalletUrl) => {
-    let encodedConnectionString = encodeURIComponent(connectionString);
-    // Double encode for Android
-    if ((0, browser_utils_1.isAndroid)() && walletApp !== '_generic_') {
-        encodedConnectionString = encodeURIComponent(encodedConnectionString);
-    }
+    // let encodedConnectionString = encodeURIComponent(connectionString);
+    // // Double encode for Android
+    // if (isAndroid() && walletApp !== '_generic_') {
+    // 	encodedConnectionString = encodeURIComponent(encodedConnectionString);
+    // }
     switch (walletApp) {
         case 'altme': {
             return `https://app.altme.io/app/download?${connectionString.slice(9)}`;

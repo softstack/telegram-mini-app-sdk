@@ -14,7 +14,7 @@
 		"src/**/*"
 	],
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "echo \"No test specified\"",
 		"prettier": "prettier --write \"./**/*.css\" \"./**/*.js\" \"./**/*.json\" \"./**/*.mjs\" \"./**/*.ts\" \"./**/*.tsx\" \"./**/*.html\" --ignore-path ../../.prettierignore --no-error-on-unmatched-pattern",
 		"lint": "eslint ./src",
 		"tailwindcss:build": "tailwindcss build -i ./src/input.css -o ./dist/cjs/output.css && cp ./dist/cjs/output.css ./dist/esm/output.css",

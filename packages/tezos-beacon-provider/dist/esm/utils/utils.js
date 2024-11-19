@@ -3,7 +3,6 @@ import { convertPublicKeyToX25519, convertSecretKeyToX25519 } from '@stablelib/e
 import { openBox, openSecretBox, secretBox } from '@stablelib/nacl';
 import { encode } from '@stablelib/utf8';
 import { clientSessionKeys, serverSessionKeys } from '@stablelib/x25519-session';
-import { isAndroid } from '@tconnect.io/browser-utils';
 import { secretbox_NONCEBYTES } from '@tconnect.io/tezos-beacon-api-types';
 import bs58check from 'bs58check';
 export const isHex = (value) => /^[\da-f]+$/i.test(value);
@@ -113,11 +112,11 @@ export const getUniversalLink = (walletApp) => {
     throw new Error('Wallet does not support universal links');
 };
 export const getConnectionStringUniversalLink = (walletApp, connectionString, genericWalletUrl) => {
-    let encodedConnectionString = encodeURIComponent(connectionString);
-    // Double encode for Android
-    if (isAndroid() && walletApp !== '_generic_') {
-        encodedConnectionString = encodeURIComponent(encodedConnectionString);
-    }
+    // let encodedConnectionString = encodeURIComponent(connectionString);
+    // // Double encode for Android
+    // if (isAndroid() && walletApp !== '_generic_') {
+    // 	encodedConnectionString = encodeURIComponent(encodedConnectionString);
+    // }
     switch (walletApp) {
         case 'altme': {
             return `https://app.altme.io/app/download?${connectionString.slice(9)}`;

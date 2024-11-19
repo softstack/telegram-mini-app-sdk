@@ -14,12 +14,13 @@
 		"src/**/*"
 	],
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "echo \"No test specified\"",
 		"prettier": "prettier --write \"./**/*.css\" \"./**/*.js\" \"./**/*.json\" \"./**/*.mjs\" \"./**/*.ts\" \"./**/*.tsx\" \"./**/*.html\" --ignore-path ../../.prettierignore --no-error-on-unmatched-pattern",
 		"lint": "eslint ./src",
 		"compile": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json",
 		"build:clean": "rm -rf ./dist",
-		"build": "npm run build:clean && npm run compile && rm ./dist/**/*.tsbuildinfo"
+		"build": "npm run build:clean && npm run compile && rm ./dist/**/*.tsbuildinfo",
+		"prepublishOnly": "npm run build && npm test && npm run lint"
 	},
 	"author": "",
 	"license": "MIT",

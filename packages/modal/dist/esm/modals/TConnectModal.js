@@ -187,31 +187,30 @@ export const TConnectModal = memo(({ bridgeUrl, apiKey, networkFilter, genericWa
         onChangeTezosWcProvider,
         onError,
     ]);
-    const handleAddEtherlink = useCallback(async () => {
-        try {
-            if (evmProvider) {
-                await evmProvider.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [
-                        {
-                            chainId: '0xa729',
-                            chainName: 'Etherlink Mainnet',
-                            nativeCurrency: {
-                                name: 'Tezos',
-                                symbol: 'XTZ',
-                                decimals: 18,
-                            },
-                            rpcUrls: ['https://node.mainnet.etherlink.com'],
-                            blockExplorerUrls: ['https://explorer.etherlink.com'],
-                        },
-                    ],
-                });
-            }
-        }
-        catch (error) {
-            onError(error);
-        }
-    }, [evmProvider, onError]);
+    // const handleAddEtherlink = useCallback(async () => {
+    // 	try {
+    // 		if (evmProvider) {
+    // 			await evmProvider.request({
+    // 				method: 'wallet_addEthereumChain',
+    // 				params: [
+    // 					{
+    // 						chainId: '0xa729',
+    // 						chainName: 'Etherlink Mainnet',
+    // 						nativeCurrency: {
+    // 							name: 'Tezos',
+    // 							symbol: 'XTZ',
+    // 							decimals: 18,
+    // 						},
+    // 						rpcUrls: ['https://node.mainnet.etherlink.com'],
+    // 						blockExplorerUrls: ['https://explorer.etherlink.com'],
+    // 					},
+    // 				],
+    // 			});
+    // 		}
+    // 	} catch (error) {
+    // 		onError(error);
+    // 	}
+    // }, [evmProvider, onError]);
     const toggleShowShortAddress = useCallback(() => {
         try {
             setShowShortAddress((prevShowShortAddress) => !prevShowShortAddress);
