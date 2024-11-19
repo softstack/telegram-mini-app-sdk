@@ -69,7 +69,7 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 	readonly walletApp: TezosWcWalletApp | undefined;
 	readonly network: TezosWcNetwork;
 	private readonly _apiKey: string;
-	private _communicationController: CommunicationController<TezosWcRequest, TezosWcResponse, any>;
+	private _communicationController: CommunicationController<TezosWcRequest, TezosWcResponse, TezosWcEvent>;
 	private _sessionId: string | undefined;
 	private _walletConnectUri: string | undefined;
 	private _permissionRequestCallbacks = new CallbackController<void>(1000 * 60 * 60);
@@ -168,6 +168,7 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 		return accounts.pubkey;
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	async mapTransferParamsToWalletParams(params: () => Promise<WalletTransferParams>): Promise<any> {
 		const transferParameters = await params();
 		console.log('mapTransferParamsToWalletParams()', transferParameters);
@@ -183,34 +184,42 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 		};
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 	mapTransferTicketParamsToWalletParams(params: () => Promise<WalletTransferTicketParams>): Promise<any> {
 		throw new Error('mapTransferTicketParamsToWalletParams not implemented.');
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 	mapStakeParamsToWalletParams(params: () => Promise<WalletStakeParams>): Promise<any> {
 		throw new Error('mapStakeParamsToWalletParams not implemented.');
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 	mapUnstakeParamsToWalletParams(params: () => Promise<WalletUnstakeParams>): Promise<any> {
 		throw new Error('mapUnstakeParamsToWalletParams not implemented.');
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 	mapFinalizeUnstakeParamsToWalletParams(params: () => Promise<WalletFinalizeUnstakeParams>): Promise<any> {
 		throw new Error('mapFinalizeUnstakeParamsToWalletParams not implemented.');
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 	mapOriginateParamsToWalletParams(params: () => Promise<WalletOriginateParams>): Promise<any> {
 		throw new Error('mapOriginateParamsToWalletParams not implemented.');
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 	mapDelegateParamsToWalletParams(params: () => Promise<WalletDelegateParams>): Promise<any> {
 		throw new Error('mapDelegateParamsToWalletParams not implemented.');
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 	mapIncreasePaidStorageWalletParams(params: () => Promise<WalletIncreasePaidStorageParams>): Promise<any> {
 		throw new Error('mapIncreasePaidStorageWalletParams not implemented.');
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	async sendOperations(params: any[]): Promise<string> {
 		console.log('sendOperations()', params);
 		const response = await this._sendTezosWcRequest({

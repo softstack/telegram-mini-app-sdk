@@ -106,6 +106,7 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
         const accounts = await this._getAccounts();
         return accounts.pubkey;
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async mapTransferParamsToWalletParams(params) {
         const transferParameters = await params();
         console.log('mapTransferParamsToWalletParams()', transferParameters);
@@ -120,27 +121,35 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
             ],
         };
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     mapTransferTicketParamsToWalletParams(params) {
         throw new Error('mapTransferTicketParamsToWalletParams not implemented.');
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     mapStakeParamsToWalletParams(params) {
         throw new Error('mapStakeParamsToWalletParams not implemented.');
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     mapUnstakeParamsToWalletParams(params) {
         throw new Error('mapUnstakeParamsToWalletParams not implemented.');
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     mapFinalizeUnstakeParamsToWalletParams(params) {
         throw new Error('mapFinalizeUnstakeParamsToWalletParams not implemented.');
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     mapOriginateParamsToWalletParams(params) {
         throw new Error('mapOriginateParamsToWalletParams not implemented.');
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     mapDelegateParamsToWalletParams(params) {
         throw new Error('mapDelegateParamsToWalletParams not implemented.');
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     mapIncreasePaidStorageWalletParams(params) {
         throw new Error('mapIncreasePaidStorageWalletParams not implemented.');
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async sendOperations(params) {
         console.log('sendOperations()', params);
         const response = await this._sendTezosWcRequest({
