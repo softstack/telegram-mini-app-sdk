@@ -1,6 +1,16 @@
 {
 	"name": "@tconnect.io/modal",
 	"version": "0.0.1",
+	"description": "",
+	"author": "",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/softstack/telegram-mini-app-sdk.git"
+	},
+	"keywords": [
+		"tezos"
+	],
 	"main": "dist/cjs/index.js",
 	"module": "dist/esm/index.js",
 	"types": "dist/types/index.d.ts",
@@ -24,9 +34,6 @@
 		"build": "npm run build:clean && npm run compile && npm run tailwindcss:build && npm run postcss:prefix && cp -r ./src/assets ./dist/cjs && cp -r ./src/assets ./dist/esm && rm ./dist/**/*.tsbuildinfo",
 		"prepublishOnly": "npm run build && npm test && npm run lint"
 	},
-	"author": "",
-	"license": "MIT",
-	"description": "",
 	"dependencies": {
 		"@tconnect.io/dapp-utils": "^0.0.1",
 		"@tconnect.io/evm-provider": "^0.0.1",

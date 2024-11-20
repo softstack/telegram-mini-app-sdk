@@ -1,6 +1,16 @@
 {
 	"name": "@tconnect.io/tezos-beacon-api-types",
 	"version": "0.0.1",
+	"description": "",
+	"author": "",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/softstack/telegram-mini-app-sdk.git"
+	},
+	"keywords": [
+		"tezos"
+	],
 	"main": "dist/cjs/index.js",
 	"module": "dist/esm/index.js",
 	"types": "dist/types/index.d.ts",
@@ -21,8 +31,5 @@
 		"build:clean": "rm -rf ./dist",
 		"build": "npm run build:clean && npm run compile && rm ./dist/**/*.tsbuildinfo",
 		"prepublishOnly": "npm run build && npm test && npm run lint"
-	},
-	"author": "",
-	"license": "MIT",
-	"description": ""
+	}
 }
