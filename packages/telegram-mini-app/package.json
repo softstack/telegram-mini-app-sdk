@@ -48,14 +48,13 @@
 		"stream-browserify": "^3.0.0",
 		"tailwind-merge": "^2.5.4",
 		"typescript": "^4.9.5",
-		"ua-parser-js": "^1.0.38",
+		"ua-parser-js": "^2.0.0",
 		"web-vitals": "^2.1.4",
 		"web3": "^4.11.1"
 	},
 	"devDependencies": {
 		"@craco/craco": "^7.1.0",
 		"@craco/types": "^7.1.0",
-		"@types/ua-parser-js": "^0.7.39",
 		"tailwindcss": "^3.4.14"
 	}
 }

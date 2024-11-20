@@ -1,7 +1,7 @@
 import { EvmWalletApp } from '@tconnect.io/evm-provider';
 import { QRCodeCanvas } from 'qrcode.react';
 import { memo, useMemo } from 'react';
-import UAParser from 'ua-parser-js';
+import { UAParser } from 'ua-parser-js';
 
 export type Step = 'start' | 'connecting' | 'connected';
 

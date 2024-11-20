@@ -33,6 +33,6 @@
 		"prepublishOnly": "npm run build && npm test && npm run lint"
 	},
 	"dependencies": {
-		"ua-parser-js": "^2.0.0-rc.1"
+		"ua-parser-js": "^2.0.0"
 	}
 }

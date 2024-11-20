@@ -318,7 +318,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 		return createPortal(
 			<Col
 				ref={backgroundElement}
-				className="fixed inset-0 justify-end bg-[#00000030] backdrop-blur"
+				className="fixed inset-0 z-[999999] justify-end bg-[#00000030] backdrop-blur"
 				onClick={handleBackground}
 			>
 				<Col
