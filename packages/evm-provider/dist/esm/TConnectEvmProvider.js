@@ -1,4 +1,4 @@
-import { isAndroid } from '@tconnect.io/browser-utils';
+import { isAndroid } from '@tconnect.io/dapp-utils';
 import { parse, sleep, stringify, TypedEvent } from '@tconnect.io/core';
 import { CommunicationController } from '@tconnect.io/dapp-communication';
 import { EVENT_CHANNEL, EvmError, REQUEST_CHANNEL, } from '@tconnect.io/evm-api-types';

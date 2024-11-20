@@ -1,4 +1,4 @@
-import { isAndroid } from '@tconnect.io/browser-utils';
+import { isAndroid } from '@tconnect.io/dapp-utils';
 export const getUniversalLink = (walletApp) => {
     switch (walletApp) {
         case 'bitget': {

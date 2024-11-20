@@ -1,4 +1,4 @@
-import { OperatingSystem } from '@tconnect.io/browser-utils';
+import { OperatingSystem } from '@tconnect.io/dapp-utils';
 import { EvmWalletApp, TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { TConnectTezosBeaconProvider, TezosBeaconWalletApp } from '@tconnect.io/tezos-beacon-provider';
 import { TConnectTezosWcProvider, TezosWcWalletApp } from '@tconnect.io/tezos-wc-provider';

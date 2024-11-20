@@ -28,7 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TConnectModal = void 0;
 const jsx_runtime_1 = require("react/jsx-runtime");
-const browser_utils_1 = require("@tconnect.io/browser-utils");
+const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const core_1 = require("@tconnect.io/core");
 const evm_provider_1 = require("@tconnect.io/evm-provider");
 const tezos_beacon_provider_1 = require("@tconnect.io/tezos-beacon-provider");
@@ -123,7 +123,7 @@ exports.TConnectModal = (0, react_1.memo)(({ bridgeUrl, apiKey, networkFilter, g
     }, [filteredNetworks, handleChangeNetwork]);
     const wallets = (0, react_1.useMemo)(() => {
         try {
-            const operatingSystem = (0, browser_utils_1.getOperatingSystem)();
+            const operatingSystem = (0, dapp_utils_1.getOperatingSystem)();
             switch (currentNetwork?.type) {
                 case 'evm': {
                     return currentNetwork.wallets.filter((wallet) => !operatingSystem || wallet.supportedOperatingSystems.includes(operatingSystem));
@@ -141,7 +141,7 @@ exports.TConnectModal = (0, react_1.memo)(({ bridgeUrl, apiKey, networkFilter, g
     }, [currentNetwork, onError]);
     const genericWallets = (0, react_1.useMemo)(() => {
         try {
-            const operatingSystem = (0, browser_utils_1.getOperatingSystem)();
+            const operatingSystem = (0, dapp_utils_1.getOperatingSystem)();
             if (currentNetwork?.type === 'tezos') {
                 return currentNetwork.wallets.filter((wallet) => wallet.walletApp === '_generic_' &&
                     (!operatingSystem || wallet.supportedOperatingSystems.includes(operatingSystem)));

@@ -1,4 +1,4 @@
-import { isAndroid } from '@tconnect.io/browser-utils';
+import { isAndroid } from '@tconnect.io/dapp-utils';
 import { TezosWcWalletApp } from '../types';
 
 export const getWalletConnectUniversalLink = (walletApp: TezosWcWalletApp, walletConnectUri: string): string => {

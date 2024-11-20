@@ -1,4 +1,4 @@
-import { isAndroid } from '@tconnect.io/browser-utils';
+import { isAndroid } from '@tconnect.io/dapp-utils';
 export const getWalletConnectUniversalLink = (walletApp, walletConnectUri) => {
     let encodedUri = encodeURIComponent(walletConnectUri);
     // Double encode for Android

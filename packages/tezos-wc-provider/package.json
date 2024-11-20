@@ -26,7 +26,7 @@
 	"license": "MIT",
 	"description": "",
 	"dependencies": {
-		"@tconnect.io/browser-utils": "^0.0.1",
+		"@tconnect.io/dapp-utils": "^0.0.1",
 		"@tconnect.io/core": "^0.0.1",
 		"@tconnect.io/dapp-communication": "^0.0.1",
 		"@tconnect.io/tezos-wc-api-types": "^0.0.1",

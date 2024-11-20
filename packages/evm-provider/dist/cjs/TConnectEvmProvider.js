@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TConnectEvmProvider = void 0;
-const browser_utils_1 = require("@tconnect.io/browser-utils");
+const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const core_1 = require("@tconnect.io/core");
 const dapp_communication_1 = require("@tconnect.io/dapp-communication");
 const evm_api_types_1 = require("@tconnect.io/evm-api-types");
@@ -35,7 +35,7 @@ class TConnectEvmProvider extends core_1.TypedEvent {
         this._walletConnectUri = walletConnectUri;
         if (this.walletApp) {
             // Android needs a second reminder to open the link
-            if ((0, browser_utils_1.isAndroid)()) {
+            if ((0, dapp_utils_1.isAndroid)()) {
                 sdk_1.default.openLink((0, utils_1.getWalletConnectUniversalLink)(this.walletApp, walletConnectUri), { try_instant_view: true });
                 await (0, core_1.sleep)(1000);
                 sdk_1.default.openLink((0, utils_1.getWalletConnectUniversalLink)(this.walletApp, walletConnectUri), { try_instant_view: true });

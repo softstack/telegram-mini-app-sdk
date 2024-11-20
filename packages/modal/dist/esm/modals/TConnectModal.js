@@ -1,5 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { getOperatingSystem } from '@tconnect.io/browser-utils';
+import { getOperatingSystem } from '@tconnect.io/dapp-utils';
 import { ETHERLINK_CHAIN_ID } from '@tconnect.io/core';
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { TConnectTezosBeaconProvider } from '@tconnect.io/tezos-beacon-provider';

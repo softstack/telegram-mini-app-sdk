@@ -1,4 +1,4 @@
-import { isAndroid } from '@tconnect.io/browser-utils';
+import { isAndroid } from '@tconnect.io/dapp-utils';
 import { EvmWalletApp } from './types';
 
 export const getUniversalLink = (walletApp: EvmWalletApp): string => {

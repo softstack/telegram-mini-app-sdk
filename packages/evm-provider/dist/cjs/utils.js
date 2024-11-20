@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getWalletConnectUniversalLink = exports.getUniversalLink = void 0;
-const browser_utils_1 = require("@tconnect.io/browser-utils");
+const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const getUniversalLink = (walletApp) => {
     switch (walletApp) {
         case 'bitget': {
@@ -25,7 +25,7 @@ exports.getUniversalLink = getUniversalLink;
 const getWalletConnectUniversalLink = (walletApp, walletConnectUri) => {
     let encodedUri = encodeURIComponent(walletConnectUri);
     // Double encode for Android
-    if ((0, browser_utils_1.isAndroid)()) {
+    if ((0, dapp_utils_1.isAndroid)()) {
         encodedUri = encodeURIComponent(encodedUri);
     }
     switch (walletApp) {
