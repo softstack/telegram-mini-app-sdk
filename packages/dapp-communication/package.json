@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/dapp-communication",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "",
 	"author": "",
 	"license": "MIT",
@@ -15,9 +15,12 @@
 	"module": "dist/esm/index.js",
 	"types": "dist/types/index.d.ts",
 	"exports": {
-		"require": "./dist/cjs/index.js",
-		"import": "./dist/esm/index.js",
-		"types": "./dist/types/index.d.ts"
+		".": {
+			"require": "./dist/cjs/index.js",
+			"import": "./dist/esm/index.js",
+			"types": "./dist/types/index.d.ts",
+			"default": "./dist/esm/index.js"
+		}
 	},
 	"files": [
 		"dist/**/*",
@@ -33,7 +36,7 @@
 		"prepublishOnly": "npm run build && npm test && npm run lint"
 	},
 	"dependencies": {
-		"@tconnect.io/core": "^0.0.1",
+		"@tconnect.io/core": "^0.0.2",
 		"joi": "^17.13.3",
 		"socket.io-client": "^4.7.5"
 	}

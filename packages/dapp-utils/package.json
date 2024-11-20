@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/dapp-utils",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "",
 	"author": "",
 	"license": "MIT",
@@ -15,9 +15,12 @@
 	"module": "dist/esm/index.js",
 	"types": "dist/types/index.d.ts",
 	"exports": {
-		"require": "./dist/cjs/index.js",
-		"import": "./dist/esm/index.js",
-		"types": "./dist/types/index.d.ts"
+		".": {
+			"require": "./dist/cjs/index.js",
+			"import": "./dist/esm/index.js",
+			"types": "./dist/types/index.d.ts",
+			"default": "./dist/esm/index.js"
+		}
 	},
 	"files": [
 		"dist/**/*",
