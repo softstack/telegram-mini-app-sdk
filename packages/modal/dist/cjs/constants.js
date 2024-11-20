@@ -87,7 +87,7 @@ exports.NETWORKS = [
                 icon: 'temple',
                 network: 'tezos',
                 bridge: 'beacon',
-                walletApp: '_generic_',
+                walletApp: 'temple',
                 supportedOperatingSystems: ['android', 'ios'],
             },
         ],

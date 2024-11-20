@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/modal",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "",
 	"author": "",
 	"license": "MIT",
@@ -37,7 +37,7 @@
 	"dependencies": {
 		"@tconnect.io/dapp-utils": "^0.0.1",
 		"@tconnect.io/evm-provider": "^0.0.1",
-		"@tconnect.io/tezos-beacon-provider": "^0.0.1",
+		"@tconnect.io/tezos-beacon-provider": "^0.0.2",
 		"@tconnect.io/tezos-wc-provider": "^0.0.1",
 		"@twa-dev/sdk": "^7.10.1",
 		"clsx": "^2.1.1",

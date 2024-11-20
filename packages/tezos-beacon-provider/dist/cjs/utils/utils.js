@@ -141,6 +141,9 @@ const getConnectionStringUniversalLink = (walletApp, connectionString, genericWa
         case 'kukai': {
             return `https://connect.kukai.app?${connectionString.slice(9)}`;
         }
+        case 'temple': {
+            return `https://app.templewallet.com?${connectionString.slice(9)}`;
+        }
         case '_generic_': {
             const url = new URL(genericWalletUrl);
             url.searchParams.append('uri', connectionString);
