@@ -18,9 +18,9 @@ import {
 	EvmRequestResponse,
 	EvmResponse,
 	REQUEST_CHANNEL,
+	SOCKET_IO_PATH,
 } from '@tconnect.io/evm-api-types';
 import WebApp from '@twa-dev/sdk';
-import { SOCKET_IO_PATH } from './constants';
 import { ProviderRpcError } from './ProviderRpcError';
 import {
 	EIP1193Provider,

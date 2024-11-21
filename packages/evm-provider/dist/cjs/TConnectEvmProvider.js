@@ -9,7 +9,6 @@ const core_1 = require("@tconnect.io/core");
 const dapp_communication_1 = require("@tconnect.io/dapp-communication");
 const evm_api_types_1 = require("@tconnect.io/evm-api-types");
 const sdk_1 = __importDefault(require("@twa-dev/sdk"));
-const constants_1 = require("./constants");
 const ProviderRpcError_1 = require("./ProviderRpcError");
 const utils_1 = require("./utils");
 const validation_1 = require("./validation");
@@ -19,7 +18,7 @@ class TConnectEvmProvider extends core_1.TypedEvent {
         this.bridgeUrl = options.bridgeUrl;
         this.walletApp = options?.walletApp;
         this._apiKey = options.apiKey;
-        this._communicationController = new dapp_communication_1.CommunicationController(this.bridgeUrl, constants_1.SOCKET_IO_PATH, evm_api_types_1.REQUEST_CHANNEL, evm_api_types_1.EVENT_CHANNEL);
+        this._communicationController = new dapp_communication_1.CommunicationController(this.bridgeUrl, evm_api_types_1.SOCKET_IO_PATH, evm_api_types_1.REQUEST_CHANNEL, evm_api_types_1.EVENT_CHANNEL);
     }
     async connect() {
         if (this._communicationController.connected()) {

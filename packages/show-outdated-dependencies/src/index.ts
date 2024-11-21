@@ -12,6 +12,35 @@ interface PackageJson {
 	};
 }
 
+interface OutdatedDependency {
+	dependentName: string;
+	dependencyName: string;
+	oldVersion: string;
+	newVersion: string;
+}
+
+const getOutdatedDependencies = (packageJsons: Array<PackageJson>): Array<OutdatedDependency> => {
+	const outdatedDependencies = new Array<OutdatedDependency>();
+	for (const dependency of packageJsons) {
+		for (const dependent of packageJsons) {
+			if (dependent.dependencies) {
+				for (const [packageName, version] of Object.entries(dependent.dependencies)) {
+					const cleanVersion = version.replace('^', '');
+					if (dependency.name === packageName && dependency.version !== cleanVersion) {
+						outdatedDependencies.push({
+							dependentName: dependent.name,
+							dependencyName: dependency.name,
+							oldVersion: cleanVersion,
+							newVersion: dependency.version,
+						});
+					}
+				}
+			}
+		}
+	}
+	return outdatedDependencies;
+};
+
 const main = (): void => {
 	try {
 		const PACKAGES_PATH = process.env.PACKAGES_PATH;
