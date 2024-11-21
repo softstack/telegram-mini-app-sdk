@@ -59,14 +59,6 @@ exports.NETWORKS = [
         icon: 'tezos',
         wallets: [
             {
-                name: 'AirGap',
-                icon: 'airGap',
-                network: 'tezos',
-                bridge: 'beacon',
-                walletApp: '_generic_',
-                supportedOperatingSystems: ['android', 'ios'],
-            },
-            {
                 name: 'Altme',
                 icon: 'altme',
                 network: 'tezos',
@@ -94,7 +86,7 @@ exports.NETWORKS = [
     },
 ];
 exports.EXPERIMENTAL_WALLET = {
-    name: 'Experimental',
+    name: 'Experimental Wallet',
     icon: 'transparent',
     network: 'tezos',
     bridge: 'beacon',

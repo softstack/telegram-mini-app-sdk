@@ -62,14 +62,6 @@ export const NETWORKS: Array<Network> = [
 		icon: 'tezos',
 		wallets: [
 			{
-				name: 'AirGap',
-				icon: 'airGap',
-				network: 'tezos',
-				bridge: 'beacon',
-				walletApp: '_generic_',
-				supportedOperatingSystems: ['android', 'ios'],
-			},
-			{
 				name: 'Altme',
 				icon: 'altme',
 				network: 'tezos',
@@ -98,7 +90,7 @@ export const NETWORKS: Array<Network> = [
 ];
 
 export const EXPERIMENTAL_WALLET: TezosBeaconWallet = {
-	name: 'Experimental',
+	name: 'Experimental Wallet',
 	icon: 'transparent',
 	network: 'tezos',
 	bridge: 'beacon',
