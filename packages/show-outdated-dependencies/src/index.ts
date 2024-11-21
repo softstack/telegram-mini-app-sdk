@@ -116,8 +116,7 @@ const main = async (): Promise<void> => {
 			if (packageView.version !== packagePack.version) {
 				output.push(
 					`${packagePack.name} ${packageView.version} -> ${packagePack.version}`,
-					`\tFix: npm publish --workspace ${packagePack.name}`,
-					`\tTag: git tag ${packagePack.name.split('/')[1]}-v${packagePack.version}`,
+					`\tFix: npm publish --workspace ${packagePack.name} && git tag ${packagePack.name.split('/')[1]}-v${packagePack.version}`,
 				);
 			}
 		}
