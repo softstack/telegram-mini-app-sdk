@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/evm-provider",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "",
 	"author": "",
 	"license": "MIT",
@@ -36,8 +36,8 @@
 		"prepublishOnly": "npm run build && npm test && npm run lint"
 	},
 	"dependencies": {
-		"@tconnect.io/core": "^0.0.2",
-		"@tconnect.io/dapp-communication": "^0.0.2",
+		"@tconnect.io/core": "^0.0.3",
+		"@tconnect.io/dapp-communication": "^0.0.3",
 		"@tconnect.io/evm-api-types": "^0.0.2",
 		"@twa-dev/sdk": "^7.10.1",
 		"joi": "^17.13.3"

@@ -2,6 +2,8 @@
 	"name": "telegram-mini-app-sdk",
 	"version": "0.0.1",
 	"description": "Based on the Grant Proposal \"Unlocking Tezos Integration for Telegram’s 800 Million Users\"",
+	"author": "",
+	"license": "MIT",
 	"workspaces": [
 		"packages/*"
 	],
@@ -10,10 +12,9 @@
 		"lint": "eslint ./packages",
 		"test": "echo \"No test specified\"",
 		"reinstall": "rm -rf ./node_modules && rm -rf ./packages/*/node_modules && npm install",
-		"build": "npm run build --workspaces --if-present"
+		"build": "npm run build --workspaces --if-present",
+		"show-outdated": "PACKAGES_PATH='./packages' tsx ./packages/show-outdated-dependencies/src/index.ts"
 	},
-	"author": "",
-	"license": "MIT",
 	"devDependencies": {
 		"@eslint/js": "^9.10.0",
 		"eslint": "^8.57.1",

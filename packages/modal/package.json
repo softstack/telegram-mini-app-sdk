@@ -39,9 +39,9 @@
 	},
 	"dependencies": {
 		"@tconnect.io/dapp-utils": "^0.0.2",
-		"@tconnect.io/evm-provider": "^0.0.2",
-		"@tconnect.io/tezos-beacon-provider": "^0.0.3",
-		"@tconnect.io/tezos-wc-provider": "^0.0.2",
+		"@tconnect.io/evm-provider": "^0.0.3",
+		"@tconnect.io/tezos-beacon-provider": "^0.0.4",
+		"@tconnect.io/tezos-wc-provider": "^0.0.3",
 		"@twa-dev/sdk": "^7.10.1",
 		"clsx": "^2.1.1",
 		"react-inlinesvg": "^4.1.3",
