@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOperatingSystem = exports.isMobileSafari = exports.isAndroid = void 0;
+exports.getErrorMessage = exports.getOperatingSystem = exports.isMobileSafari = exports.isAndroid = void 0;
 const ua_parser_js_1 = require("ua-parser-js");
 const isAndroid = () => {
     const parser = new ua_parser_js_1.UAParser();
@@ -23,4 +23,21 @@ const getOperatingSystem = () => {
     }
 };
 exports.getOperatingSystem = getOperatingSystem;
+const getErrorMessage = (errorType, message) => {
+    if (message) {
+        return message;
+    }
+    switch (errorType) {
+        case 'invalidApiKey': {
+            return 'Invalid API key';
+        }
+        case 'invalidSessionId': {
+            return 'Invalid session ID';
+        }
+        case 'walletRequestFailed': {
+            return 'Wallet request failed';
+        }
+    }
+};
+exports.getErrorMessage = getErrorMessage;
 //# sourceMappingURL=utils.js.map

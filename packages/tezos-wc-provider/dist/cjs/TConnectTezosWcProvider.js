@@ -245,6 +245,15 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
         if (!this._communicationController.connected()) {
             throw new Error("Can't send request without connection");
         }
+        if (this.walletApp && tezosRequest.type === 'request') {
+            switch (tezosRequest.payload.method) {
+                case 'tezos_send':
+                case 'tezos_sign': {
+                    sdk_1.default.openLink((0, utils_1.getUniversalLink)(this.walletApp));
+                    break;
+                }
+            }
+        }
         const tezosResponse = await this._communicationController.send(tezosRequest);
         const validatedTezosResponse = (0, validation_1.validateTezosWcResponse)(tezosResponse);
         if (validatedTezosResponse.type === 'error') {
@@ -256,7 +265,7 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
                 throw new Error(errorMessage);
             }
             else {
-                throw new tezos_wc_api_types_1.TezosWcError(validatedTezosResponse.payload.type, validatedTezosResponse.payload.message);
+                throw new tezos_wc_api_types_1.TezosWcError(validatedTezosResponse.payload.type, (0, dapp_utils_1.getErrorMessage)(validatedTezosResponse.payload.type, validatedTezosResponse.payload.message));
             }
         }
         if (tezosRequest.type !== validatedTezosResponse.type) {

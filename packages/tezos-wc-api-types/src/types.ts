@@ -31,7 +31,29 @@ export interface TezosWcConnectedResponse {
 export interface TezosWcRequestRequest {
 	type: 'request';
 	sessionId: string;
-	payload: unknown;
+	payload:
+		| {
+				method: 'tezos_getAccounts';
+				params: Record<string, never>;
+		  }
+		| {
+				method: 'tezos_send';
+				params: {
+					account: string;
+					opertions: Array<{
+						kind: 'transaction';
+						amount: string;
+						destination: string;
+					}>;
+				};
+		  }
+		| {
+				method: 'tezos_sign';
+				params: {
+					account: string;
+					payload: string;
+				};
+		  };
 }
 
 export interface TezosWcRequestResponse {
@@ -67,7 +89,7 @@ export interface TezosWcErrorResponse {
 		  }
 		| {
 				type: Exclude<TezosWcErrorType, 'generic'>;
-				message?: string;
+				message: string;
 		  };
 }
 

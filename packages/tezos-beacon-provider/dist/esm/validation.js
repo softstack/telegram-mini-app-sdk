@@ -3,13 +3,13 @@ import Joi from 'joi';
 export const validateTezosBeaconResponse = (value) => validateSchema(value, Joi.alternatives()
     .try(Joi.object({
     type: Joi.string().valid('error').required(),
-    payload: Joi.alternatives(Joi.object({
+    payload: Joi.alternatives().try(Joi.object({
         type: Joi.string().valid('generic').required(),
         key: Joi.string().required(),
-        message: Joi.string(),
+        message: Joi.string().allow(''),
     }), Joi.object({
         type: Joi.string().valid('invalidSessionId', 'invalidApiKey').required(),
-        message: Joi.string(),
+        message: Joi.string().allow('').required(),
     })),
 }), Joi.object({
     type: Joi.string().valid('init').required(),
@@ -45,8 +45,8 @@ export const isPeerInfo = (value) => validateType(value, Joi.object({
     version: Joi.string().required(),
     publicKey: Joi.string().required(),
     relayServer: Joi.string().required(),
-    appUrl: Joi.string(),
-    icon: Joi.string(),
+    appUrl: Joi.string().allow(''),
+    icon: Joi.string().allow(''),
 }));
 export const isBaseMessage = (value) => validateType(value, Joi.object({
     type: Joi.string()
@@ -64,8 +64,8 @@ export const isPermissionResponse = (value) => validateType(value, Joi.object({
     publicKey: Joi.string().required(),
     network: Joi.object({
         type: Joi.string().valid('mainnet', 'carthagenet', 'custom', 'ghostnet').required(),
-        name: Joi.string(),
-        rpcUrl: Joi.string(),
+        name: Joi.string().allow(''),
+        rpcUrl: Joi.string().allow(''),
     }).required(),
     scopes: Joi.array()
         .items(Joi.string().valid('sign', 'operation_request', 'threshold'))
@@ -77,7 +77,7 @@ export const isPermissionResponse = (value) => validateType(value, Joi.object({
     appMetadata: Joi.object({
         senderId: Joi.string().required(),
         name: Joi.string().required(),
-        icon: Joi.string(),
+        icon: Joi.string().allow(''),
     }),
 }));
 export const isOperationResponse = (value) => validateType(value, Joi.object({

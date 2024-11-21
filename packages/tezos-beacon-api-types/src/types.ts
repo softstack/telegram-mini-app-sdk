@@ -78,7 +78,7 @@ export interface TezosBeaconErrorResponse {
 		  }
 		| {
 				type: Exclude<TezosBeaconErrorType, 'generic'>;
-				message?: string;
+				message: string;
 		  };
 }
 

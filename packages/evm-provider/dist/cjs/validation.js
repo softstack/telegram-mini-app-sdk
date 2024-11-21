@@ -9,13 +9,13 @@ const joi_1 = __importDefault(require("joi"));
 const validateEvmResponse = (value) => (0, core_1.validateSchema)(value, joi_1.default.alternatives()
     .try(joi_1.default.object({
     type: joi_1.default.string().valid('error').required(),
-    payload: joi_1.default.alternatives(joi_1.default.object({
+    payload: joi_1.default.alternatives().try(joi_1.default.object({
         type: joi_1.default.string().valid('generic').required(),
         key: joi_1.default.string().required(),
-        message: joi_1.default.string(),
+        message: joi_1.default.string().allow(''),
     }), joi_1.default.object({
         type: joi_1.default.string().valid('invalidSessionId', 'walletRequestFailed', 'invalidApiKey').required(),
-        message: joi_1.default.string(),
+        message: joi_1.default.string().allow('').required(),
     })),
 }), joi_1.default.object({
     type: joi_1.default.string().valid('connect').required(),

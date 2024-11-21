@@ -53,7 +53,7 @@ export interface EvmErrorResponse {
         message?: string;
     } | {
         type: Exclude<EvmErrorType, 'generic'>;
-        message?: string;
+        message: string;
     };
 }
 export type EvmRequest = EvmConnectRequest | EvmConnectedRequest | EvmRequestRequest | EvmReconnectRequest | EvmDisconnectRequest;

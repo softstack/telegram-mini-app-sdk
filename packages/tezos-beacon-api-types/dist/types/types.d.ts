@@ -63,7 +63,7 @@ export interface TezosBeaconErrorResponse {
         message?: string;
     } | {
         type: Exclude<TezosBeaconErrorType, 'generic'>;
-        message?: string;
+        message: string;
     };
 }
 export type TezosBeaconRequest = TezosBeaconInitRequest | TezosBeaconLoginRequest | TezosBeaconMessageRequest | TezosBeaconReconnectRequest | TezosBeaconDisconnectRequest;

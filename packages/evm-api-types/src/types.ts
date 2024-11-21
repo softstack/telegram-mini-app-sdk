@@ -66,7 +66,7 @@ export interface EvmErrorResponse {
 		  }
 		| {
 				type: Exclude<EvmErrorType, 'generic'>;
-				message?: string;
+				message: string;
 		  };
 }
 

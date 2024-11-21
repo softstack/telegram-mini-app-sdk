@@ -56,7 +56,14 @@ const main = async (): Promise<void> => {
 			await Promise.all(
 				packagePaths.map(async (packagePath) => {
 					const packageJson = JSON.parse(fs.readFileSync(path.join(packagePath, 'package.json'), 'utf8'));
-					if (!packageJson.private) {
+					if (packageJson.private) {
+						return {
+							packagePath,
+							packageJson,
+							packageView: undefined,
+							packagePack: undefined,
+						};
+					} else {
 						const packageView = JSON.parse(await execute(`npm view --json ${packageJson.name}`)) as PackageView;
 						const packagePack = JSON.parse(
 							await execute(`npm pack --json --dry-run --workspace ${packageJson.name}`),
@@ -77,7 +84,12 @@ const main = async (): Promise<void> => {
 		// Show package versions that need to be updated
 		let output = new Array<string>();
 		for (const { packageView, packagePack } of packages) {
-			if (packageView.version === packagePack.version && packageView.dist.shasum !== packagePack.shasum) {
+			if (
+				packageView &&
+				packagePack &&
+				packageView.version === packagePack.version &&
+				packageView.dist.shasum !== packagePack.shasum
+			) {
 				output.push(`${packagePack.name} ${packagePack.version} -> xxx`);
 			}
 		}
@@ -97,7 +109,7 @@ const main = async (): Promise<void> => {
 		for (const { dependentName, dependencyName, oldVersion, newVersion } of outdatedDependencies) {
 			output.push(
 				`${dependentName} ${dependencyName}@${oldVersion} -> ${dependencyName}@${newVersion}`,
-				`\tFix: "npm i ${dependencyName}@${newVersion} --workspace ${dependentName}"`,
+				`\tFix: npm i ${dependencyName}@${newVersion} --workspace ${dependentName}`,
 			);
 		}
 		if (output.length === 0) {
@@ -113,7 +125,7 @@ const main = async (): Promise<void> => {
 		// Show packages that need to be published
 		output = [];
 		for (const { packageView, packagePack } of packages) {
-			if (packageView.version !== packagePack.version) {
+			if (packageView && packagePack && packageView.version !== packagePack.version) {
 				output.push(
 					`${packagePack.name} ${packageView.version} -> ${packagePack.version}`,
 					`\tFix: npm publish --workspace ${packagePack.name} && git tag ${packagePack.name.split('/')[1]}-v${packagePack.version} && git push --tags`,

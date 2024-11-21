@@ -17,4 +17,20 @@ export const getOperatingSystem = () => {
         return 'ios';
     }
 };
+export const getErrorMessage = (errorType, message) => {
+    if (message) {
+        return message;
+    }
+    switch (errorType) {
+        case 'invalidApiKey': {
+            return 'Invalid API key';
+        }
+        case 'invalidSessionId': {
+            return 'Invalid session ID';
+        }
+        case 'walletRequestFailed': {
+            return 'Wallet request failed';
+        }
+    }
+};
 //# sourceMappingURL=utils.js.map

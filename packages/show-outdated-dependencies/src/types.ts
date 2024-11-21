@@ -30,8 +30,8 @@ export interface PackagePack {
 export interface Package {
 	packagePath: string;
 	packageJson: PackageJson;
-	packageView: PackageView;
-	packagePack: PackagePack;
+	packageView: PackageView | undefined;
+	packagePack: PackagePack | undefined;
 }
 
 export interface OutdatedDependency {

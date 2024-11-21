@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/tezos-beacon-provider",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "",
 	"author": "",
 	"license": "MIT",
@@ -44,7 +44,8 @@
 		"@taquito/taquito": "^20.0.1",
 		"@tconnect.io/core": "^0.0.3",
 		"@tconnect.io/dapp-communication": "^0.0.3",
-		"@tconnect.io/tezos-beacon-api-types": "^0.0.2",
+		"@tconnect.io/dapp-utils": "^0.0.3",
+		"@tconnect.io/tezos-beacon-api-types": "^0.0.3",
 		"@twa-dev/sdk": "^7.10.1",
 		"bs58check": "^2.1.2"
 	}

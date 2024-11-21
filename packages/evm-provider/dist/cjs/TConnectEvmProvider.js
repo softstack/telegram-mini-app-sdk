@@ -162,7 +162,7 @@ class TConnectEvmProvider extends core_1.TypedEvent {
                 throw new Error(errorMessage);
             }
             else {
-                throw new evm_api_types_1.EvmError(validatedEvmResponse.payload.type, validatedEvmResponse.payload.message);
+                throw new evm_api_types_1.EvmError(validatedEvmResponse.payload.type, (0, dapp_utils_1.getErrorMessage)(validatedEvmResponse.payload.type, validatedEvmResponse.payload.message));
             }
         }
         if (evmRequest.type !== validatedEvmResponse.type) {

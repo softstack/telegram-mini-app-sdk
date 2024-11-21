@@ -9,13 +9,13 @@ const joi_1 = __importDefault(require("joi"));
 const validateTezosBeaconResponse = (value) => (0, core_1.validateSchema)(value, joi_1.default.alternatives()
     .try(joi_1.default.object({
     type: joi_1.default.string().valid('error').required(),
-    payload: joi_1.default.alternatives(joi_1.default.object({
+    payload: joi_1.default.alternatives().try(joi_1.default.object({
         type: joi_1.default.string().valid('generic').required(),
         key: joi_1.default.string().required(),
-        message: joi_1.default.string(),
+        message: joi_1.default.string().allow(''),
     }), joi_1.default.object({
         type: joi_1.default.string().valid('invalidSessionId', 'invalidApiKey').required(),
-        message: joi_1.default.string(),
+        message: joi_1.default.string().allow('').required(),
     })),
 }), joi_1.default.object({
     type: joi_1.default.string().valid('init').required(),
@@ -53,8 +53,8 @@ const isPeerInfo = (value) => (0, core_1.validateType)(value, joi_1.default.obje
     version: joi_1.default.string().required(),
     publicKey: joi_1.default.string().required(),
     relayServer: joi_1.default.string().required(),
-    appUrl: joi_1.default.string(),
-    icon: joi_1.default.string(),
+    appUrl: joi_1.default.string().allow(''),
+    icon: joi_1.default.string().allow(''),
 }));
 exports.isPeerInfo = isPeerInfo;
 const isBaseMessage = (value) => (0, core_1.validateType)(value, joi_1.default.object({
@@ -74,8 +74,8 @@ const isPermissionResponse = (value) => (0, core_1.validateType)(value, joi_1.de
     publicKey: joi_1.default.string().required(),
     network: joi_1.default.object({
         type: joi_1.default.string().valid('mainnet', 'carthagenet', 'custom', 'ghostnet').required(),
-        name: joi_1.default.string(),
-        rpcUrl: joi_1.default.string(),
+        name: joi_1.default.string().allow(''),
+        rpcUrl: joi_1.default.string().allow(''),
     }).required(),
     scopes: joi_1.default.array()
         .items(joi_1.default.string().valid('sign', 'operation_request', 'threshold'))
@@ -87,7 +87,7 @@ const isPermissionResponse = (value) => (0, core_1.validateType)(value, joi_1.de
     appMetadata: joi_1.default.object({
         senderId: joi_1.default.string().required(),
         name: joi_1.default.string().required(),
-        icon: joi_1.default.string(),
+        icon: joi_1.default.string().allow(''),
     }),
 }));
 exports.isPermissionResponse = isPermissionResponse;

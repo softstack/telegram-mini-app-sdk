@@ -16,6 +16,7 @@ const constants_1 = require("./constants");
 const base_1 = require("./utils/base");
 const utils_1 = require("./utils/utils");
 const validation_1 = require("./validation");
+const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 class TConnectTezosBeaconProvider extends core_1.TypedEvent {
     constructor(options) {
         super();
@@ -437,7 +438,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
                 throw new Error(errorMessage);
             }
             else {
-                throw new tezos_beacon_api_types_1.TezosBeaconError(validatedTezosResponse.payload.type, validatedTezosResponse.payload.message);
+                throw new tezos_beacon_api_types_1.TezosBeaconError(validatedTezosResponse.payload.type, (0, dapp_utils_1.getErrorMessage)(validatedTezosResponse.payload.type, validatedTezosResponse.payload.message));
             }
         }
         if (tezosRequest.type !== validatedTezosResponse.type) {

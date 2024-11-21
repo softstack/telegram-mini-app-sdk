@@ -10,6 +10,7 @@ import { GENERIC_WALLET_URL } from './constants';
 import { formatTransactionAmount, toIntegerString } from './utils/base';
 import { createCryptoBoxClient, createCryptoBoxServer, decryptCryptoboxPayload, encryptCryptoboxPayload, getAddressFromPublicKey, getConnectionStringUniversalLink, getSenderId, openCryptobox, toHex, } from './utils/utils';
 import { isDisconnectMessage, isErrorResponse, isOperationResponse, isPeerInfo, isPermissionResponse, isSignPayloadResponse, validateTezosBeaconEvent, validateTezosBeaconResponse, } from './validation';
+import { getErrorMessage } from '@tconnect.io/dapp-utils';
 export class TConnectTezosBeaconProvider extends TypedEvent {
     constructor(options) {
         super();
@@ -431,7 +432,7 @@ export class TConnectTezosBeaconProvider extends TypedEvent {
                 throw new Error(errorMessage);
             }
             else {
-                throw new TezosBeaconError(validatedTezosResponse.payload.type, validatedTezosResponse.payload.message);
+                throw new TezosBeaconError(validatedTezosResponse.payload.type, getErrorMessage(validatedTezosResponse.payload.type, validatedTezosResponse.payload.message));
             }
         }
         if (tezosRequest.type !== validatedTezosResponse.type) {

@@ -1,5 +1,8 @@
 import { UAParser } from 'ua-parser-js';
 import { OperatingSystem } from './types';
+import { EvmErrorType } from '@tconnect.io/evm-api-types';
+import { TezosBeaconErrorType } from '@tconnect.io/tezos-beacon-api-types';
+import { TezosWcErrorType } from '@tconnect.io/tezos-wc-api-types';
 
 export const isAndroid = (): boolean => {
 	const parser = new UAParser();
@@ -18,5 +21,25 @@ export const getOperatingSystem = (): OperatingSystem | undefined => {
 		return 'android';
 	} else if (os?.match(/^iOS$/)) {
 		return 'ios';
+	}
+};
+
+export const getErrorMessage = (
+	errorType: Exclude<EvmErrorType | TezosBeaconErrorType | TezosWcErrorType, 'generic'>,
+	message: string,
+): string => {
+	if (message) {
+		return message;
+	}
+	switch (errorType) {
+		case 'invalidApiKey': {
+			return 'Invalid API key';
+		}
+		case 'invalidSessionId': {
+			return 'Invalid session ID';
+		}
+		case 'walletRequestFailed': {
+			return 'Wallet request failed';
+		}
 	}
 };

@@ -9,7 +9,7 @@ import {
 	WalletTransferTicketParams,
 	WalletUnstakeParams,
 } from '@taquito/taquito';
-import { isAndroid } from '@tconnect.io/dapp-utils';
+import { isAndroid, getErrorMessage } from '@tconnect.io/dapp-utils';
 import { CallbackController, parse, sleep, stringify, TypedEvent } from '@tconnect.io/core';
 import { CommunicationController } from '@tconnect.io/dapp-communication';
 import {
@@ -41,7 +41,7 @@ import {
 	TConnectTezosWcProviderOptions,
 	TezosWcWalletApp,
 } from './types';
-import { getWalletConnectUniversalLink } from './utils/utils';
+import { getUniversalLink, getWalletConnectUniversalLink } from './utils/utils';
 import {
 	isGetAccountsResult,
 	isSendResult,
@@ -325,6 +325,15 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 		if (!this._communicationController.connected()) {
 			throw new Error("Can't send request without connection");
 		}
+		if (this.walletApp && tezosRequest.type === 'request') {
+			switch (tezosRequest.payload.method) {
+				case 'tezos_send':
+				case 'tezos_sign': {
+					WebApp.openLink(getUniversalLink(this.walletApp));
+					break;
+				}
+			}
+		}
 		const tezosResponse = await this._communicationController.send(tezosRequest);
 		const validatedTezosResponse = validateTezosWcResponse(tezosResponse);
 		if (validatedTezosResponse.type === 'error') {
@@ -335,7 +344,10 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 				}
 				throw new Error(errorMessage);
 			} else {
-				throw new TezosWcError(validatedTezosResponse.payload.type, validatedTezosResponse.payload.message);
+				throw new TezosWcError(
+					validatedTezosResponse.payload.type,
+					getErrorMessage(validatedTezosResponse.payload.type, validatedTezosResponse.payload.message),
+				);
 			}
 		}
 		if (tezosRequest.type !== validatedTezosResponse.type) {

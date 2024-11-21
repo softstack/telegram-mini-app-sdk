@@ -79,6 +79,7 @@ import {
 	validateTezosBeaconEvent,
 	validateTezosBeaconResponse,
 } from './validation';
+import { getErrorMessage } from '@tconnect.io/dapp-utils';
 
 export class TConnectTezosBeaconProvider
 	extends TypedEvent<TConnectTezosBeaconProviderEvents>
@@ -604,7 +605,10 @@ export class TConnectTezosBeaconProvider
 				}
 				throw new Error(errorMessage);
 			} else {
-				throw new TezosBeaconError(validatedTezosResponse.payload.type, validatedTezosResponse.payload.message);
+				throw new TezosBeaconError(
+					validatedTezosResponse.payload.type,
+					getErrorMessage(validatedTezosResponse.payload.type, validatedTezosResponse.payload.message),
+				);
 			}
 		}
 		if (tezosRequest.type !== validatedTezosResponse.type) {

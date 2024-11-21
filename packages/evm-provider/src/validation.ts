@@ -9,15 +9,15 @@ export const validateEvmResponse = (value: EvmResponse | EvmErrorResponse): EvmR
 			.try(
 				Joi.object({
 					type: Joi.string().valid('error').required(),
-					payload: Joi.alternatives(
+					payload: Joi.alternatives().try(
 						Joi.object({
 							type: Joi.string().valid('generic').required(),
 							key: Joi.string().required(),
-							message: Joi.string(),
+							message: Joi.string().allow(''),
 						}),
 						Joi.object({
 							type: Joi.string().valid('invalidSessionId', 'walletRequestFailed', 'invalidApiKey').required(),
-							message: Joi.string(),
+							message: Joi.string().allow('').required(),
 						}),
 					),
 				}),

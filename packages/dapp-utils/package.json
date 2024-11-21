@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/dapp-utils",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "",
 	"author": "",
 	"license": "MIT",
@@ -36,6 +36,9 @@
 		"prepublishOnly": "npm run build && npm test && npm run lint"
 	},
 	"dependencies": {
+		"@tconnect.io/evm-api-types": "^0.0.4",
+		"@tconnect.io/tezos-beacon-api-types": "^0.0.3",
+		"@tconnect.io/tezos-wc-api-types": "^0.0.3",
 		"ua-parser-js": "^2.0.0"
 	}
 }
