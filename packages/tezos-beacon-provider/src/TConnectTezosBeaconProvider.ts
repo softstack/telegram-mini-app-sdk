@@ -67,6 +67,7 @@ import {
 	getAddressFromPublicKey,
 	getConnectionStringUniversalLink,
 	getSenderId,
+	getUniversalLink,
 	openCryptobox,
 	toHex,
 } from './utils/utils';
@@ -547,6 +548,17 @@ export class TConnectTezosBeaconProvider
 			bs58check.encode(Buffer.from(JSON.stringify(message), 'utf8')),
 			sharedKey.send,
 		);
+		if (this.walletApp) {
+			switch (message.type) {
+				case 'operation_request':
+				case 'sign_payload_request': {
+					const universalLink = getUniversalLink(this.walletApp);
+					if (universalLink) {
+						WebApp.openLink(universalLink);
+					}
+				}
+			}
+		}
 		switch (message.type) {
 			case 'operation_request': {
 				const callbackPromise = this._operationRequestCallbacks.addCallback(message.id);

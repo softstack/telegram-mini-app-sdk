@@ -108,8 +108,10 @@ export const getUniversalLink = (walletApp) => {
         case 'kukai': {
             return 'https://connect.kukai.app';
         }
+        case 'temple': {
+            return 'https://app.templewallet.com';
+        }
     }
-    throw new Error('Wallet does not support universal links');
 };
 export const getConnectionStringUniversalLink = (walletApp, connectionString, genericWalletUrl) => {
     // let encodedConnectionString = encodeURIComponent(connectionString);

@@ -389,6 +389,17 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
             };
         const sharedKey = (0, utils_1.createCryptoBoxClient)(this._getOtherPublicKey().toString('hex'), this._communicationKeyPair);
         const encryptedMessage = (0, utils_1.encryptCryptoboxPayload)(bs58check_1.default.encode(Buffer.from(JSON.stringify(message), 'utf8')), sharedKey.send);
+        if (this.walletApp) {
+            switch (message.type) {
+                case 'operation_request':
+                case 'sign_payload_request': {
+                    const universalLink = (0, utils_1.getUniversalLink)(this.walletApp);
+                    if (universalLink) {
+                        sdk_1.default.openLink(universalLink);
+                    }
+                }
+            }
+        }
         switch (message.type) {
             case 'operation_request': {
                 const callbackPromise = this._operationRequestCallbacks.addCallback(message.id);

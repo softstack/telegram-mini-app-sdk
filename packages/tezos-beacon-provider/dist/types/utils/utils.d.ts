@@ -11,6 +11,6 @@ export declare const createCryptoBoxClient: (otherPublicKey: string, selfKeypair
 export declare const getSenderId: (publicKey: string) => string;
 export declare const encryptCryptoboxPayload: (message: string, sharedKey: Uint8Array) => string;
 export declare const decryptCryptoboxPayload: (payload: Uint8Array, sharedKey: Uint8Array) => string;
-export declare const getUniversalLink: (walletApp: TezosBeaconWalletApp) => string;
+export declare const getUniversalLink: (walletApp: TezosBeaconWalletApp) => string | undefined;
 export declare const getConnectionStringUniversalLink: (walletApp: TezosBeaconWalletApp, connectionString: string, genericWalletUrl: string) => string;
 export declare const isUniversalLinkWallet: (walletApp: TezosBeaconWalletApp) => boolean;

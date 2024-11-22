@@ -9,7 +9,7 @@ import WebApp from '@twa-dev/sdk';
 import bs58check from 'bs58check';
 import { GENERIC_WALLET_URL } from './constants';
 import { formatTransactionAmount, toIntegerString } from './utils/base';
-import { createCryptoBoxClient, createCryptoBoxServer, decryptCryptoboxPayload, encryptCryptoboxPayload, getAddressFromPublicKey, getConnectionStringUniversalLink, getSenderId, openCryptobox, toHex, } from './utils/utils';
+import { createCryptoBoxClient, createCryptoBoxServer, decryptCryptoboxPayload, encryptCryptoboxPayload, getAddressFromPublicKey, getConnectionStringUniversalLink, getSenderId, getUniversalLink, openCryptobox, toHex, } from './utils/utils';
 import { isDisconnectMessage, isErrorResponse, isOperationResponse, isPeerInfo, isPermissionResponse, isSignPayloadResponse, validateTezosBeaconEvent, validateTezosBeaconResponse, } from './validation';
 export class TConnectTezosBeaconProvider extends TypedEvent {
     constructor(options) {
@@ -383,6 +383,17 @@ export class TConnectTezosBeaconProvider extends TypedEvent {
             };
         const sharedKey = createCryptoBoxClient(this._getOtherPublicKey().toString('hex'), this._communicationKeyPair);
         const encryptedMessage = encryptCryptoboxPayload(bs58check.encode(Buffer.from(JSON.stringify(message), 'utf8')), sharedKey.send);
+        if (this.walletApp) {
+            switch (message.type) {
+                case 'operation_request':
+                case 'sign_payload_request': {
+                    const universalLink = getUniversalLink(this.walletApp);
+                    if (universalLink) {
+                        WebApp.openLink(universalLink);
+                    }
+                }
+            }
+        }
         switch (message.type) {
             case 'operation_request': {
                 const callbackPromise = this._operationRequestCallbacks.addCallback(message.id);

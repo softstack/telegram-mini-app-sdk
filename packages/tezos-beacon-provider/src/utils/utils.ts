@@ -123,7 +123,7 @@ export const decryptCryptoboxPayload = (payload: Uint8Array, sharedKey: Uint8Arr
 	return Buffer.from(openBox).toString('utf8');
 };
 
-export const getUniversalLink = (walletApp: TezosBeaconWalletApp): string => {
+export const getUniversalLink = (walletApp: TezosBeaconWalletApp): string | undefined => {
 	switch (walletApp) {
 		case 'altme': {
 			return 'https://app.altme.io/app/download';
@@ -131,8 +131,10 @@ export const getUniversalLink = (walletApp: TezosBeaconWalletApp): string => {
 		case 'kukai': {
 			return 'https://connect.kukai.app';
 		}
+		case 'temple': {
+			return 'https://app.templewallet.com';
+		}
 	}
-	throw new Error('Wallet does not support universal links');
 };
 
 export const getConnectionStringUniversalLink = (
