@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/modal",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "",
 	"author": "",
 	"license": "MIT",
@@ -38,10 +38,10 @@
 		"prepublishOnly": "npm run build && npm test && npm run lint"
 	},
 	"dependencies": {
-		"@tconnect.io/dapp-utils": "^0.0.3",
-		"@tconnect.io/evm-provider": "^0.0.4",
-		"@tconnect.io/tezos-beacon-provider": "^0.0.5",
-		"@tconnect.io/tezos-wc-provider": "^0.0.4",
+		"@tconnect.io/dapp-utils": "^0.0.4",
+		"@tconnect.io/evm-provider": "^0.0.5",
+		"@tconnect.io/tezos-beacon-provider": "^0.0.6",
+		"@tconnect.io/tezos-wc-provider": "^0.0.5",
 		"@twa-dev/sdk": "^7.10.1",
 		"clsx": "^2.1.1",
 		"react-inlinesvg": "^4.1.3",
