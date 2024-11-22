@@ -1,5 +1,5 @@
-import { getOperatingSystem } from '@tconnect.io/dapp-utils';
 import { ETHERLINK_CHAIN_ID } from '@tconnect.io/core';
+import { getOperatingSystem } from '@tconnect.io/dapp-utils';
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { TConnectTezosBeaconProvider } from '@tconnect.io/tezos-beacon-provider';
 import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';

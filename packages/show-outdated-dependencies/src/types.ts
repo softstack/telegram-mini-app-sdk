@@ -34,9 +34,11 @@ export interface Package {
 	packagePack: PackagePack | undefined;
 }
 
-export interface OutdatedDependency {
+export interface OutdatedDependentPackage {
 	dependentName: string;
-	dependencyName: string;
-	oldVersion: string;
-	newVersion: string;
+	dependencies: Array<{
+		name: string;
+		oldVersion: string;
+		newVersion: string;
+	}>;
 }

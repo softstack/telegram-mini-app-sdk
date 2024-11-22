@@ -9,9 +9,9 @@ import {
 	WalletTransferTicketParams,
 	WalletUnstakeParams,
 } from '@taquito/taquito';
-import { isAndroid, getErrorMessage } from '@tconnect.io/dapp-utils';
 import { CallbackController, parse, sleep, stringify, TypedEvent } from '@tconnect.io/core';
 import { CommunicationController } from '@tconnect.io/dapp-communication';
+import { getErrorMessage, isAndroid } from '@tconnect.io/dapp-utils';
 import {
 	EVENT_CHANNEL,
 	REQUEST_CHANNEL,

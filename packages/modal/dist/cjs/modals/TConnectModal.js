@@ -28,8 +28,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TConnectModal = void 0;
 const jsx_runtime_1 = require("react/jsx-runtime");
-const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const core_1 = require("@tconnect.io/core");
+const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const evm_provider_1 = require("@tconnect.io/evm-provider");
 const tezos_beacon_provider_1 = require("@tconnect.io/tezos-beacon-provider");
 const tezos_wc_provider_1 = require("@tconnect.io/tezos-wc-provider");

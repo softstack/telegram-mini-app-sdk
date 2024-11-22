@@ -1,8 +1,8 @@
-import { UAParser } from 'ua-parser-js';
-import { OperatingSystem } from './types';
 import { EvmErrorType } from '@tconnect.io/evm-api-types';
 import { TezosBeaconErrorType } from '@tconnect.io/tezos-beacon-api-types';
 import { TezosWcErrorType } from '@tconnect.io/tezos-wc-api-types';
+import { UAParser } from 'ua-parser-js';
+import { OperatingSystem } from './types';
 
 export const isAndroid = (): boolean => {
 	const parser = new UAParser();

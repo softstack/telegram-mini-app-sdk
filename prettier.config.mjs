@@ -19,7 +19,12 @@ export default {
 	quoteProps: 'as-needed', // Default 'as-needed'
 	trailingComma: 'all', // Default 'all'
 	useTabs: true, // Default false
-	plugins: ['prettier-plugin-tailwindcss'],
+	plugins: ['prettier-plugin-organize-imports', 'prettier-plugin-tailwindcss'],
+
+	// prettier-plugin-organize-imports
+	organizeImportsSkipDestructiveCodeActions: true,
+
+	// prettier-plugin-tailwindcss
 	tailwindConfig: resolve(__dirname, './packages/modal/tailwind.config.ts'),
 	tailwindFunctions: ['clsx', 'tw'],
 };

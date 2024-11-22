@@ -9,6 +9,7 @@ const ed25519_1 = require("@stablelib/ed25519");
 const utf8_1 = require("@stablelib/utf8");
 const core_1 = require("@tconnect.io/core");
 const dapp_communication_1 = require("@tconnect.io/dapp-communication");
+const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const tezos_beacon_api_types_1 = require("@tconnect.io/tezos-beacon-api-types");
 const sdk_1 = __importDefault(require("@twa-dev/sdk"));
 const bs58check_1 = __importDefault(require("bs58check"));
@@ -16,7 +17,6 @@ const constants_1 = require("./constants");
 const base_1 = require("./utils/base");
 const utils_1 = require("./utils/utils");
 const validation_1 = require("./validation");
-const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 class TConnectTezosBeaconProvider extends core_1.TypedEvent {
     constructor(options) {
         super();

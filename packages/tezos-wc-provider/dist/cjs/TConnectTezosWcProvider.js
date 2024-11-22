@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TConnectTezosWcProvider = void 0;
-const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const core_1 = require("@tconnect.io/core");
 const dapp_communication_1 = require("@tconnect.io/dapp-communication");
+const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const tezos_wc_api_types_1 = require("@tconnect.io/tezos-wc-api-types");
 const sdk_1 = __importDefault(require("@twa-dev/sdk"));
 const utils_1 = require("./utils/utils");

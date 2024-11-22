@@ -14,6 +14,7 @@ import {
 } from '@taquito/taquito';
 import { CallbackController, parse, stringify, TypedEvent } from '@tconnect.io/core';
 import { CommunicationController } from '@tconnect.io/dapp-communication';
+import { getErrorMessage } from '@tconnect.io/dapp-utils';
 import {
 	EVENT_CHANNEL,
 	REQUEST_CHANNEL,
@@ -79,7 +80,6 @@ import {
 	validateTezosBeaconEvent,
 	validateTezosBeaconResponse,
 } from './validation';
-import { getErrorMessage } from '@tconnect.io/dapp-utils';
 
 export class TConnectTezosBeaconProvider
 	extends TypedEvent<TConnectTezosBeaconProviderEvents>
