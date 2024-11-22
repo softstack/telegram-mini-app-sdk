@@ -15,13 +15,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -49,7 +59,7 @@ const Row_1 = require("../components/flex/Row");
 const Header_1 = require("../components/Header");
 const constants_1 = require("../constants");
 const utils_1 = require("../utils");
-exports.TConnectModal = (0, react_1.memo)(({ bridgeUrl, apiKey, networkFilter, genericWalletUrl, step, onChangeStep, currentNetwork, onChangeCurrentNetwork, currentWallet, onChangeCurrentWallet, evmProvider, onChangeEvmProvider, tezosBeaconProvider, onChangeTezosBeaconProvider, tezosWcProvider, onChangeTezosWcProvider, onDisconnect, onClose, onError, }) => {
+exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, bridgeUrl, apiKey, networkFilter, genericWalletUrl, step, onChangeStep, currentNetwork, onChangeCurrentNetwork, currentWallet, onChangeCurrentWallet, evmProvider, onChangeEvmProvider, tezosBeaconProvider, onChangeTezosBeaconProvider, tezosWcProvider, onChangeTezosWcProvider, onDisconnect, onClose, onError, }) => {
     const darkMode = (0, utils_1.useDarkMode)();
     const backgroundElement = (0, react_1.useRef)(null);
     const [showNetworks, setShowNetworks] = (0, react_1.useState)(true);
@@ -158,7 +168,13 @@ exports.TConnectModal = (0, react_1.memo)(({ bridgeUrl, apiKey, networkFilter, g
             onChangeCurrentWallet(wallet);
             switch (wallet.network) {
                 case 'evm': {
-                    const provider = new evm_provider_1.TConnectEvmProvider({ bridgeUrl, walletApp: wallet.walletApp, apiKey });
+                    const provider = new evm_provider_1.TConnectEvmProvider({
+                        appName,
+                        appUrl,
+                        bridgeUrl,
+                        walletApp: wallet.walletApp,
+                        apiKey,
+                    });
                     provider.once('connect', (info) => {
                         if (BigInt(info.chainId) === core_1.ETHERLINK_CHAIN_ID) {
                             onChangeStep('connected');
@@ -175,6 +191,8 @@ exports.TConnectModal = (0, react_1.memo)(({ bridgeUrl, apiKey, networkFilter, g
                     switch (wallet.bridge) {
                         case 'beacon': {
                             const provider = new tezos_beacon_provider_1.TConnectTezosBeaconProvider({
+                                appName,
+                                appUrl,
                                 bridgeUrl,
                                 walletApp: wallet.walletApp,
                                 secretSeed: crypto.randomUUID(),
@@ -188,6 +206,8 @@ exports.TConnectModal = (0, react_1.memo)(({ bridgeUrl, apiKey, networkFilter, g
                         }
                         case 'wc': {
                             const provider = new tezos_wc_provider_1.TConnectTezosWcProvider({
+                                appName,
+                                appUrl,
                                 bridgeUrl,
                                 walletApp: wallet.walletApp,
                                 apiKey,
@@ -208,6 +228,8 @@ exports.TConnectModal = (0, react_1.memo)(({ bridgeUrl, apiKey, networkFilter, g
     }, [
         onChangeStep,
         onChangeCurrentWallet,
+        appName,
+        appUrl,
         bridgeUrl,
         apiKey,
         genericWalletUrl,
@@ -216,30 +238,6 @@ exports.TConnectModal = (0, react_1.memo)(({ bridgeUrl, apiKey, networkFilter, g
         onChangeTezosWcProvider,
         onError,
     ]);
-    // const handleAddEtherlink = useCallback(async () => {
-    // 	try {
-    // 		if (evmProvider) {
-    // 			await evmProvider.request({
-    // 				method: 'wallet_addEthereumChain',
-    // 				params: [
-    // 					{
-    // 						chainId: '0xa729',
-    // 						chainName: 'Etherlink Mainnet',
-    // 						nativeCurrency: {
-    // 							name: 'Tezos',
-    // 							symbol: 'XTZ',
-    // 							decimals: 18,
-    // 						},
-    // 						rpcUrls: ['https://node.mainnet.etherlink.com'],
-    // 						blockExplorerUrls: ['https://explorer.etherlink.com'],
-    // 					},
-    // 				],
-    // 			});
-    // 		}
-    // 	} catch (error) {
-    // 		onError(error);
-    // 	}
-    // }, [evmProvider, onError]);
     const toggleShowShortAddress = (0, react_1.useCallback)(() => {
         try {
             setShowShortAddress((prevShowShortAddress) => !prevShowShortAddress);

@@ -1,31 +1,137 @@
 export type Optional<T, K extends keyof T> = Partial<T> & Omit<T, K>;
 
+/**
+ * Represents the supported Tezos Beacon wallet applications.
+ *
+ * @typedef {('altme' | 'kukai' | 'temple' | '_generic_')} TezosBeaconWalletApp
+ *
+ * @property {'altme'} altme - Altme wallet application.
+ * @property {'kukai'} kukai - Kukai wallet application.
+ * @property {'temple'} temple - Temple wallet application.
+ * @property {'_generic_'} _generic_ - Generic wallet application.
+ */
 export type TezosBeaconWalletApp = 'altme' | 'kukai' | 'temple' | '_generic_';
 
+/**
+ * Represents a serialized Tezos Beacon provider configuration.
+ */
 export interface SerializedTConnectTezosBeaconProvider {
+	/**
+	 * The name of the application.
+	 */
 	appName: string;
+
+	/**
+	 * The URL of the application.
+	 */
 	appUrl: string;
+
+	/**
+	 * The network configuration.
+	 */
 	network: Network;
+
+	/**
+	 * The URL of the bridge.
+	 */
 	bridgeUrl: string;
+
+	/**
+	 * The wallet application for Tezos Beacon.
+	 */
 	walletApp: TezosBeaconWalletApp | undefined;
+
+	/**
+	 * The secret seed used for encryption or authentication.
+	 * @private
+	 */
 	_secretSeed: string;
+
+	/**
+	 * The API key for accessing services.
+	 * @private
+	 */
 	_apiKey: string;
+
+	/**
+	 * The generic wallet URL.
+	 * @private
+	 */
 	_genericWalletUrl: string;
+
+	/**
+	 * The communication controller identifier.
+	 * @private
+	 */
 	_communicationController: string;
+
+	/**
+	 * The session identifier.
+	 * @private
+	 */
 	_sessionId: string;
+
+	/**
+	 * The other party's public key.
+	 * @private
+	 */
 	_otherPublicKey: Buffer;
+
+	/**
+	 * The public key of the provider.
+	 * @private
+	 */
 	_publicKey: string;
 }
 
+/**
+ * Options for connecting to the Tezos Beacon provider.
+ */
 export interface TConnectTezosBeaconProviderOptions {
+	/**
+	 * The name of the application.
+	 */
+	appName: string;
+
+	/**
+	 * The URL of the application.
+	 */
+	appUrl: string;
+
+	/**
+	 * The URL of the bridge server.
+	 */
 	bridgeUrl: string;
+
+	/**
+	 * The secret seed for encryption.
+	 */
 	secretSeed: string;
+
+	/**
+	 * The API key for authentication.
+	 */
 	apiKey: string;
+
+	/**
+	 * The network configuration.
+	 */
 	network: Network;
+
+	/**
+	 * Optional: The Tezos Beacon wallet application.
+	 */
 	walletApp?: TezosBeaconWalletApp;
+
+	/**
+	 * Optional: The URL of a generic wallet.
+	 */
 	genericWalletUrl?: string;
 }
 
+/**
+ * Interface representing the events for connecting to the Tezos Beacon provider.
+ */
 export interface TConnectTezosBeaconProviderEvents {
 	connectionString: string;
 	disconnect: undefined;

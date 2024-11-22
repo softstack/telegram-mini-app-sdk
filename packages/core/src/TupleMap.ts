@@ -26,6 +26,8 @@ export class TupleMap<Key1, Key2, Value> {
 	 * The outer map uses keys of type `Key1` and maps to inner maps.
 	 * The inner maps use keys of type `Key2` and map to values of type `Value`.
 	 * This structure allows for a two-level key-value mapping.
+	 *
+	 * @private
 	 */
 	private _map = new Map<Key1, Map<Key2, Value>>();
 

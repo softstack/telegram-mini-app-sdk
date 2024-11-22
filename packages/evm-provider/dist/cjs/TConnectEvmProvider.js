@@ -15,6 +15,8 @@ const validation_1 = require("./validation");
 class TConnectEvmProvider extends core_1.TypedEvent {
     constructor(options) {
         super();
+        this.appName = options.appName;
+        this.appUrl = options.appUrl;
         this.bridgeUrl = options.bridgeUrl;
         this.walletApp = options?.walletApp;
         this._apiKey = options.apiKey;
@@ -28,12 +30,11 @@ class TConnectEvmProvider extends core_1.TypedEvent {
         this._communicationController.on('event', this._createEvmEventHandler());
         const { payload: { sessionId, walletConnectUri }, } = await this._sendEvmRequest({
             type: 'connect',
-            payload: { apiKey: this._apiKey },
+            payload: { apiKey: this._apiKey, appName: this.appName, appUrl: this.appUrl },
         });
         this._sessionId = sessionId;
         this._walletConnectUri = walletConnectUri;
         if (this.walletApp) {
-            // Android needs a second reminder to open the link
             if ((0, dapp_utils_1.isAndroid)()) {
                 sdk_1.default.openLink((0, utils_1.getWalletConnectUniversalLink)(this.walletApp, walletConnectUri), { try_instant_view: true });
                 await (0, core_1.sleep)(1000);
@@ -88,6 +89,8 @@ class TConnectEvmProvider extends core_1.TypedEvent {
     }
     serialize() {
         return (0, core_1.stringify)({
+            appName: this.appName,
+            appUrl: this.appUrl,
             bridgeUrl: this.bridgeUrl,
             walletApp: this.walletApp,
             _apiKey: this._apiKey,
@@ -96,9 +99,11 @@ class TConnectEvmProvider extends core_1.TypedEvent {
             _walletConnectUri: this._getWalletConnectUri(),
         });
     }
-    static async deserialize(serialized) {
-        const data = (0, core_1.parse)(serialized);
+    static async deserialize(json) {
+        const data = (0, core_1.parse)(json);
         const provider = new TConnectEvmProvider({
+            appName: data.appName,
+            appUrl: data.appUrl,
             bridgeUrl: data.bridgeUrl,
             apiKey: data._apiKey,
             walletApp: data.walletApp,

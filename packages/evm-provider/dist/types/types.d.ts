@@ -36,11 +36,15 @@ export interface TConnectEvmProviderEvents extends EIP1193ProviderEvents {
     connectionString: string;
 }
 export interface TConnectEvmProviderOptions {
+    appName: string;
+    appUrl: string;
     bridgeUrl: string;
     apiKey: string;
     walletApp?: EvmWalletApp;
 }
 export interface SerializedTConnectEvmProvider {
+    appName: string;
+    appUrl: string;
     bridgeUrl: string;
     walletApp: EvmWalletApp | undefined;
     _apiKey: string;

@@ -12,6 +12,19 @@ export interface AccordionProps extends ColProps {
 	onChangeOpen: (open: boolean) => void;
 }
 
+/**
+ * Accordion component that displays a collapsible section with a title.
+ *
+ * @param {AccordionProps} props - The properties for the Accordion component.
+ * @param {string} props.title - The title of the accordion.
+ * @param {boolean} [props.open] - Whether the accordion is initially open.
+ * @param {function} [props.onChangeOpen] - Callback function to handle the change in open state.
+ * @param {string} [props.className] - Additional class names for the accordion.
+ * @param {React.ReactNode} props.children - The content to be displayed inside the accordion.
+ * @param {object} [props] - Additional properties to be passed to the accordion.
+ *
+ * @returns {JSX.Element} The rendered Accordion component.
+ */
 export const Accordion = memo<AccordionProps>(({ title, open, onChangeOpen, className, children, ...props }) => {
 	const [internalOpen, setInternalOpen] = useState(open ?? false);
 

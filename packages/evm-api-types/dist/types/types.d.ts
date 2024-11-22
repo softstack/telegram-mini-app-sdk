@@ -3,6 +3,8 @@ export interface EvmConnectRequest {
     type: 'connect';
     payload: {
         apiKey: string;
+        appName: string;
+        appUrl: string;
     };
 }
 export interface EvmConnectResponse {

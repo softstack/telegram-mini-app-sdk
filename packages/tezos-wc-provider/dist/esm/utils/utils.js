@@ -8,7 +8,6 @@ export const getUniversalLink = (walletApp) => {
 };
 export const getWalletConnectUniversalLink = (walletApp, walletConnectUri) => {
     let encodedUri = encodeURIComponent(walletConnectUri);
-    // Double encode for Android
     if (isAndroid()) {
         encodedUri = encodeURIComponent(encodedUri);
     }

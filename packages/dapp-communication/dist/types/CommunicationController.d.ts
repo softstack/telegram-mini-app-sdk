@@ -13,5 +13,5 @@ export declare class CommunicationController<Request, Response, Event> extends T
     send(request: Request): Promise<Response>;
     disconnect(): void;
     serialize(): string;
-    static deserialize<Request, Response, Event>(serialized: string): CommunicationController<Request, Response, Event>;
+    static deserialize<Request, Response, Event>(json: string): CommunicationController<Request, Response, Event>;
 }

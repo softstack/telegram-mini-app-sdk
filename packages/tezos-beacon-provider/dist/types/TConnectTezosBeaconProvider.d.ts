@@ -3,8 +3,8 @@ import { TypedEvent } from '@tconnect.io/core';
 import { Network, PartialTezosDelegationOperation, PartialTezosIncreasePaidStorageOperation, PartialTezosOperation, PartialTezosOriginationOperation, PartialTezosTransactionOperation, PartialTezosTransferTicketOperation, RequestSignPayloadInput, SignPayloadResponse, TConnectTezosBeaconProviderEvents, TConnectTezosBeaconProviderOptions, TezosBeaconWalletApp } from './types';
 export declare class TConnectTezosBeaconProvider extends TypedEvent<TConnectTezosBeaconProviderEvents> implements WalletProvider {
     constructor(options: TConnectTezosBeaconProviderOptions);
-    readonly appName = "Bridge App";
-    readonly appUrl = "http://localhost";
+    readonly appName: string;
+    readonly appUrl: string;
     readonly network: Network;
     readonly bridgeUrl: string;
     readonly walletApp: TezosBeaconWalletApp | undefined;

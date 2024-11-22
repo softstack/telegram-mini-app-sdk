@@ -15,6 +15,8 @@ export interface SerializedTConnectTezosBeaconProvider {
     _publicKey: string;
 }
 export interface TConnectTezosBeaconProviderOptions {
+    appName: string;
+    appUrl: string;
     bridgeUrl: string;
     secretSeed: string;
     apiKey: string;

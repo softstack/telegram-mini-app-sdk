@@ -14,6 +14,17 @@ import { Step, TConnectModal } from '../modals/TConnectModal';
 import { EvmNetwork, Network, TConnectModalContextValue, TezosNetwork } from '../types';
 import { nextVersion, useVersionedState } from '../utils';
 
+/**
+ * Context for managing the state and actions related to the TConnect modal.
+ *
+ * @typedef {Object} TConnectModalContextValue
+ * @property {Function} openModal - Function to open the modal.
+ * @property {Function} closeModal - Function to close the modal.
+ * @property {any} evmProvider - Ethereum provider, if available.
+ * @property {any} tezosBeaconProvider - Tezos Beacon provider, if available.
+ * @property {any} tezosWcProvider - Tezos WalletConnect provider, if available.
+ * @property {boolean} connected - Boolean indicating if a connection is established.
+ */
 export const TConnectModalContext = createContext<TConnectModalContextValue>({
 	openModal: () => undefined,
 	closeModal: () => undefined,
@@ -24,6 +35,8 @@ export const TConnectModalContext = createContext<TConnectModalContextValue>({
 });
 
 export interface TConnectModalProviderProps {
+	appName: string;
+	appUrl: string;
 	bridgeUrl: string;
 	apiKey: string;
 	networkFilter?: Array<'etherlink' | 'tezos'>;
@@ -32,8 +45,35 @@ export interface TConnectModalProviderProps {
 	onError?: (error: unknown) => void;
 }
 
+/**
+ * `TConnectModalProvider` is a React component that provides context and state management for connecting to various blockchain networks and wallets.
+ * It handles the connection logic for EVM, Tezos Beacon, and Tezos WalletConnect providers, and manages the state of the connection modal.
+ *
+ * @param {TConnectModalProviderProps} props - The properties for the `TConnectModalProvider` component.
+ * @param {string} props.bridgeUrl - The URL of the bridge server.
+ * @param {string} props.apiKey - The API key for authentication.
+ * @param {string[]} props.networkFilter - An array of network filters.
+ * @param {string} props.genericWalletUrl - The URL for the generic wallet.
+ * @param {React.ReactNode} props.children - The child components to be rendered within the provider.
+ * @param {(error: unknown) => void} [props.onError] - Optional callback function to handle errors.
+ *
+ * @returns {JSX.Element} The `TConnectModalProvider` component.
+ *
+ * @example
+ * ```tsx
+ * <TConnectModalProvider
+ *   bridgeUrl="https://bridge.example.com"
+ *   apiKey="your-api-key"
+ *   networkFilter={['mainnet', 'testnet']}
+ *   genericWalletUrl="https://wallet.example.com"
+ *   onError={(error) => console.error(error)}
+ * >
+ *   <YourAppComponents />
+ * </TConnectModalProvider>
+ * ```
+ */
 export const TConnectModalProvider = memo<TConnectModalProviderProps>(
-	({ bridgeUrl, apiKey, networkFilter, genericWalletUrl, children, onError, ...props }) => {
+	({ appName, appUrl, bridgeUrl, apiKey, networkFilter, genericWalletUrl, children, onError, ...props }) => {
 		const [showModal, setShowModal] = useState(false);
 		const [step, setStep] = useState<Step>('connect');
 		const [currentNetwork, setCurrentNetwork] = useState<Network | undefined>(undefined);
@@ -316,6 +356,8 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 				{children}
 				{showModal && (
 					<TConnectModal
+						appName={appName}
+						appUrl={appUrl}
 						bridgeUrl={bridgeUrl}
 						apiKey={apiKey}
 						networkFilter={networkFilter}

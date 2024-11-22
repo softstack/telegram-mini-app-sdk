@@ -93,7 +93,7 @@ export const isSignPayloadResponse = (value) => validateType(value, Joi.object({
     id: Joi.string().required(),
     senderId: Joi.string().required(),
     signature: Joi.string().required(),
-    signingType: Joi.string(), // 'raw'
+    signingType: Joi.string(),
 }));
 export const isDisconnectMessage = (value) => validateType(value, Joi.object({
     type: Joi.string().valid('disconnect').required(),

@@ -1,1 +1,1 @@
-{"version":3,"file":"types.js","sourceRoot":"","sources":["../../src/types.ts"],"names":[],"mappings":"","sourcesContent":["export type OperatingSystem = 'android' | 'ios';\n"]}
+{"version":3,"file":"types.js","sourceRoot":"","sources":["../../src/types.ts"],"names":[],"mappings":"","sourcesContent":["/**\n * Represents the supported operating systems.\n *\n * @typedef {('android' | 'ios')} OperatingSystem\n *\n * @example\n * // Example usage:\n * const os: OperatingSystem = 'android';\n */\nexport type OperatingSystem = 'android' | 'ios';\n"]}

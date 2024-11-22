@@ -2,6 +2,8 @@ import { TypedEvent } from '@tconnect.io/core';
 import { EIP1193Provider, EvmWalletApp, RequestArguments, TConnectEvmProviderEvents, TConnectEvmProviderOptions } from './types';
 export declare class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> implements EIP1193Provider {
     constructor(options: TConnectEvmProviderOptions);
+    readonly appName: string;
+    readonly appUrl: string;
     readonly bridgeUrl: string;
     readonly walletApp: EvmWalletApp | undefined;
     private readonly _apiKey;
@@ -13,7 +15,7 @@ export declare class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderE
     request(args: RequestArguments): Promise<unknown>;
     disconnect(): Promise<void>;
     serialize(): string;
-    static deserialize(serialized: string): Promise<TConnectEvmProvider>;
+    static deserialize(json: string): Promise<TConnectEvmProvider>;
     private _reconnect;
     private _createEvmEventHandler;
     private _sendEvmRequest;

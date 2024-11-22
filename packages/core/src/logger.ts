@@ -25,6 +25,11 @@ export class Logger<T extends string = LogChannel> {
 		}
 	}
 
+	/**
+	 * A set that holds the active logging channels.
+	 *
+	 * @private
+	 */
 	private _activeChannels = new Set<LogChannel | T>();
 
 	/**
@@ -155,6 +160,7 @@ export class Logger<T extends string = LogChannel> {
 	/**
 	 * Constructs a string representation of a given location.
 	 *
+	 * @private
 	 * @param location - The location object containing file, line, and method information.
 	 * @returns A string in the format `file:line:method`.
 	 */

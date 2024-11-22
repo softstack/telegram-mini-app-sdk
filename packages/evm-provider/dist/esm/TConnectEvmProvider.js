@@ -9,6 +9,8 @@ import { validateEvmEvent, validateEvmResponse } from './validation';
 export class TConnectEvmProvider extends TypedEvent {
     constructor(options) {
         super();
+        this.appName = options.appName;
+        this.appUrl = options.appUrl;
         this.bridgeUrl = options.bridgeUrl;
         this.walletApp = options?.walletApp;
         this._apiKey = options.apiKey;
@@ -22,12 +24,11 @@ export class TConnectEvmProvider extends TypedEvent {
         this._communicationController.on('event', this._createEvmEventHandler());
         const { payload: { sessionId, walletConnectUri }, } = await this._sendEvmRequest({
             type: 'connect',
-            payload: { apiKey: this._apiKey },
+            payload: { apiKey: this._apiKey, appName: this.appName, appUrl: this.appUrl },
         });
         this._sessionId = sessionId;
         this._walletConnectUri = walletConnectUri;
         if (this.walletApp) {
-            // Android needs a second reminder to open the link
             if (isAndroid()) {
                 WebApp.openLink(getWalletConnectUniversalLink(this.walletApp, walletConnectUri), { try_instant_view: true });
                 await sleep(1000);
@@ -82,6 +83,8 @@ export class TConnectEvmProvider extends TypedEvent {
     }
     serialize() {
         return stringify({
+            appName: this.appName,
+            appUrl: this.appUrl,
             bridgeUrl: this.bridgeUrl,
             walletApp: this.walletApp,
             _apiKey: this._apiKey,
@@ -90,9 +93,11 @@ export class TConnectEvmProvider extends TypedEvent {
             _walletConnectUri: this._getWalletConnectUri(),
         });
     }
-    static async deserialize(serialized) {
-        const data = parse(serialized);
+    static async deserialize(json) {
+        const data = parse(json);
         const provider = new TConnectEvmProvider({
+            appName: data.appName,
+            appUrl: data.appUrl,
             bridgeUrl: data.bridgeUrl,
             apiKey: data._apiKey,
             walletApp: data.walletApp,

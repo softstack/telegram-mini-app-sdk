@@ -9,6 +9,16 @@ export interface HeaderProps extends RowProps {
 	onClose: () => void;
 }
 
+/**
+ * Header component that displays a title and a close button.
+ *
+ * @param {HeaderProps} props - The properties for the Header component.
+ * @param {string} props.title - The title to be displayed in the header.
+ * @param {() => void} props.onClose - The function to be called when the close button is clicked.
+ * @param {string} [props.className] - Additional class names to apply to the header.
+ *
+ * @returns {JSX.Element} The rendered Header component.
+ */
 export const Header = memo<HeaderProps>(({ title, onClose, className }) => (
 	<Row
 		className={clsx(

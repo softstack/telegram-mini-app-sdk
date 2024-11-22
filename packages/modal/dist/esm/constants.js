@@ -1,7 +1,7 @@
 export const TAILWIND_PREFIX = 'eotrzpirnbqlbfjhbqpo-';
-export const EVM_PROVIDER_STORAGE_KEY = 'jdqmbvrjralxgetjnyao';
+export const EVM_PROVIDER_STORAGE_KEY = 'ptkjfuuopetruxoocapm';
 export const TEZOS_BEACON_PROVIDER_STORAGE_KEY = 'jkdkvddgajorkvmywwub';
-export const TEZOS_WC_PROVIDER_STORAGE_KEY = 'szyzljncagbqzpuimevq';
+export const TEZOS_WC_PROVIDER_STORAGE_KEY = 'oergkxuqjljvgrkkzeth';
 export const NETWORKS = [
     {
         type: 'evm',

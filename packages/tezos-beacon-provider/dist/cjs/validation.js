@@ -105,7 +105,7 @@ const isSignPayloadResponse = (value) => (0, core_1.validateType)(value, joi_1.d
     id: joi_1.default.string().required(),
     senderId: joi_1.default.string().required(),
     signature: joi_1.default.string().required(),
-    signingType: joi_1.default.string(), // 'raw'
+    signingType: joi_1.default.string(),
 }));
 exports.isSignPayloadResponse = isSignPayloadResponse;
 const isDisconnectMessage = (value) => (0, core_1.validateType)(value, joi_1.default.object({

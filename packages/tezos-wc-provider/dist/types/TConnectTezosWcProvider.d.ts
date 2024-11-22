@@ -4,6 +4,8 @@ import { TezosWcNetwork } from '@tconnect.io/tezos-wc-api-types';
 import { RequestSignPayloadInput, TConnectTezosWcProviderEvents, TConnectTezosWcProviderOptions, TezosWcWalletApp } from './types';
 export declare class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderEvents> implements WalletProvider {
     constructor(options: TConnectTezosWcProviderOptions);
+    readonly appName: string;
+    readonly appUrl: string;
     readonly bridgeUrl: string;
     readonly walletApp: TezosWcWalletApp | undefined;
     readonly network: TezosWcNetwork;
@@ -16,7 +18,7 @@ export declare class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcP
     connected(): Promise<boolean>;
     disconnect(): Promise<void>;
     serialize(): string;
-    static deserialize(serialized: string): Promise<TConnectTezosWcProvider>;
+    static deserialize(json: string): Promise<TConnectTezosWcProvider>;
     private _reconnect;
     getPKH(): Promise<string>;
     getPK(): Promise<string>;

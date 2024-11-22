@@ -1,5 +1,24 @@
+/**
+ * Represents the different types of errors that can occur in the Tezos WalletConnect API.
+ *
+ * @typedef {('generic' | 'invalidSessionId' | 'invalidApiKey' | 'walletRequestFailed')} TezosWcErrorType
+ *
+ * @property {'generic'} generic - A generic error type for unspecified errors.
+ * @property {'invalidSessionId'} invalidSessionId - Error type indicating an invalid session ID.
+ * @property {'invalidApiKey'} invalidApiKey - Error type indicating an invalid API key.
+ * @property {'walletRequestFailed'} walletRequestFailed - Error type indicating that a wallet request has failed.
+ */
 export type TezosWcErrorType = 'generic' | 'invalidSessionId' | 'invalidApiKey' | 'walletRequestFailed';
 
+/**
+ * Represents the available Tezos WalletConnect networks.
+ *
+ * @typedef {TezosWcNetwork}
+ * @type {'mainnet' | 'ghostnet'}
+ *
+ * @property {'mainnet'} mainnet - The main Tezos network.
+ * @property {'ghostnet'} ghostnet - The Tezos test network.
+ */
 export type TezosWcNetwork = 'mainnet' | 'ghostnet';
 
 export interface TezosWcConnectRequest {
@@ -7,6 +26,8 @@ export interface TezosWcConnectRequest {
 	payload: {
 		apiKey: string;
 		network: TezosWcNetwork;
+		appName: string;
+		appUrl: string;
 	};
 }
 

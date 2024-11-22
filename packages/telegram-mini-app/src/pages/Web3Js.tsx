@@ -2,7 +2,8 @@ import { EvmWalletApp, TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { memo, useCallback, useState } from 'react';
 import Web3 from 'web3';
 import { Evm, Step } from '../components/Evm';
-import { BRIDGE_URL } from '../environment';
+import { APP_NAME } from '../constants/constants';
+import { APP_URL, BRIDGE_URL } from '../constants/environment';
 
 export const Web3Js = memo(() => {
 	const [step, setStep] = useState<Step>('start');
@@ -17,7 +18,13 @@ export const Web3Js = memo(() => {
 		try {
 			setStep('connecting');
 
-			const provider = new TConnectEvmProvider({ bridgeUrl: BRIDGE_URL, walletApp, apiKey: 'a' });
+			const provider = new TConnectEvmProvider({
+				appName: APP_NAME,
+				appUrl: APP_URL,
+				bridgeUrl: BRIDGE_URL,
+				walletApp,
+				apiKey: 'a',
+			});
 
 			provider
 				.on('connect', () => {

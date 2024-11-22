@@ -6,5 +6,5 @@ exports.SOCKET_IO_PATH = exports.BASE_PATH + '/socket.io';
 exports.HEALTH_PATH = exports.BASE_PATH + '/health';
 exports.REQUEST_CHANNEL = 'tezosBeaconRequest';
 exports.EVENT_CHANNEL = 'tezosBeaconEvent';
-exports.secretbox_NONCEBYTES = 24; // crypto_secretbox_NONCEBYTES
+exports.secretbox_NONCEBYTES = 24;
 //# sourceMappingURL=constants.js.map

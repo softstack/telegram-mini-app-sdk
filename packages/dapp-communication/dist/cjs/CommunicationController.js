@@ -19,7 +19,7 @@ class CommunicationController extends core_1.TypedEvent {
         }
         this._socket = (0, socket_io_client_1.io)(this.bridgeUrl, {
             path: this.path,
-            transports: ['polling'], // Use long polling only
+            transports: ['polling'],
         });
         this._socket.on('error', (error) => {
             try {
@@ -99,8 +99,8 @@ class CommunicationController extends core_1.TypedEvent {
             eventChannel: this.eventChannel,
         });
     }
-    static deserialize(serialized) {
-        const { bridgeUrl, path, requestChannel, eventChannel } = (0, core_1.parse)(serialized);
+    static deserialize(json) {
+        const { bridgeUrl, path, requestChannel, eventChannel } = (0, core_1.parse)(json);
         return new CommunicationController(bridgeUrl, path, requestChannel, eventChannel);
     }
 }

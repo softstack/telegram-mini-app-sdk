@@ -2,6 +2,8 @@ import { ReactNode } from 'react';
 import { TConnectModalContextValue } from '../types';
 export declare const TConnectModalContext: import("react").Context<TConnectModalContextValue>;
 export interface TConnectModalProviderProps {
+    appName: string;
+    appUrl: string;
     bridgeUrl: string;
     apiKey: string;
     networkFilter?: Array<'etherlink' | 'tezos'>;

@@ -20,6 +20,19 @@ export interface PngIconProps extends HTMLAttributes<HTMLImageElement> {
 	width: number;
 }
 
+/**
+ * A memoized functional component that renders an image based on the provided icon name.
+ *
+ * @param {PngIconProps} props - The properties for the PngIcon component.
+ * @param {string} props.icon - The name of the icon to be displayed. Possible values are:
+ *   'airGap', 'altme', 'bitget', 'etherlink', 'kukai', 'metaMask', 'rainbow', 'safePal', 'temple', 'tezos', 'transparent', 'trust'.
+ * @param {string | number} props.height - The height of the image.
+ * @param {string | number} props.width - The width of the image.
+ * @param {string} [props.className] - Additional CSS classes to apply to the image.
+ * @param {object} [props.props] - Additional properties to spread onto the img element.
+ *
+ * @returns {JSX.Element} The rendered img element with the specified icon.
+ */
 export const PngIcon = memo<PngIconProps>(({ icon, height, width, className, ...props }) => {
 	const src = useMemo<string>(() => {
 		switch (icon) {

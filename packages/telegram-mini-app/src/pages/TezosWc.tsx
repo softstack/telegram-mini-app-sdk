@@ -2,7 +2,8 @@ import { TezosToolkit } from '@taquito/taquito';
 import { TConnectTezosWcProvider, TezosWcWalletApp } from '@tconnect.io/tezos-wc-provider';
 import { QRCodeCanvas } from 'qrcode.react';
 import { memo, useCallback, useState } from 'react';
-import { BRIDGE_URL } from '../environment';
+import { APP_NAME } from '../constants/constants';
+import { APP_URL, BRIDGE_URL } from '../constants/environment';
 import { handleError } from '../utils';
 
 export const TezosWc = memo(() => {
@@ -21,6 +22,8 @@ export const TezosWc = memo(() => {
 			setStep('connecting');
 			const tezos = new TezosToolkit('https://rpc.ghostnet.teztnets.com'); // Ghostnet
 			const provider = new TConnectTezosWcProvider({
+				appName: APP_NAME,
+				appUrl: APP_URL,
 				bridgeUrl: BRIDGE_URL,
 				apiKey: 'a',
 				walletApp,

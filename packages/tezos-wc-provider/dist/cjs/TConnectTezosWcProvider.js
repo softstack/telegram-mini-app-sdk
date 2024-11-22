@@ -15,6 +15,8 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
     constructor(options) {
         super();
         this._permissionRequestCallbacks = new core_1.CallbackController(1000 * 60 * 60);
+        this.appName = options.appName;
+        this.appUrl = options.appUrl;
         this._apiKey = options.apiKey;
         this.bridgeUrl = options.bridgeUrl;
         this.walletApp = options.walletApp;
@@ -29,13 +31,12 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
         this._communicationController.on('event', this._createTezosWcEventHandler());
         const { payload: { sessionId, walletConnectUri }, } = await this._sendTezosWcRequest({
             type: 'connect',
-            payload: { apiKey: this._apiKey, network: this.network },
+            payload: { apiKey: this._apiKey, network: this.network, appName: this.appName, appUrl: this.appUrl },
         });
         this._sessionId = sessionId;
         this._walletConnectUri = walletConnectUri;
         const callbackPromise = this._permissionRequestCallbacks.addCallback(sessionId);
         if (this.walletApp) {
-            // Android needs a second reminder to open the link
             if ((0, dapp_utils_1.isAndroid)()) {
                 sdk_1.default.openLink((0, utils_1.getWalletConnectUniversalLink)(this.walletApp, walletConnectUri), { try_instant_view: true });
                 await (0, core_1.sleep)(1000);
@@ -69,6 +70,8 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
     }
     serialize() {
         return (0, core_1.stringify)({
+            appName: this.appName,
+            appUrl: this.appUrl,
             bridgeUrl: this.bridgeUrl,
             walletApp: this.walletApp,
             network: this.network,
@@ -78,9 +81,11 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
             _walletConnectUri: this._getWalletConnectUri(),
         });
     }
-    static async deserialize(serialized) {
-        const data = (0, core_1.parse)(serialized);
+    static async deserialize(json) {
+        const data = (0, core_1.parse)(json);
         const provider = new TConnectTezosWcProvider({
+            appName: data.appName,
+            appUrl: data.appUrl,
             bridgeUrl: data.bridgeUrl,
             apiKey: data._apiKey,
             walletApp: data.walletApp,
@@ -97,7 +102,6 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
         await this._communicationController.connect();
         await this._sendTezosWcRequest({ type: 'reconnect', sessionId: this._getSessionId() });
     }
-    // Start WalletProvider
     async getPKH() {
         const accounts = await this._getAccounts();
         return accounts.address;
@@ -106,7 +110,6 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
         const accounts = await this._getAccounts();
         return accounts.pubkey;
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async mapTransferParamsToWalletParams(params) {
         const transferParameters = await params();
         console.log('mapTransferParamsToWalletParams()', transferParameters);
@@ -121,35 +124,27 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
             ],
         };
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     mapTransferTicketParamsToWalletParams(params) {
         throw new Error('mapTransferTicketParamsToWalletParams not implemented.');
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     mapStakeParamsToWalletParams(params) {
         throw new Error('mapStakeParamsToWalletParams not implemented.');
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     mapUnstakeParamsToWalletParams(params) {
         throw new Error('mapUnstakeParamsToWalletParams not implemented.');
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     mapFinalizeUnstakeParamsToWalletParams(params) {
         throw new Error('mapFinalizeUnstakeParamsToWalletParams not implemented.');
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     mapOriginateParamsToWalletParams(params) {
         throw new Error('mapOriginateParamsToWalletParams not implemented.');
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     mapDelegateParamsToWalletParams(params) {
         throw new Error('mapDelegateParamsToWalletParams not implemented.');
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     mapIncreasePaidStorageWalletParams(params) {
         throw new Error('mapIncreasePaidStorageWalletParams not implemented.');
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async sendOperations(params) {
         console.log('sendOperations()', params);
         const response = await this._sendTezosWcRequest({
@@ -177,7 +172,6 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
             sourceAddress: await this.getPKH(),
         });
     }
-    // End WalletProvider
     async requestSignPayload(input) {
         const { signingType, payload, sourceAddress } = input;
         switch (signingType) {

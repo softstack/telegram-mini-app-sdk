@@ -1,26 +1,110 @@
+/**
+ * Represents the supported Tezos Wallet Connect applications.
+ *
+ * Currently, the only supported application is 'kukai'.
+ */
 export type TezosWcWalletApp = 'kukai';
 
 export type SigningType = 'raw' | 'operation' | 'micheline';
 
+/**
+ * Represents the available Tezos networks.
+ *
+ * @typedef {('mainnet' | 'ghostnet')} Network
+ *
+ * @property {'mainnet'} mainnet - The main Tezos network.
+ * @property {'ghostnet'} ghostnet - The Tezos test network.
+ */
 export type Network = 'mainnet' | 'ghostnet';
 
+/**
+ * Options for connecting a Tezos WalletConnect provider.
+ */
 export interface TConnectTezosWcProviderOptions {
+	/**
+	 * The name of the application.
+	 */
+	appName: string;
+
+	/**
+	 * The URL of the application.
+	 */
+	appUrl: string;
+
+	/**
+	 * The API key used for authentication.
+	 */
 	apiKey: string;
+
+	/**
+	 * The network to connect to (e.g., mainnet, testnet).
+	 */
 	network: Network;
+
+	/**
+	 * The URL of the WalletConnect bridge server.
+	 */
 	bridgeUrl: string;
+
+	/**
+	 * Optional: The wallet application to use for WalletConnect.
+	 */
 	walletApp?: TezosWcWalletApp;
 }
 
+/**
+ * Represents a serialized Tezos WalletConnect provider.
+ */
 export interface SerializedTConnectTezosWcProvider {
+	/**
+	 * The name of the application.
+	 */
+	appName: string;
+
+	/**
+	 * The URL of the application.
+	 */
+	appUrl: string;
+
+	/**
+	 * The wallet application used for Tezos WalletConnect.
+	 */
 	walletApp: TezosWcWalletApp | undefined;
+
+	/**
+	 * The network configuration for the Tezos blockchain.
+	 */
 	network: Network;
+
+	/**
+	 * The URL of the bridge server used for WalletConnect communication.
+	 */
 	bridgeUrl: string;
+
+	/**
+	 * The API key used for authentication.
+	 */
 	_apiKey: string;
+
+	/**
+	 * The communication controller identifier.
+	 */
 	_communicationController: string;
+
+	/**
+	 * The session identifier for the WalletConnect session.
+	 */
 	_sessionId: string;
+
+	/**
+	 * The URI for the WalletConnect connection.
+	 */
 	_walletConnectUri: string;
 }
 
+/**
+ * Interface representing the events for connecting to the Tezos WalletConnect provider.
+ */
 export interface TConnectTezosWcProviderEvents {
 	connectionString: string;
 	disconnect: undefined;

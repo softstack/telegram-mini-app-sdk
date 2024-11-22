@@ -33,9 +33,19 @@ import {
 import { getUniversalLink, getWalletConnectUniversalLink } from './utils';
 import { validateEvmEvent, validateEvmResponse } from './validation';
 
+/**
+ * The TConnectEvmProvider class provides an implementation of the EIP-1193 provider interface
+ * for connecting to an EVM-compatible blockchain via a bridge URL and a wallet application.
+ * It extends the TypedEvent class to handle various events related to the connection and requests.
+ *
+ * @extends TypedEvent<TConnectEvmProviderEvents>
+ * @implements {EIP1193Provider}
+ */
 export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> implements EIP1193Provider {
 	constructor(options: TConnectEvmProviderOptions) {
 		super();
+		this.appName = options.appName;
+		this.appUrl = options.appUrl;
 		this.bridgeUrl = options.bridgeUrl;
 		this.walletApp = options?.walletApp;
 		this._apiKey = options.apiKey;
@@ -47,14 +57,73 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 		);
 	}
 
+	/**
+	 * The name of the application.
+	 * This property is read-only and is used to identify the application.
+	 */
+	readonly appName: string;
+	/**
+	 * The URL of the application that is using the EVM provider.
+	 * This is a read-only property.
+	 */
+	readonly appUrl: string;
+	/**
+	 * The URL of the bridge service that the provider will use to communicate with the EVM network.
+	 * This URL is required to establish a connection and perform operations on the EVM network.
+	 */
 	readonly bridgeUrl: string;
+	/**
+	 * The wallet application instance for interacting with the EVM (Ethereum Virtual Machine).
+	 * This property is read-only and may be undefined if the wallet application is not initialized.
+	 */
 	readonly walletApp: EvmWalletApp | undefined;
 
+	/**
+	 * The API key used for authentication with the EVM provider.
+	 *
+	 * @private
+	 */
 	private readonly _apiKey: string;
+	/**
+	 * A private instance of CommunicationController used to handle communication
+	 * between the EVM provider and the external environment. It processes EVM requests,
+	 * responses, and events.
+	 *
+	 * @private
+	 */
 	private _communicationController: CommunicationController<EvmRequest, EvmResponse, EvmEvent>;
+	/**
+	 * A unique identifier for the current session.
+	 * This identifier is used to track and manage the session state.
+	 * It can be undefined if no session is currently active.
+	 *
+	 * @private
+	 */
 	private _sessionId: string | undefined;
+	/**
+	 * The URI used to establish a connection with a WalletConnect session.
+	 * This property may be undefined if the URI has not been set.
+	 *
+	 * @private
+	 */
 	private _walletConnectUri: string | undefined;
 
+	/**
+	 * Establishes a connection with the EVM provider.
+	 *
+	 * If already connected, it will first disconnect before attempting to reconnect.
+	 * Once connected, it sets up an event handler for communication events.
+	 *
+	 * The method sends a request to establish a connection using the provided API key.
+	 * Upon successful connection, it retrieves the session ID and WalletConnect URI.
+	 *
+	 * If a wallet application is specified, it attempts to open the WalletConnect link.
+	 * For Android devices, it sends the link twice with a delay to ensure it opens.
+	 *
+	 * Finally, it emits the connection string (WalletConnect URI) for further use.
+	 *
+	 * @returns {Promise<void>} A promise that resolves when the connection process is complete.
+	 */
 	async connect(): Promise<void> {
 		if (this._communicationController.connected()) {
 			await this.disconnect();
@@ -67,7 +136,7 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 			payload: { sessionId, walletConnectUri },
 		} = await this._sendEvmRequest({
 			type: 'connect',
-			payload: { apiKey: this._apiKey },
+			payload: { apiKey: this._apiKey, appName: this.appName, appUrl: this.appUrl },
 		});
 		this._sessionId = sessionId;
 		this._walletConnectUri = walletConnectUri;
@@ -84,6 +153,14 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 		this.emit('connectionString', walletConnectUri);
 	}
 
+	/**
+	 * Checks if the provider is connected.
+	 *
+	 * This method verifies if there is an active session and if the communication controller is connected.
+	 * It then sends a request to check the connection status and returns the result.
+	 *
+	 * @returns {Promise<boolean>} A promise that resolves to `true` if connected, otherwise `false`.
+	 */
 	async connected(): Promise<boolean> {
 		if (!this._sessionId || !this._communicationController.connected()) {
 			return false;
@@ -95,6 +172,23 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 		return response.payload.connected;
 	}
 
+	/**
+	 * Handles Ethereum JSON-RPC requests and sends them to the communication controller.
+	 * If the wallet application is set and is not 'bitget', it opens a universal link for certain methods.
+	 *
+	 * @param {RequestArguments} args - The arguments for the JSON-RPC request.
+	 * @returns {Promise<unknown>} A promise that resolves with the response payload.
+	 *
+	 * @remarks
+	 * The method handles the following Ethereum JSON-RPC methods by opening a universal link:
+	 * - 'eth_sendTransaction'
+	 * - 'eth_sign'
+	 * - 'eth_signTransaction'
+	 * - 'eth_signTypedData'
+	 * - 'eth_signTypedData_v3'
+	 * - 'eth_signTypedData_v4'
+	 * - 'personal_sign'
+	 */
 	async request(args: RequestArguments): Promise<unknown> {
 		if (this.walletApp && this.walletApp !== 'bitget') {
 			switch (args.method) {
@@ -118,6 +212,16 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 		return response.payload;
 	}
 
+	/**
+	 * Disconnects the provider from the current session.
+	 *
+	 * This method sends a 'disconnect' message to the communication controller
+	 * and emits a 'disconnect' event with a `ProviderRpcError` indicating the
+	 * disconnection. It also ensures that the communication controller is
+	 * properly disconnected.
+	 *
+	 * @returns {Promise<void>} A promise that resolves when the disconnection process is complete.
+	 */
 	async disconnect(): Promise<void> {
 		try {
 			await this._communicationController.send({ type: 'disconnect', sessionId: this._getSessionId() });
@@ -127,8 +231,15 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 		}
 	}
 
+	/**
+	 * Serializes the TConnectEvmProvider instance into a JSON string.
+	 *
+	 * @returns {string} A JSON string representation of the TConnectEvmProvider instance.
+	 */
 	serialize(): string {
 		return stringify({
+			appName: this.appName,
+			appUrl: this.appUrl,
 			bridgeUrl: this.bridgeUrl,
 			walletApp: this.walletApp,
 			_apiKey: this._apiKey,
@@ -138,9 +249,17 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 		} satisfies SerializedTConnectEvmProvider);
 	}
 
-	static async deserialize(serialized: string): Promise<TConnectEvmProvider> {
-		const data = parse(serialized) as SerializedTConnectEvmProvider;
+	/**
+	 * Deserializes a JSON string into a `TConnectEvmProvider` instance.
+	 *
+	 * @param json - The JSON string to deserialize.
+	 * @returns A promise that resolves to a `TConnectEvmProvider` instance.
+	 */
+	static async deserialize(json: string): Promise<TConnectEvmProvider> {
+		const data = parse(json) as SerializedTConnectEvmProvider;
 		const provider = new TConnectEvmProvider({
+			appName: data.appName,
+			appUrl: data.appUrl,
 			bridgeUrl: data.bridgeUrl,
 			apiKey: data._apiKey,
 			walletApp: data.walletApp,
@@ -152,12 +271,39 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 		return provider;
 	}
 
+	/**
+	 * Reconnects the EVM provider by setting up the event handler and sending a reconnect request.
+	 *
+	 * This method performs the following steps:
+	 * 1. Registers an event handler for communication events.
+	 * 2. Establishes a connection with the communication controller.
+	 * 3. Sends a reconnect request with the current session ID.
+	 *
+	 * @returns {Promise<void>} A promise that resolves when the reconnection process is complete.
+	 * @private
+	 */
 	private async _reconnect(): Promise<void> {
 		this._communicationController.on('event', this._createEvmEventHandler());
 		await this._communicationController.connect();
 		await this._sendEvmRequest({ type: 'reconnect', sessionId: this._getSessionId() });
 	}
 
+	/**
+	 * Creates an event handler for EVM events.
+	 *
+	 * This handler validates incoming EVM events and emits corresponding events
+	 * based on the event type. The supported event types are:
+	 * - 'connect': Emitted when a connection is established.
+	 * - 'message': Emitted when a message is received.
+	 * - 'chainChanged': Emitted when the blockchain chain is changed.
+	 * - 'accountsChanged': Emitted when the accounts are changed.
+	 * - 'disconnect': Emitted when a disconnection occurs, with an error message, code, and data.
+	 *
+	 * If an error occurs during event validation or handling, it is logged to the console.
+	 *
+	 * @returns {Function} A function that handles EVM events.
+	 * @private
+	 */
 	private _createEvmEventHandler() {
 		return (event: EvmEvent): void => {
 			try {
@@ -191,6 +337,14 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 		};
 	}
 
+	/**
+	 * Sends an EVM request and returns the response after validation.
+	 *
+	 * @param evmRequest - The EVM request to be sent.
+	 * @returns A promise that resolves to the EVM response.
+	 * @throws Will throw an error if there is no connection, if the response contains an error, or if the response type does not match the request type.
+	 * @private
+	 */
 	private async _sendEvmRequest(evmRequest: EvmConnectRequest): Promise<EvmConnectResponse>;
 	private async _sendEvmRequest(evmRequest: EvmConnectedRequest): Promise<EvmConnectedResponse>;
 	private async _sendEvmRequest(evmRequest: EvmRequestRequest): Promise<EvmRequestResponse>;
@@ -222,6 +376,13 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 		return evmResponse;
 	}
 
+	/**
+	 * Retrieves the current session ID.
+	 *
+	 * @returns {string} The session ID.
+	 * @throws {Error} If the session ID is not set.
+	 * @private
+	 */
 	private _getSessionId(): string {
 		if (!this._sessionId) {
 			throw new Error('Session ID is not set');
@@ -229,6 +390,13 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 		return this._sessionId;
 	}
 
+	/**
+	 * Retrieves the WalletConnect URI.
+	 *
+	 * @returns {string} The WalletConnect URI.
+	 * @throws {Error} If the WalletConnect URI is not set.
+	 * @private
+	 */
 	private _getWalletConnectUri(): string {
 		if (!this._walletConnectUri) {
 			throw new Error('WalletConnect URI is not set');

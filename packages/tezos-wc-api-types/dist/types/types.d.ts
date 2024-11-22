@@ -5,6 +5,8 @@ export interface TezosWcConnectRequest {
     payload: {
         apiKey: string;
         network: TezosWcNetwork;
+        appName: string;
+        appUrl: string;
     };
 }
 export interface TezosWcConnectResponse {

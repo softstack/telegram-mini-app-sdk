@@ -20,11 +20,11 @@ const validation_1 = require("./validation");
 class TConnectTezosBeaconProvider extends core_1.TypedEvent {
     constructor(options) {
         super();
-        this.appName = 'Bridge App';
-        this.appUrl = 'http://localhost';
         this._permissionRequestCallbacks = new core_1.CallbackController(1000 * 60 * 60);
         this._operationRequestCallbacks = new core_1.CallbackController(1000 * 60 * 60);
         this._signPayloadRequestCallbacks = new core_1.CallbackController(1000 * 60 * 60);
+        this.appName = options.appName;
+        this.appUrl = options.appUrl;
         this._secretSeed = options.secretSeed;
         this._apiKey = options.apiKey;
         this._genericWalletUrl = options.genericWalletUrl ?? constants_1.GENERIC_WALLET_URL;
@@ -63,7 +63,6 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         this.emit('connectionString', loginResponse.payload.connectionString);
         return callbackPromise;
     }
-    // Start WalletProvider
     async getPKH() {
         return (0, utils_1.getAddressFromPublicKey)(this._getPublicKey());
     }
@@ -92,7 +91,6 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
     async mapStakeParamsToWalletParams(params) {
         const stakeParameters = await params();
         console.log('mapStakeParamsToWalletParams()', stakeParameters);
-        // throw new Error('mapStakeParamsToWalletParams not implemented yet');
         return {
             amount: (0, base_1.formatTransactionAmount)(stakeParameters.amount, stakeParameters.mutez),
             destination: stakeParameters.to ?? (0, utils_1.getAddressFromPublicKey)(this._getPublicKey()),
@@ -107,7 +105,6 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
     async mapUnstakeParamsToWalletParams(params) {
         const unstakeParameters = await params();
         console.log('mapUnstakeParamsToWalletParams()', unstakeParameters);
-        // throw new Error('mapUnstakeParamsToWalletParams not implemented yet');
         return {
             amount: (0, base_1.formatTransactionAmount)(unstakeParameters.amount, unstakeParameters.mutez),
             destination: unstakeParameters.to ?? (0, utils_1.getAddressFromPublicKey)(this._getPublicKey()),
@@ -122,7 +119,6 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
     async mapFinalizeUnstakeParamsToWalletParams(params) {
         const finalizeUnstakeParameters = await params();
         console.log('mapFinalizeUnstakeParamsToWalletParams()', finalizeUnstakeParameters);
-        // throw new Error('mapFinalizeUnstakeParamsToWalletParams not implemented yet');
         if (finalizeUnstakeParameters.amount === undefined) {
             throw new Error('Amount is required');
         }
@@ -145,19 +141,10 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         const originateParameters = await params();
         console.log('mapOriginateParamsToWalletParams()', originateParameters);
         throw new Error('mapOriginateParamsToWalletParams not implemented yet');
-        // const { code, init, storage, storageLimit, balance, delegate, fee, gasLimit, mutez } = originateParameters;
-        // const script = {
-        // 	code,
-        // 	storage: contractStorage,
-        // };
-        // return {
-        // 	kind: 'origination',
-        // };
     }
     async mapDelegateParamsToWalletParams(params) {
         const delegateParameters = await params();
         console.log('mapDelegateParamsToWalletParams()', delegateParameters);
-        // throw new Error('mapDelegateParamsToWalletParams not implemented yet');
         return {
             delegate: delegateParameters.delegate,
             fee: delegateParameters.fee === undefined ? undefined : (0, base_1.toIntegerString)(delegateParameters.fee),
@@ -169,7 +156,6 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
     async mapIncreasePaidStorageWalletParams(params) {
         const increasePaidStorageParameters = await params();
         console.log('mapIncreasePaidStorageWalletParams()', increasePaidStorageParameters);
-        // throw new Error('mapIncreasePaidStorageWalletParams not implemented yet');
         return {
             amount: (0, base_1.formatTransactionAmount)(increasePaidStorageParameters.amount, true),
             destination: increasePaidStorageParameters.destination,
@@ -187,7 +173,6 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
     }
     async sendOperations(params) {
         console.log('sendOperations()', params);
-        // throw new Error('sendOperations not implemented yet');
         const response = await this._sendTezosMessage({
             type: 'operation_request',
             network: this.network,
@@ -198,7 +183,6 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
     }
     async sign(bytes, watermark) {
         console.log('sign()', bytes, watermark);
-        // throw new Error('sign not implemented yet');
         if (watermark?.length !== 1 || watermark[0] !== 3) {
             throw new Error('Watermark is not supported');
         }
@@ -210,17 +194,8 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
             sourceAddress: (0, utils_1.getAddressFromPublicKey)(this._getPublicKey()),
             signingType: 'operation',
         });
-        // {
-        // 	senderId: 'KrQ7LXN3y4s9',
-        // 	version: '2',
-        // 	type: 'sign_payload_response',
-        // 	id: 'ef8f3ee2-9227-4d47-91c1-b23bd0c09257',
-        // 	signature: 'edsigtYbtuLERD1iKsE5RmG1rFGPjqmbK9EvYzTTPK1yvgJ2fi4SPm2s4HYCZh1MRHodniFL3gKGfK7pi5kaW618QeTdjFLn4ta',
-        // 	signingType: 'raw',
-        // }
         return response.signature;
     }
-    // End WalletProvider
     async requestSignPayload(input) {
         const { signingType, payload, sourceAddress } = input;
         switch (signingType) {
@@ -276,6 +251,8 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
     static async deserialize(serialized) {
         const data = (0, core_1.parse)(serialized);
         const provider = new TConnectTezosBeaconProvider({
+            appName: data.appName,
+            appUrl: data.appUrl,
             secretSeed: data._secretSeed,
             apiKey: data._apiKey,
             network: data.network,

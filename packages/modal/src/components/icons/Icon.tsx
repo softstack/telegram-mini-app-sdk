@@ -10,6 +10,14 @@ export interface IconProps {
 	className?: string;
 }
 
+/**
+ * A memoized functional component that renders an icon based on the provided `icon` prop.
+ * It determines whether the icon is a PNG or SVG and renders the appropriate component.
+ *
+ * @param {IconProps} props - The properties for the Icon component.
+ * @param {string} props.icon - The name of the icon to be rendered.
+ * @returns {JSX.Element} The rendered icon component, either a `PngIcon` or `SvgIcon`.
+ */
 export const Icon = memo<IconProps>(({ icon, ...props }) => {
 	const isPngIcon = useMemo(() => {
 		switch (icon) {

@@ -20,7 +20,7 @@ import { Row } from '../components/flex/Row';
 import { Header } from '../components/Header';
 import { NETWORKS } from '../constants';
 import { nextVersion, useDarkMode, useVersionedState } from '../utils';
-export const TConnectModal = memo(({ bridgeUrl, apiKey, networkFilter, genericWalletUrl, step, onChangeStep, currentNetwork, onChangeCurrentNetwork, currentWallet, onChangeCurrentWallet, evmProvider, onChangeEvmProvider, tezosBeaconProvider, onChangeTezosBeaconProvider, tezosWcProvider, onChangeTezosWcProvider, onDisconnect, onClose, onError, }) => {
+export const TConnectModal = memo(({ appName, appUrl, bridgeUrl, apiKey, networkFilter, genericWalletUrl, step, onChangeStep, currentNetwork, onChangeCurrentNetwork, currentWallet, onChangeCurrentWallet, evmProvider, onChangeEvmProvider, tezosBeaconProvider, onChangeTezosBeaconProvider, tezosWcProvider, onChangeTezosWcProvider, onDisconnect, onClose, onError, }) => {
     const darkMode = useDarkMode();
     const backgroundElement = useRef(null);
     const [showNetworks, setShowNetworks] = useState(true);
@@ -129,7 +129,13 @@ export const TConnectModal = memo(({ bridgeUrl, apiKey, networkFilter, genericWa
             onChangeCurrentWallet(wallet);
             switch (wallet.network) {
                 case 'evm': {
-                    const provider = new TConnectEvmProvider({ bridgeUrl, walletApp: wallet.walletApp, apiKey });
+                    const provider = new TConnectEvmProvider({
+                        appName,
+                        appUrl,
+                        bridgeUrl,
+                        walletApp: wallet.walletApp,
+                        apiKey,
+                    });
                     provider.once('connect', (info) => {
                         if (BigInt(info.chainId) === ETHERLINK_CHAIN_ID) {
                             onChangeStep('connected');
@@ -146,6 +152,8 @@ export const TConnectModal = memo(({ bridgeUrl, apiKey, networkFilter, genericWa
                     switch (wallet.bridge) {
                         case 'beacon': {
                             const provider = new TConnectTezosBeaconProvider({
+                                appName,
+                                appUrl,
                                 bridgeUrl,
                                 walletApp: wallet.walletApp,
                                 secretSeed: crypto.randomUUID(),
@@ -159,6 +167,8 @@ export const TConnectModal = memo(({ bridgeUrl, apiKey, networkFilter, genericWa
                         }
                         case 'wc': {
                             const provider = new TConnectTezosWcProvider({
+                                appName,
+                                appUrl,
                                 bridgeUrl,
                                 walletApp: wallet.walletApp,
                                 apiKey,
@@ -179,6 +189,8 @@ export const TConnectModal = memo(({ bridgeUrl, apiKey, networkFilter, genericWa
     }, [
         onChangeStep,
         onChangeCurrentWallet,
+        appName,
+        appUrl,
         bridgeUrl,
         apiKey,
         genericWalletUrl,
@@ -187,30 +199,6 @@ export const TConnectModal = memo(({ bridgeUrl, apiKey, networkFilter, genericWa
         onChangeTezosWcProvider,
         onError,
     ]);
-    // const handleAddEtherlink = useCallback(async () => {
-    // 	try {
-    // 		if (evmProvider) {
-    // 			await evmProvider.request({
-    // 				method: 'wallet_addEthereumChain',
-    // 				params: [
-    // 					{
-    // 						chainId: '0xa729',
-    // 						chainName: 'Etherlink Mainnet',
-    // 						nativeCurrency: {
-    // 							name: 'Tezos',
-    // 							symbol: 'XTZ',
-    // 							decimals: 18,
-    // 						},
-    // 						rpcUrls: ['https://node.mainnet.etherlink.com'],
-    // 						blockExplorerUrls: ['https://explorer.etherlink.com'],
-    // 					},
-    // 				],
-    // 			});
-    // 		}
-    // 	} catch (error) {
-    // 		onError(error);
-    // 	}
-    // }, [evmProvider, onError]);
     const toggleShowShortAddress = useCallback(() => {
         try {
             setShowShortAddress((prevShowShortAddress) => !prevShowShortAddress);

@@ -24,7 +24,6 @@ const getUniversalLink = (walletApp) => {
 exports.getUniversalLink = getUniversalLink;
 const getWalletConnectUniversalLink = (walletApp, walletConnectUri) => {
     let encodedUri = encodeURIComponent(walletConnectUri);
-    // Double encode for Android
     if ((0, dapp_utils_1.isAndroid)()) {
         encodedUri = encodeURIComponent(encodedUri);
     }

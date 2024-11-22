@@ -2,7 +2,8 @@ import { TezosToolkit } from '@taquito/taquito';
 import { TConnectTezosBeaconProvider, TezosBeaconWalletApp } from '@tconnect.io/tezos-beacon-provider';
 import { QRCodeCanvas } from 'qrcode.react';
 import { memo, useCallback, useMemo, useState } from 'react';
-import { BRIDGE_URL, GENERIC_WALLET_URL } from '../environment';
+import { APP_NAME } from '../constants/constants';
+import { APP_URL, BRIDGE_URL, GENERIC_WALLET_URL } from '../constants/environment';
 
 export const TezosBeacon = memo(() => {
 	const [step, setStep] = useState<'start' | 'connecting' | 'connected'>('start');
@@ -27,6 +28,8 @@ export const TezosBeacon = memo(() => {
 			setStep('connecting');
 			const tezos = new TezosToolkit('https://rpc.ghostnet.teztnets.com'); // Ghostnet
 			const provider = new TConnectTezosBeaconProvider({
+				appName: APP_NAME,
+				appUrl: APP_URL,
 				bridgeUrl: BRIDGE_URL,
 				secretSeed,
 				apiKey: 'a',

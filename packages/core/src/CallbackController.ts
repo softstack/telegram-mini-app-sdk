@@ -9,7 +9,22 @@ export class CallbackController<Response, Id = string> {
 		this._timeout = timeout;
 	}
 
+	/**
+	 * The timeout duration in milliseconds for the callback controller.
+	 * This value determines how long the controller will wait before timing out.
+	 *
+	 * @private
+	 */
 	private readonly _timeout: number;
+	/**
+	 * A map that stores callback functions for handling responses and errors.
+	 * The key is an identifier of type `Id`, and the value is an object containing
+	 * `resolve` and `reject` functions. The `resolve` function is called with a
+	 * `Response` object when the operation is successful, and the `reject` function
+	 * is called with an `Error` object when the operation fails.
+	 *
+	 * @private
+	 */
 	private readonly _callbacks = new Map<
 		Id,
 		{ resolve: (response: Response) => void; reject: (error: Error) => void }

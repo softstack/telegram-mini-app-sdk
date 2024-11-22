@@ -4,7 +4,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Bounce, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Col } from 'telegram-mini-app/src/components/flex/Col';
-import { API_KEY, BRIDGE_URL, GENERIC_WALLET_URL } from './environment';
+import { APP_NAME } from './constants/constants';
+import { API_KEY, APP_URL, BRIDGE_URL, GENERIC_WALLET_URL } from './constants/environment';
 import { Ethers } from './pages/Ethers';
 import { Fallback } from './pages/Fallback';
 import { Main } from './pages/Main';
@@ -45,6 +46,8 @@ export const App = (): JSX.Element => {
 	return (
 		<Fragment>
 			<TConnectModalProvider
+				appName={APP_NAME}
+				appUrl={APP_URL}
 				bridgeUrl={BRIDGE_URL}
 				apiKey={API_KEY}
 				genericWalletUrl={GENERIC_WALLET_URL}

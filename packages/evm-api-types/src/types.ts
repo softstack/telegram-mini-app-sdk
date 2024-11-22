@@ -1,3 +1,13 @@
+/**
+ * Represents the different types of errors that can occur in the EVM bridge API.
+ *
+ * @typedef {('generic' | 'invalidSessionId' | 'walletRequestFailed' | 'invalidApiKey')} EvmErrorType
+ *
+ * @property {'generic'} generic - A generic error type for unspecified errors.
+ * @property {'invalidSessionId'} invalidSessionId - Error type indicating an invalid session ID.
+ * @property {'walletRequestFailed'} walletRequestFailed - Error type indicating a failure in the wallet request.
+ * @property {'invalidApiKey'} invalidApiKey - Error type indicating an invalid API key.
+ */
 export type EvmErrorType = 'generic' | 'invalidSessionId' | 'walletRequestFailed' | 'invalidApiKey';
 
 // Start requests and responses
@@ -6,6 +16,8 @@ export interface EvmConnectRequest {
 	type: 'connect';
 	payload: {
 		apiKey: string;
+		appName: string;
+		appUrl: string;
 	};
 }
 

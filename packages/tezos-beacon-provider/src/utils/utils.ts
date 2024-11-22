@@ -123,6 +123,12 @@ export const decryptCryptoboxPayload = (payload: Uint8Array, sharedKey: Uint8Arr
 	return Buffer.from(openBox).toString('utf8');
 };
 
+/**
+ * Returns the universal link for a given Tezos wallet application.
+ *
+ * @param walletApp - The Tezos wallet application for which to get the universal link.
+ * @returns The universal link as a string if the wallet application is recognized, otherwise undefined.
+ */
 export const getUniversalLink = (walletApp: TezosBeaconWalletApp): string | undefined => {
 	switch (walletApp) {
 		case 'altme': {
@@ -137,6 +143,14 @@ export const getUniversalLink = (walletApp: TezosBeaconWalletApp): string | unde
 	}
 };
 
+/**
+ * Generates a connection string URL for a specified Tezos wallet application.
+ *
+ * @param walletApp - The Tezos wallet application for which the connection string URL is generated.
+ * @param connectionString - The connection string to be used for the wallet connection.
+ * @param genericWalletUrl - The generic wallet URL to be used if the wallet application is '_generic_'.
+ * @returns The generated connection string URL for the specified wallet application.
+ */
 export const getConnectionStringUniversalLink = (
 	walletApp: TezosBeaconWalletApp,
 	connectionString: string,
@@ -167,10 +181,17 @@ export const getConnectionStringUniversalLink = (
 	}
 };
 
+/**
+ * Checks if the given wallet application supports universal links.
+ *
+ * @param walletApp - The wallet application to check.
+ * @returns `true` if the wallet application supports universal links, otherwise `false`.
+ */
 export const isUniversalLinkWallet = (walletApp: TezosBeaconWalletApp): boolean => {
 	switch (walletApp) {
 		case 'altme':
-		case 'kukai': {
+		case 'kukai':
+		case 'temple': {
 			return true;
 		}
 	}

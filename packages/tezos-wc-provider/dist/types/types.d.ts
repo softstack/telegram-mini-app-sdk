@@ -2,12 +2,16 @@ export type TezosWcWalletApp = 'kukai';
 export type SigningType = 'raw' | 'operation' | 'micheline';
 export type Network = 'mainnet' | 'ghostnet';
 export interface TConnectTezosWcProviderOptions {
+    appName: string;
+    appUrl: string;
     apiKey: string;
     network: Network;
     bridgeUrl: string;
     walletApp?: TezosWcWalletApp;
 }
 export interface SerializedTConnectTezosWcProvider {
+    appName: string;
+    appUrl: string;
     walletApp: TezosWcWalletApp | undefined;
     network: Network;
     bridgeUrl: string;

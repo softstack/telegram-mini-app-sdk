@@ -34,6 +34,17 @@ export interface SvgIconProps extends Omit<SVGProps<SVGElement>, 'onLoad' | 'onE
 	icon: SvgIconType;
 }
 
+/**
+ * SvgIcon component is a memoized functional component that renders an SVG icon.
+ * It manages the loading state of the SVG source and updates the source when the icon prop changes.
+ *
+ * @param {SvgIconProps} props - The properties for the SvgIcon component.
+ * @param {string} props.icon - The name or path of the SVG icon to be displayed.
+ * @param {string} [props.className] - Optional additional class names to apply to the SVG element.
+ * @param {object} [props.props] - Additional properties to be spread onto the SVG element.
+ *
+ * @returns {JSX.Element} The rendered SVG icon component.
+ */
 export const SvgIcon = memo<SvgIconProps>(({ icon, className, ...props }) => {
 	const [src, setSrc] = useState(getSrc(icon));
 	const [isLoading, setIsLoading] = useState(true);

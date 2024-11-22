@@ -2,6 +2,29 @@ import { validateSchema } from '@tconnect.io/core';
 import { EvmErrorResponse, EvmEvent, EvmResponse } from '@tconnect.io/evm-api-types';
 import Joi from 'joi';
 
+/**
+ * Validates an EVM response object against a predefined schema.
+ *
+ * The function checks if the provided value matches one of the allowed schemas
+ * for EVM responses or EVM error responses. The schemas include various types
+ * of responses such as 'error', 'connect', 'connected', 'request', 'reconnect',
+ * and 'disconnect', each with their own specific payload requirements.
+ *
+ * @param value - The EVM response or error response to validate.
+ * @returns The validated EVM response or error response.
+ *
+ * @example
+ * ```typescript
+ * const response = {
+ *   type: 'connect',
+ *   payload: {
+ *     sessionId: '12345',
+ *     walletConnectUri: 'wc:...',
+ *   },
+ * };
+ * const validatedResponse = validateEvmResponse(response);
+ * ```
+ */
 export const validateEvmResponse = (value: EvmResponse | EvmErrorResponse): EvmResponse | EvmErrorResponse =>
 	validateSchema(
 		value,
@@ -48,6 +71,20 @@ export const validateEvmResponse = (value: EvmResponse | EvmErrorResponse): EvmR
 			.required(),
 	);
 
+/**
+ * Validates an EvmEvent object against predefined schemas.
+ *
+ * The function checks if the provided `value` matches one of the following schemas:
+ * - `connect`: An object with a `type` of 'connect' and a `payload` containing a `chainId` string.
+ * - `message`: An object with a `type` of 'message' and a `payload` containing a `type` string and `data` of any type.
+ * - `chainChanged`: An object with a `type` of 'chainChanged' and a `payload` string.
+ * - `accountsChanged`: An object with a `type` of 'accountsChanged' and a `payload` array of strings.
+ * - `disconnect`: An object with a `type` of 'disconnect' and a `payload` containing a `message` string, a `code` number, and `data` of any type.
+ *
+ * @param value - The EvmEvent object to validate.
+ * @returns The validated EvmEvent object.
+ * @throws Will throw an error if the `value` does not match any of the predefined schemas.
+ */
 export const validateEvmEvent = (value: EvmEvent): EvmEvent =>
 	validateSchema(
 		value,

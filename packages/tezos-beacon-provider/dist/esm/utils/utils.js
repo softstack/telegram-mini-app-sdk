@@ -15,17 +15,14 @@ export const getHexHash = (key) => {
 };
 export const getAddressFromPublicKey = (publicKey) => {
     const prefixes = {
-        // tz1...
         edpk: {
             length: 54,
             prefix: Buffer.from(new Uint8Array([6, 161, 159])),
         },
-        // tz2...
         sppk: {
             length: 55,
             prefix: Buffer.from(new Uint8Array([6, 161, 161])),
         },
-        // tz3...
         p2pk: {
             length: 55,
             prefix: Buffer.from(new Uint8Array([6, 161, 164])),
@@ -55,8 +52,8 @@ export const getAddressFromPublicKey = (publicKey) => {
     return bs58check.encode(Buffer.concat([prefix, Buffer.from(payload)]));
 };
 export const openCryptobox = (encryptedPayload, publicKey, privateKey) => {
-    const kxSelfPrivateKey = convertSecretKeyToX25519(Buffer.from(privateKey)); // Secret bytes to scalar bytes
-    const kxSelfPublicKey = convertPublicKeyToX25519(Buffer.from(publicKey)); // Secret bytes to scalar bytes
+    const kxSelfPrivateKey = convertSecretKeyToX25519(Buffer.from(privateKey));
+    const kxSelfPublicKey = convertPublicKeyToX25519(Buffer.from(publicKey));
     const bytesPayload = typeof encryptedPayload === 'string' ? encode(encryptedPayload) : encryptedPayload;
     const epk = bytesPayload.slice(0, 32);
     const ciphertext = bytesPayload.slice(32);
@@ -114,11 +111,6 @@ export const getUniversalLink = (walletApp) => {
     }
 };
 export const getConnectionStringUniversalLink = (walletApp, connectionString, genericWalletUrl) => {
-    // let encodedConnectionString = encodeURIComponent(connectionString);
-    // // Double encode for Android
-    // if (isAndroid() && walletApp !== '_generic_') {
-    // 	encodedConnectionString = encodeURIComponent(encodedConnectionString);
-    // }
     switch (walletApp) {
         case 'altme': {
             return `https://app.altme.io/app/download?${connectionString.slice(9)}`;
@@ -139,7 +131,8 @@ export const getConnectionStringUniversalLink = (walletApp, connectionString, ge
 export const isUniversalLinkWallet = (walletApp) => {
     switch (walletApp) {
         case 'altme':
-        case 'kukai': {
+        case 'kukai':
+        case 'temple': {
             return true;
         }
     }

@@ -24,6 +24,8 @@ import { nextVersion, useDarkMode, useVersionedState } from '../utils';
 export type Step = 'connect' | 'connecting' | 'invalidChainId' | 'connected';
 
 export interface TConnectModalProps {
+	appName: string;
+	appUrl: string;
 	bridgeUrl: string;
 	apiKey: string;
 	networkFilter?: Array<'etherlink' | 'tezos'>;
@@ -45,8 +47,38 @@ export interface TConnectModalProps {
 	onError: (error: unknown) => void;
 }
 
+/**
+ * TConnectModal component is a memoized functional component that handles the connection process
+ * for different blockchain networks and wallets. It provides a modal interface for users to select
+ * a network, choose a wallet, and connect their account. The component manages various states and
+ * effects to handle the connection process and display relevant information to the user.
+ *
+ * @param {string} bridgeUrl - The URL of the bridge server.
+ * @param {string} apiKey - The API key for authentication.
+ * @param {Array<string>} networkFilter - A filter for the networks to be displayed.
+ * @param {string} genericWalletUrl - The URL for generic wallets.
+ * @param {string} step - The current step in the connection process.
+ * @param {Function} onChangeStep - Callback to change the current step.
+ * @param {Network} currentNetwork - The currently selected network.
+ * @param {Function} onChangeCurrentNetwork - Callback to change the current network.
+ * @param {Wallet} currentWallet - The currently selected wallet.
+ * @param {Function} onChangeCurrentWallet - Callback to change the current wallet.
+ * @param {Provider} evmProvider - The provider for EVM-based networks.
+ * @param {Function} onChangeEvmProvider - Callback to change the EVM provider.
+ * @param {Provider} tezosBeaconProvider - The provider for Tezos Beacon.
+ * @param {Function} onChangeTezosBeaconProvider - Callback to change the Tezos Beacon provider.
+ * @param {Provider} tezosWcProvider - The provider for Tezos WalletConnect.
+ * @param {Function} onChangeTezosWcProvider - Callback to change the Tezos WalletConnect provider.
+ * @param {Function} onDisconnect - Callback to handle disconnection.
+ * @param {Function} onClose - Callback to handle closing the modal.
+ * @param {Function} onError - Callback to handle errors.
+ *
+ * @returns {JSX.Element} The rendered TConnectModal component.
+ */
 export const TConnectModal = memo<TConnectModalProps>(
 	({
+		appName,
+		appUrl,
 		bridgeUrl,
 		apiKey,
 		networkFilter,
@@ -192,7 +224,13 @@ export const TConnectModal = memo<TConnectModalProps>(
 					onChangeCurrentWallet(wallet);
 					switch (wallet.network) {
 						case 'evm': {
-							const provider = new TConnectEvmProvider({ bridgeUrl, walletApp: wallet.walletApp, apiKey });
+							const provider = new TConnectEvmProvider({
+								appName,
+								appUrl,
+								bridgeUrl,
+								walletApp: wallet.walletApp,
+								apiKey,
+							});
 
 							provider.once('connect', (info) => {
 								if (BigInt(info.chainId) === ETHERLINK_CHAIN_ID) {
@@ -210,6 +248,8 @@ export const TConnectModal = memo<TConnectModalProps>(
 							switch (wallet.bridge) {
 								case 'beacon': {
 									const provider = new TConnectTezosBeaconProvider({
+										appName,
+										appUrl,
 										bridgeUrl,
 										walletApp: wallet.walletApp,
 										secretSeed: crypto.randomUUID(),
@@ -223,6 +263,8 @@ export const TConnectModal = memo<TConnectModalProps>(
 								}
 								case 'wc': {
 									const provider = new TConnectTezosWcProvider({
+										appName,
+										appUrl,
 										bridgeUrl,
 										walletApp: wallet.walletApp,
 										apiKey,
@@ -243,6 +285,8 @@ export const TConnectModal = memo<TConnectModalProps>(
 			[
 				onChangeStep,
 				onChangeCurrentWallet,
+				appName,
+				appUrl,
 				bridgeUrl,
 				apiKey,
 				genericWalletUrl,
