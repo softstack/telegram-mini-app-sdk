@@ -114,8 +114,12 @@ export class Logger<T extends string = LogChannel> {
 		...optionalParameters: unknown[]
 	): void {
 		if (this.isChannelActive('error')) {
-			const errorLocation = getLocationFromError(error as Error);
-			const prefixes = [`${this._getLocationString(location)} -> ${this._getLocationString(errorLocation)}`];
+			let locationString = 'unknown location';
+			if (error instanceof Error) {
+				const errorLocation = getLocationFromError(error as Error);
+				locationString = this._getLocationString(errorLocation);
+			}
+			const prefixes = [`${this._getLocationString(location)} -> ${locationString}`];
 			if (options?.key) {
 				prefixes.push(options.key);
 			}

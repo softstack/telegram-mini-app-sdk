@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Logger = void 0;
-const get_current_line_1 = require("get-current-line");
-class Logger {
+import { getLocationFromError } from 'get-current-line';
+export class Logger {
     constructor(activeChannels = []) {
         this._activeChannels = new Set();
         this.logDebug = (location, message, ...optionalParameters) => {
@@ -39,8 +36,12 @@ class Logger {
     }
     logError(location, error, options, ...optionalParameters) {
         if (this.isChannelActive('error')) {
-            const errorLocation = (0, get_current_line_1.getLocationFromError)(error);
-            const prefixes = [`${this._getLocationString(location)} -> ${this._getLocationString(errorLocation)}`];
+            let locationString = 'unknown location';
+            if (error instanceof Error) {
+                const errorLocation = getLocationFromError(error);
+                locationString = this._getLocationString(errorLocation);
+            }
+            const prefixes = [`${this._getLocationString(location)} -> ${locationString}`];
             if (options?.key) {
                 prefixes.push(options.key);
             }
@@ -63,5 +64,4 @@ class Logger {
         return `${location.file}:${location.line}:${location.method}`;
     }
 }
-exports.Logger = Logger;
-//# sourceMappingURL=logger.js.map
+//# sourceMappingURL=Logger.js.map
