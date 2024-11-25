@@ -1,6 +1,7 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import { memo, useCallback, useEffect, useState } from 'react';
 import Svg from 'react-inlinesvg';
+import checkSolid from '../../assets/icons/check-solid.svg';
 import chevronDownSolid from '../../assets/icons/chevron-down-solid.svg';
 import chevronUpSolid from '../../assets/icons/chevron-up-solid.svg';
 import copyRegular from '../../assets/icons/copy-regular.svg';
@@ -10,6 +11,9 @@ import { tw } from '../../utils';
 const SvgComponent = Svg;
 const getSrc = (icon) => {
     switch (icon) {
+        case 'checkSolid': {
+            return checkSolid;
+        }
         case 'chevronDownSolid': {
             return chevronDownSolid;
         }

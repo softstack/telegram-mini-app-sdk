@@ -17,7 +17,13 @@ export type PngIconType =
 	| 'transparent'
 	| 'trust';
 
-export type SvgIconType = 'chevronDownSolid' | 'chevronUpSolid' | 'copyRegular' | 'fileLinesRegular' | 'xmarkSolid';
+export type SvgIconType =
+	| 'checkSolid'
+	| 'chevronDownSolid'
+	| 'chevronUpSolid'
+	| 'copyRegular'
+	| 'fileLinesRegular'
+	| 'xmarkSolid';
 
 export type IconType = PngIconType | SvgIconType;
 

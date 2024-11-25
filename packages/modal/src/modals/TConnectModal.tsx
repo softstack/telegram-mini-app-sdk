@@ -107,6 +107,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 		const [address, setAddress] = useVersionedState<string | undefined>(undefined);
 		const [shortAddress, setShortAddress] = useVersionedState<string | undefined>(undefined);
 		const [showShortAddress, setShowShortAddress] = useState(true);
+		const [copied, setCopied] = useState(false);
 
 		useEffect(() => {
 			(async (): Promise<void> => {
@@ -334,6 +335,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 			try {
 				if (address) {
 					navigator.clipboard.writeText(address);
+					setCopied(true);
+					setTimeout(() => {
+						setCopied(false);
+					}, 1500);
 				}
 			} catch (error) {
 				onError(error);
@@ -464,7 +469,12 @@ export const TConnectModal = memo<TConnectModalProps>(
 										<Row className="break-all">{showShortAddress ? shortAddress : address}</Row>
 									</BaseButton>
 									<Row className="justify-between">
-										<HorizontalIconTextButton icon="copyRegular" text="Copy address" onClick={handleCopyAddress} />
+										<HorizontalIconTextButton
+											icon={copied ? 'checkSolid' : 'copyRegular'}
+											iconColorSuccess={copied}
+											text="Copy address"
+											onClick={handleCopyAddress}
+										/>
 										<HorizontalIconTextButton
 											icon="fileLinesRegular"
 											text="View on explorer"
