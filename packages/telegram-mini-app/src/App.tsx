@@ -5,7 +5,7 @@ import { Bounce, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Col } from 'telegram-mini-app/src/components/flex/Col';
 import { APP_NAME } from './constants/constants';
-import { API_KEY, APP_URL, BRIDGE_URL, GENERIC_WALLET_URL } from './constants/environment';
+import { API_KEY, APP_ICON, APP_URL, BRIDGE_URL, GENERIC_WALLET_URL } from './constants/environment';
 import { Ethers } from './pages/Ethers';
 import { Fallback } from './pages/Fallback';
 import { Main } from './pages/Main';
@@ -48,10 +48,12 @@ export const App = (): JSX.Element => {
 			<TConnectModalProvider
 				appName={APP_NAME}
 				appUrl={APP_URL}
+				appIcon={APP_ICON}
 				bridgeUrl={BRIDGE_URL}
 				apiKey={API_KEY}
 				genericWalletUrl={GENERIC_WALLET_URL}
 				onError={handleError}
+				closeModalOnError={true}
 			>
 				<Col className="min-h-screen bg-white text-black dark:bg-black dark:text-white">
 					<RouterProvider router={router} />

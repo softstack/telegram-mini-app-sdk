@@ -59,7 +59,7 @@ const Row_1 = require("../components/flex/Row");
 const Header_1 = require("../components/Header");
 const constants_1 = require("../constants");
 const utils_1 = require("../utils");
-exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, bridgeUrl, apiKey, networkFilter, genericWalletUrl, step, onChangeStep, currentNetwork, onChangeCurrentNetwork, currentWallet, onChangeCurrentWallet, evmProvider, onChangeEvmProvider, tezosBeaconProvider, onChangeTezosBeaconProvider, tezosWcProvider, onChangeTezosWcProvider, onDisconnect, onClose, onError, }) => {
+exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, appIcon, bridgeUrl, apiKey, networkFilter, genericWalletUrl, step, onChangeStep, currentNetwork, onChangeCurrentNetwork, currentWallet, onChangeCurrentWallet, evmProvider, onChangeEvmProvider, tezosBeaconProvider, onChangeTezosBeaconProvider, tezosWcProvider, onChangeTezosWcProvider, onDisconnect, onClose, onError, }) => {
     const darkMode = (0, utils_1.useDarkMode)();
     const backgroundElement = (0, react_1.useRef)(null);
     const [showNetworks, setShowNetworks] = (0, react_1.useState)(true);
@@ -172,6 +172,7 @@ exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, bridgeUrl, apiKey,
                     const provider = new evm_provider_1.TConnectEvmProvider({
                         appName,
                         appUrl,
+                        appIcon,
                         bridgeUrl,
                         walletApp: wallet.walletApp,
                         apiKey,
@@ -194,6 +195,7 @@ exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, bridgeUrl, apiKey,
                             const provider = new tezos_beacon_provider_1.TConnectTezosBeaconProvider({
                                 appName,
                                 appUrl,
+                                appIcon,
                                 bridgeUrl,
                                 walletApp: wallet.walletApp,
                                 secretSeed: crypto.randomUUID(),
@@ -209,6 +211,7 @@ exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, bridgeUrl, apiKey,
                             const provider = new tezos_wc_provider_1.TConnectTezosWcProvider({
                                 appName,
                                 appUrl,
+                                appIcon,
                                 bridgeUrl,
                                 walletApp: wallet.walletApp,
                                 apiKey,
@@ -231,6 +234,7 @@ exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, bridgeUrl, apiKey,
         onChangeCurrentWallet,
         appName,
         appUrl,
+        appIcon,
         bridgeUrl,
         apiKey,
         genericWalletUrl,

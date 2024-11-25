@@ -75,7 +75,7 @@ import {
 	isDisconnectMessage,
 	isErrorResponse,
 	isOperationResponse,
-	isPeerInfo,
+	isPairingResponse,
 	isPermissionResponse,
 	isSignPayloadResponse,
 	validateTezosBeaconEvent,
@@ -112,6 +112,7 @@ export class TConnectTezosBeaconProvider
 		super();
 		this.appName = options.appName;
 		this.appUrl = options.appUrl;
+		this.appIcon = options.appIcon;
 		this._secretSeed = options.secretSeed;
 		this._apiKey = options.apiKey;
 		this._genericWalletUrl = options.genericWalletUrl ?? GENERIC_WALLET_URL;
@@ -137,6 +138,7 @@ export class TConnectTezosBeaconProvider
 	 * This URL is used to identify the application during the connection process.
 	 */
 	readonly appUrl: string;
+	readonly appIcon: string | undefined;
 	/**
 	 * The network configuration for the Tezos Beacon provider.
 	 * This property is read-only and provides details about the network
@@ -192,6 +194,7 @@ export class TConnectTezosBeaconProvider
 				apiKey: this._apiKey,
 				appName: this.appName,
 				appUrl: this.appUrl,
+				appIcon: this.appIcon,
 				publicKey: Buffer.from(this._communicationKeyPair.publicKey).toString('hex'),
 			},
 		});
@@ -617,6 +620,7 @@ export class TConnectTezosBeaconProvider
 		return stringify({
 			appName: this.appName,
 			appUrl: this.appUrl,
+			appIcon: this.appIcon,
 			network: this.network,
 			bridgeUrl: this.bridgeUrl,
 			walletApp: this.walletApp,
@@ -641,6 +645,7 @@ export class TConnectTezosBeaconProvider
 		const provider = new TConnectTezosBeaconProvider({
 			appName: data.appName,
 			appUrl: data.appUrl,
+			appIcon: data.appIcon,
 			secretSeed: data._secretSeed,
 			apiKey: data._apiKey,
 			network: data.network,
@@ -704,15 +709,15 @@ export class TConnectTezosBeaconProvider
 								if (!encryptedJson) {
 									throw new Error('Empty text message');
 								}
-								const peerInfo = JSON.parse(
+								const pairingResponse = JSON.parse(
 									openCryptobox(
 										Buffer.from(encryptedJson, 'hex'),
 										this._communicationKeyPair.publicKey,
 										this._communicationKeyPair.secretKey,
 									),
 								);
-								if (isPeerInfo(peerInfo)) {
-									this._otherPublicKey = Buffer.from(peerInfo.publicKey, 'hex');
+								if (isPairingResponse(pairingResponse)) {
+									this._otherPublicKey = Buffer.from(pairingResponse.publicKey, 'hex');
 									const message: PermissionRequest = {
 										id: permissionRequestId,
 										type: 'permission_request',
@@ -721,13 +726,14 @@ export class TConnectTezosBeaconProvider
 										appMetadata: {
 											senderId: getSenderId(toHex(this._communicationKeyPair.publicKey)),
 											name: this.appName,
+											icon: this.appIcon,
 										},
 										network: this.network,
 										scopes: ['operation_request', 'sign'],
 									};
 									await this._sendTezosMessage(message);
 								} else {
-									console.log("PeerInfo isn't valid", peerInfo);
+									console.log("pairingResponse isn't valid", pairingResponse);
 								}
 							}
 						} else if (this._otherPublicKey) {

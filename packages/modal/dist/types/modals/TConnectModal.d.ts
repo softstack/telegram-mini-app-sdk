@@ -6,6 +6,7 @@ export type Step = 'connect' | 'connecting' | 'invalidChainId' | 'connected';
 export interface TConnectModalProps {
     appName: string;
     appUrl: string;
+    appIcon: string | undefined;
     bridgeUrl: string;
     apiKey: string;
     networkFilter?: Array<'etherlink' | 'tezos'>;

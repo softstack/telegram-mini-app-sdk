@@ -6,6 +6,7 @@ export declare class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcP
     constructor(options: TConnectTezosWcProviderOptions);
     readonly appName: string;
     readonly appUrl: string;
+    readonly appIcon: string | undefined;
     readonly bridgeUrl: string;
     readonly walletApp: TezosWcWalletApp | undefined;
     readonly network: TezosWcNetwork;

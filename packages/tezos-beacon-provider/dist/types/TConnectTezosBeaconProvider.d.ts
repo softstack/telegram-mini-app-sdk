@@ -5,6 +5,7 @@ export declare class TConnectTezosBeaconProvider extends TypedEvent<TConnectTezo
     constructor(options: TConnectTezosBeaconProviderOptions);
     readonly appName: string;
     readonly appUrl: string;
+    readonly appIcon: string | undefined;
     readonly network: Network;
     readonly bridgeUrl: string;
     readonly walletApp: TezosBeaconWalletApp | undefined;

@@ -25,6 +25,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         this._signPayloadRequestCallbacks = new core_1.CallbackController(1000 * 60 * 60);
         this.appName = options.appName;
         this.appUrl = options.appUrl;
+        this.appIcon = options.appIcon;
         this._secretSeed = options.secretSeed;
         this._apiKey = options.apiKey;
         this._genericWalletUrl = options.genericWalletUrl ?? constants_1.GENERIC_WALLET_URL;
@@ -42,6 +43,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
                 apiKey: this._apiKey,
                 appName: this.appName,
                 appUrl: this.appUrl,
+                appIcon: this.appIcon,
                 publicKey: Buffer.from(this._communicationKeyPair.publicKey).toString('hex'),
             },
         });
@@ -236,6 +238,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         return (0, core_1.stringify)({
             appName: this.appName,
             appUrl: this.appUrl,
+            appIcon: this.appIcon,
             network: this.network,
             bridgeUrl: this.bridgeUrl,
             walletApp: this.walletApp,
@@ -253,6 +256,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         const provider = new TConnectTezosBeaconProvider({
             appName: data.appName,
             appUrl: data.appUrl,
+            appIcon: data.appIcon,
             secretSeed: data._secretSeed,
             apiKey: data._apiKey,
             network: data.network,
@@ -285,9 +289,9 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
                                 if (!encryptedJson) {
                                     throw new Error('Empty text message');
                                 }
-                                const peerInfo = JSON.parse((0, utils_1.openCryptobox)(Buffer.from(encryptedJson, 'hex'), this._communicationKeyPair.publicKey, this._communicationKeyPair.secretKey));
-                                if ((0, validation_1.isPeerInfo)(peerInfo)) {
-                                    this._otherPublicKey = Buffer.from(peerInfo.publicKey, 'hex');
+                                const pairingResponse = JSON.parse((0, utils_1.openCryptobox)(Buffer.from(encryptedJson, 'hex'), this._communicationKeyPair.publicKey, this._communicationKeyPair.secretKey));
+                                if ((0, validation_1.isPairingResponse)(pairingResponse)) {
+                                    this._otherPublicKey = Buffer.from(pairingResponse.publicKey, 'hex');
                                     const message = {
                                         id: permissionRequestId,
                                         type: 'permission_request',
@@ -296,6 +300,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
                                         appMetadata: {
                                             senderId: (0, utils_1.getSenderId)((0, utils_1.toHex)(this._communicationKeyPair.publicKey)),
                                             name: this.appName,
+                                            icon: this.appIcon,
                                         },
                                         network: this.network,
                                         scopes: ['operation_request', 'sign'],
@@ -303,7 +308,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
                                     await this._sendTezosMessage(message);
                                 }
                                 else {
-                                    console.log("PeerInfo isn't valid", peerInfo);
+                                    console.log("pairingResponse isn't valid", pairingResponse);
                                 }
                             }
                         }

@@ -26,6 +26,7 @@ export type Step = 'connect' | 'connecting' | 'invalidChainId' | 'connected';
 export interface TConnectModalProps {
 	appName: string;
 	appUrl: string;
+	appIcon: string | undefined;
 	bridgeUrl: string;
 	apiKey: string;
 	networkFilter?: Array<'etherlink' | 'tezos'>;
@@ -79,6 +80,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 	({
 		appName,
 		appUrl,
+		appIcon,
 		bridgeUrl,
 		apiKey,
 		networkFilter,
@@ -228,6 +230,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 							const provider = new TConnectEvmProvider({
 								appName,
 								appUrl,
+								appIcon,
 								bridgeUrl,
 								walletApp: wallet.walletApp,
 								apiKey,
@@ -251,6 +254,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 									const provider = new TConnectTezosBeaconProvider({
 										appName,
 										appUrl,
+										appIcon,
 										bridgeUrl,
 										walletApp: wallet.walletApp,
 										secretSeed: crypto.randomUUID(),
@@ -266,6 +270,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 									const provider = new TConnectTezosWcProvider({
 										appName,
 										appUrl,
+										appIcon,
 										bridgeUrl,
 										walletApp: wallet.walletApp,
 										apiKey,
@@ -288,6 +293,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 				onChangeCurrentWallet,
 				appName,
 				appUrl,
+				appIcon,
 				bridgeUrl,
 				apiKey,
 				genericWalletUrl,

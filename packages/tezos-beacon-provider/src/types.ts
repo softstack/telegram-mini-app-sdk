@@ -26,6 +26,8 @@ export interface SerializedTConnectTezosBeaconProvider {
 	 */
 	appUrl: string;
 
+	appIcon: string | undefined;
+
 	/**
 	 * The network configuration.
 	 */
@@ -98,6 +100,8 @@ export interface TConnectTezosBeaconProviderOptions {
 	 */
 	appUrl: string;
 
+	appIcon?: string;
+
 	/**
 	 * The URL of the bridge server.
 	 */
@@ -137,7 +141,7 @@ export interface TConnectTezosBeaconProviderEvents {
 	disconnect: undefined;
 }
 
-export interface PeerInfo {
+export interface PairingResponse {
 	type: 'p2p-pairing-response';
 	id: string;
 	name: string;

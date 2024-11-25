@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isErrorResponse = exports.isDisconnectMessage = exports.isSignPayloadResponse = exports.isOperationResponse = exports.isPermissionResponse = exports.isBaseMessage = exports.isPeerInfo = exports.validateTezosBeaconEvent = exports.validateTezosBeaconResponse = void 0;
+exports.isErrorResponse = exports.isDisconnectMessage = exports.isSignPayloadResponse = exports.isOperationResponse = exports.isPermissionResponse = exports.isBaseMessage = exports.isPairingResponse = exports.validateTezosBeaconEvent = exports.validateTezosBeaconResponse = void 0;
 const core_1 = require("@tconnect.io/core");
 const joi_1 = __importDefault(require("joi"));
 const validateTezosBeaconResponse = (value) => (0, core_1.validateSchema)(value, joi_1.default.alternatives()
@@ -46,7 +46,7 @@ const validateTezosBeaconEvent = (value) => (0, core_1.validateSchema)(value, jo
     type: joi_1.default.string().valid('disconnect').required(),
 })));
 exports.validateTezosBeaconEvent = validateTezosBeaconEvent;
-const isPeerInfo = (value) => (0, core_1.validateType)(value, joi_1.default.object({
+const isPairingResponse = (value) => (0, core_1.validateType)(value, joi_1.default.object({
     type: joi_1.default.string().valid('p2p-pairing-response').required(),
     id: joi_1.default.string().required(),
     name: joi_1.default.string().required(),
@@ -56,7 +56,7 @@ const isPeerInfo = (value) => (0, core_1.validateType)(value, joi_1.default.obje
     appUrl: joi_1.default.string().allow(''),
     icon: joi_1.default.string().allow(''),
 }));
-exports.isPeerInfo = isPeerInfo;
+exports.isPairingResponse = isPairingResponse;
 const isBaseMessage = (value) => (0, core_1.validateType)(value, joi_1.default.object({
     type: joi_1.default.string()
         .valid('permission_request', 'sign_payload_request', 'operation_request', 'broadcast_request', 'permission_response', 'sign_payload_response', 'operation_response', 'broadcast_response', 'disconnect', 'error', 'acknowledge')

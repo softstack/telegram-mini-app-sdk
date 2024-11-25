@@ -11,6 +11,7 @@ export class TConnectEvmProvider extends TypedEvent {
         super();
         this.appName = options.appName;
         this.appUrl = options.appUrl;
+        this.appIcon = options.appIcon;
         this.bridgeUrl = options.bridgeUrl;
         this.walletApp = options?.walletApp;
         this._apiKey = options.apiKey;
@@ -24,7 +25,7 @@ export class TConnectEvmProvider extends TypedEvent {
         this._communicationController.on('event', this._createEvmEventHandler());
         const { payload: { sessionId, walletConnectUri }, } = await this._sendEvmRequest({
             type: 'connect',
-            payload: { apiKey: this._apiKey, appName: this.appName, appUrl: this.appUrl },
+            payload: { apiKey: this._apiKey, appName: this.appName, appUrl: this.appUrl, appIcon: this.appIcon },
         });
         this._sessionId = sessionId;
         this._walletConnectUri = walletConnectUri;
@@ -85,6 +86,7 @@ export class TConnectEvmProvider extends TypedEvent {
         return stringify({
             appName: this.appName,
             appUrl: this.appUrl,
+            appIcon: this.appIcon,
             bridgeUrl: this.bridgeUrl,
             walletApp: this.walletApp,
             _apiKey: this._apiKey,
@@ -98,6 +100,7 @@ export class TConnectEvmProvider extends TypedEvent {
         const provider = new TConnectEvmProvider({
             appName: data.appName,
             appUrl: data.appUrl,
+            appIcon: data.appIcon,
             bridgeUrl: data.bridgeUrl,
             apiKey: data._apiKey,
             walletApp: data.walletApp,

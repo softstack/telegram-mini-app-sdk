@@ -18,6 +18,7 @@ export interface EvmConnectRequest {
 		apiKey: string;
 		appName: string;
 		appUrl: string;
+		appIcon: string | undefined;
 	};
 }
 

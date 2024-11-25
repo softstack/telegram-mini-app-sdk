@@ -28,6 +28,7 @@ export interface TezosWcConnectRequest {
 		network: TezosWcNetwork;
 		appName: string;
 		appUrl: string;
+		appIcon: string | undefined;
 	};
 }
 

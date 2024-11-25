@@ -11,6 +11,7 @@ export class TConnectTezosWcProvider extends TypedEvent {
         this._permissionRequestCallbacks = new CallbackController(1000 * 60 * 60);
         this.appName = options.appName;
         this.appUrl = options.appUrl;
+        this.appIcon = options.appIcon;
         this._apiKey = options.apiKey;
         this.bridgeUrl = options.bridgeUrl;
         this.walletApp = options.walletApp;
@@ -25,7 +26,13 @@ export class TConnectTezosWcProvider extends TypedEvent {
         this._communicationController.on('event', this._createTezosWcEventHandler());
         const { payload: { sessionId, walletConnectUri }, } = await this._sendTezosWcRequest({
             type: 'connect',
-            payload: { apiKey: this._apiKey, network: this.network, appName: this.appName, appUrl: this.appUrl },
+            payload: {
+                apiKey: this._apiKey,
+                network: this.network,
+                appName: this.appName,
+                appUrl: this.appUrl,
+                appIcon: this.appIcon,
+            },
         });
         this._sessionId = sessionId;
         this._walletConnectUri = walletConnectUri;
@@ -66,6 +73,7 @@ export class TConnectTezosWcProvider extends TypedEvent {
         return stringify({
             appName: this.appName,
             appUrl: this.appUrl,
+            appIcon: this.appIcon,
             bridgeUrl: this.bridgeUrl,
             walletApp: this.walletApp,
             network: this.network,
@@ -80,6 +88,7 @@ export class TConnectTezosWcProvider extends TypedEvent {
         const provider = new TConnectTezosWcProvider({
             appName: data.appName,
             appUrl: data.appUrl,
+            appIcon: data.appIcon,
             bridgeUrl: data.bridgeUrl,
             apiKey: data._apiKey,
             walletApp: data.walletApp,

@@ -37,12 +37,14 @@ export const TConnectModalContext = createContext<TConnectModalContextValue>({
 export interface TConnectModalProviderProps {
 	appName: string;
 	appUrl: string;
+	appIcon?: string;
 	bridgeUrl: string;
 	apiKey: string;
 	networkFilter?: Array<'etherlink' | 'tezos'>;
 	genericWalletUrl?: string;
 	children?: ReactNode | undefined;
 	onError?: (error: unknown) => void;
+	closeModalOnError?: boolean;
 }
 
 /**
@@ -73,7 +75,19 @@ export interface TConnectModalProviderProps {
  * ```
  */
 export const TConnectModalProvider = memo<TConnectModalProviderProps>(
-	({ appName, appUrl, bridgeUrl, apiKey, networkFilter, genericWalletUrl, children, onError, ...props }) => {
+	({
+		appName,
+		appUrl,
+		appIcon,
+		bridgeUrl,
+		apiKey,
+		networkFilter,
+		genericWalletUrl,
+		children,
+		onError,
+		closeModalOnError,
+		...props
+	}) => {
 		const [showModal, setShowModal] = useState(false);
 		const [step, setStep] = useState<Step>('connect');
 		const [currentNetwork, setCurrentNetwork] = useState<Network | undefined>(undefined);
@@ -87,13 +101,17 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 
 		const handleError = useCallback(
 			(error: unknown) => {
+				if (closeModalOnError) {
+					setShowModal(false);
+				}
 				if (onError) {
+					setShowModal(false);
 					onError(error);
 				} else {
 					console.error(error);
 				}
 			},
-			[onError],
+			[onError, closeModalOnError],
 		);
 
 		useEffect(() => {
@@ -358,6 +376,7 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 					<TConnectModal
 						appName={appName}
 						appUrl={appUrl}
+						appIcon={appIcon}
 						bridgeUrl={bridgeUrl}
 						apiKey={apiKey}
 						networkFilter={networkFilter}

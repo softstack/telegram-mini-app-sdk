@@ -3,6 +3,7 @@ export type TezosBeaconWalletApp = 'altme' | 'kukai' | 'temple' | '_generic_';
 export interface SerializedTConnectTezosBeaconProvider {
     appName: string;
     appUrl: string;
+    appIcon: string | undefined;
     network: Network;
     bridgeUrl: string;
     walletApp: TezosBeaconWalletApp | undefined;
@@ -17,6 +18,7 @@ export interface SerializedTConnectTezosBeaconProvider {
 export interface TConnectTezosBeaconProviderOptions {
     appName: string;
     appUrl: string;
+    appIcon?: string;
     bridgeUrl: string;
     secretSeed: string;
     apiKey: string;
@@ -28,7 +30,7 @@ export interface TConnectTezosBeaconProviderEvents {
     connectionString: string;
     disconnect: undefined;
 }
-export interface PeerInfo {
+export interface PairingResponse {
     type: 'p2p-pairing-response';
     id: string;
     name: string;
