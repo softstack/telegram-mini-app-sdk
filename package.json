@@ -14,7 +14,7 @@
 		"reinstall": "rm -rf ./node_modules && rm -rf ./packages/*/node_modules && npm install",
 		"build": "npm run build --workspaces --if-present",
 		"start:telegram-mini-app": "npx serve -s packages/telegram-mini-app/build -l 3000",
-
+		"build:clean": "rm -rf ./packages/*/dist",
 		"show-outdated": "PACKAGES_PATH='./packages' tsx ./packages/show-outdated-dependencies/src/index.ts"
 	},
 	"devDependencies": {
