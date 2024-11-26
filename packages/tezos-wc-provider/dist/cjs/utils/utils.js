@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getWalletConnectUniversalLink = exports.getUniversalLink = void 0;
+exports.getConnectionStringUniversalLink = exports.getUniversalLink = void 0;
 const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const getUniversalLink = (walletApp) => {
     switch (walletApp) {
@@ -10,16 +10,16 @@ const getUniversalLink = (walletApp) => {
     }
 };
 exports.getUniversalLink = getUniversalLink;
-const getWalletConnectUniversalLink = (walletApp, walletConnectUri) => {
-    let encodedUri = encodeURIComponent(walletConnectUri);
+const getConnectionStringUniversalLink = (walletApp, connectionString) => {
+    let encodedConnectionString = encodeURIComponent(connectionString);
     if ((0, dapp_utils_1.isAndroid)()) {
-        encodedUri = encodeURIComponent(encodedUri);
+        encodedConnectionString = encodeURIComponent(encodedConnectionString);
     }
     switch (walletApp) {
         case 'kukai': {
-            return `https://connect.kukai.app/wc?uri=${encodedUri}`;
+            return `https://connect.kukai.app/wc?uri=${encodedConnectionString}`;
         }
     }
 };
-exports.getWalletConnectUniversalLink = getWalletConnectUniversalLink;
+exports.getConnectionStringUniversalLink = getConnectionStringUniversalLink;
 //# sourceMappingURL=utils.js.map

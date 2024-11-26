@@ -4,7 +4,7 @@ exports.EXPERIMENTAL_WALLET = exports.NETWORKS = exports.TEZOS_WC_PROVIDER_STORA
 exports.TAILWIND_PREFIX = 'eotrzpirnbqlbfjhbqpo-';
 exports.EVM_PROVIDER_STORAGE_KEY = 'mfiqmlieehlcobqzqiav';
 exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = 'jkdkvddgajorkvmywwub';
-exports.TEZOS_WC_PROVIDER_STORAGE_KEY = 'oergkxuqjljvgrkkzeth';
+exports.TEZOS_WC_PROVIDER_STORAGE_KEY = 'nxmhhphkvgwzhmifdyus';
 exports.NETWORKS = [
     {
         type: 'evm',

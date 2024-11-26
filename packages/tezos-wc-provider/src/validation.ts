@@ -45,7 +45,6 @@ export const validateTezosWcResponse = (
 					type: Joi.string().valid('connect').required(),
 					payload: Joi.object({
 						sessionId: Joi.string().required(),
-						walletConnectUri: Joi.string().required(),
 					}),
 				}),
 				Joi.object({
@@ -84,10 +83,13 @@ export const validateTezosWcEvent = (value: TezosWcEvent): TezosWcEvent =>
 		Joi.alternatives()
 			.try(
 				Joi.object({
-					type: Joi.string().valid('connect').required(),
+					type: Joi.string().valid('connectionString').required(),
 					payload: Joi.object({
-						sessionId: Joi.string().required(),
+						connectionString: Joi.string().required(),
 					}),
+				}),
+				Joi.object({
+					type: Joi.string().valid('disconnect').required(),
 				}),
 			)
 			.required(),

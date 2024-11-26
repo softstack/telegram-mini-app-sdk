@@ -39,7 +39,7 @@ export declare class TConnectTezosBeaconProvider extends TypedEvent<TConnectTezo
     serialize(): string;
     static deserialize(serialized: string): Promise<TConnectTezosBeaconProvider>;
     private _reconnect;
-    private _createTezosEventHandler;
+    private _createTezosBeaconEventHandler;
     private _sendTezosMessage;
     private _sendTezosBeaconRequest;
     private _getPublicKey;

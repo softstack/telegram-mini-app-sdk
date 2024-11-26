@@ -211,7 +211,7 @@ export class TConnectTezosBeaconProvider
 		});
 		const permissionRequestId = crypto.randomUUID();
 		const callbackPromise = this._permissionRequestCallbacks.addCallback(permissionRequestId);
-		this._communicationController.on('event', this._createTezosEventHandler(permissionRequestId));
+		this._communicationController.on('event', this._createTezosBeaconEventHandler(permissionRequestId));
 		if (this.walletApp) {
 			WebApp.openLink(
 				getConnectionStringUniversalLink(
@@ -669,7 +669,7 @@ export class TConnectTezosBeaconProvider
 	 * @returns {Promise<void>} A promise that resolves when the reconnection process is complete.
 	 */
 	private async _reconnect(): Promise<void> {
-		this._communicationController.on('event', this._createTezosEventHandler(undefined));
+		this._communicationController.on('event', this._createTezosBeaconEventHandler(undefined));
 		await this._communicationController.connect();
 		await this._sendTezosBeaconRequest({ type: 'reconnect', sessionId: this._getSessionId() });
 	}
@@ -694,7 +694,7 @@ export class TConnectTezosBeaconProvider
 	 *
 	 * If an error occurs during event processing, it is logged to the console.
 	 */
-	private _createTezosEventHandler(
+	private _createTezosBeaconEventHandler(
 		permissionRequestId: string | undefined,
 	): (event: TezosBeaconEvent) => Promise<void> {
 		return async (event: TezosBeaconEvent) => {

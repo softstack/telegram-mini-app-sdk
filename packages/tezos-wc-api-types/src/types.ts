@@ -36,7 +36,6 @@ export interface TezosWcConnectResponse {
 	type: 'connect';
 	payload: {
 		sessionId: string;
-		walletConnectUri: string;
 	};
 }
 
@@ -129,15 +128,13 @@ export type TezosWcResponse =
 	| TezosWcReconnectResponse
 	| TezosWcDisconnectResponse;
 
-export interface TezosWcConnectEvent {
-	type: 'connect';
-	payload: {
-		sessionId: string;
-	};
+export interface TezosWcConnectionStringEvent {
+	type: 'connectionString';
+	payload: { connectionString: string };
 }
 
 export interface TezosWcDisconnectEvent {
 	type: 'disconnect';
 }
 
-export type TezosWcEvent = TezosWcConnectEvent | TezosWcDisconnectEvent;
+export type TezosWcEvent = TezosWcConnectionStringEvent | TezosWcDisconnectEvent;

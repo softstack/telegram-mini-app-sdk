@@ -24,7 +24,7 @@ export const TEZOS_BEACON_PROVIDER_STORAGE_KEY = 'jkdkvddgajorkvmywwub';
  * A constant string key used for storing the Tezos WalletConnect provider information.
  * This key is used to identify and retrieve the provider data from storage.
  */
-export const TEZOS_WC_PROVIDER_STORAGE_KEY = 'oergkxuqjljvgrkkzeth';
+export const TEZOS_WC_PROVIDER_STORAGE_KEY = 'nxmhhphkvgwzhmifdyus';
 
 /**
  * A constant array of network configurations.

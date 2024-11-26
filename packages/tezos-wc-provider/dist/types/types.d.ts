@@ -20,7 +20,7 @@ export interface SerializedTConnectTezosWcProvider {
     _apiKey: string;
     _communicationController: string;
     _sessionId: string;
-    _walletConnectUri: string;
+    _connectionString: string;
 }
 export interface TConnectTezosWcProviderEvents {
     connectionString: string;

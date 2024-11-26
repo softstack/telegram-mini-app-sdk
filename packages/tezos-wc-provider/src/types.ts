@@ -103,7 +103,7 @@ export interface SerializedTConnectTezosWcProvider {
 	/**
 	 * The URI for the WalletConnect connection.
 	 */
-	_walletConnectUri: string;
+	_connectionString: string;
 }
 
 /**

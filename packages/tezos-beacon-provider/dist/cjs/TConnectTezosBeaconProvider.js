@@ -58,7 +58,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         });
         const permissionRequestId = crypto.randomUUID();
         const callbackPromise = this._permissionRequestCallbacks.addCallback(permissionRequestId);
-        this._communicationController.on('event', this._createTezosEventHandler(permissionRequestId));
+        this._communicationController.on('event', this._createTezosBeaconEventHandler(permissionRequestId));
         if (this.walletApp) {
             sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, loginResponse.payload.connectionString, this._genericWalletUrl));
         }
@@ -272,11 +272,11 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         return provider;
     }
     async _reconnect() {
-        this._communicationController.on('event', this._createTezosEventHandler(undefined));
+        this._communicationController.on('event', this._createTezosBeaconEventHandler(undefined));
         await this._communicationController.connect();
         await this._sendTezosBeaconRequest({ type: 'reconnect', sessionId: this._getSessionId() });
     }
-    _createTezosEventHandler(permissionRequestId) {
+    _createTezosBeaconEventHandler(permissionRequestId) {
         return async (event) => {
             try {
                 event = (0, validation_1.validateTezosBeaconEvent)(event);
