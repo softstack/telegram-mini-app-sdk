@@ -2,26 +2,22 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy package files first to leverage Docker cache
-COPY package*.json ./
-COPY packages/*/package*.json ./packages/
-COPY packages/*/tsconfig*.json ./packages/
-
+COPY . .
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the source code
-COPY . .
-
 # Build the packages in correct order
-RUN npm run build:clean || true \
-    && cd packages/evm-api-types && npm run build \
-    && cd ../tezos-beacon-api-types && npm run build \
-    && cd ../tezos-wc-api-types && npm run build \
-    && cd ../core && npm run build \
-    && cd ../dapp-utils && npm run build \
-    && cd ../modal && npm run build \
-    && cd ../telegram-mini-app && npm run build
+RUN npm run build --workspace=@tconnect.io/evm-api-types
+RUN npm run build --workspace=@tconnect.io/tezos-beacon-api-types
+RUN npm run build --workspace=@tconnect.io/tezos-wc-api-types
+RUN npm run build --workspace=@tconnect.io/dapp-utils
+RUN npm run build --workspace=@tconnect.io/core
+RUN npm run build --workspace=@tconnect.io/dapp-communication
+RUN npm run build --workspace=@tconnect.io/evm-provider
+RUN npm run build --workspace=@tconnect.io/tezos-beacon-provider
+RUN npm run build --workspace=@tconnect.io/tezos-wc-provider
+RUN npm run build --workspace=@tconnect.io/modal
+RUN npm run build --workspace=telegram-mini-app
 
 # Install serve globally
 RUN npm install -g serve
