@@ -28,24 +28,41 @@ class TConnectEvmProvider extends core_1.TypedEvent {
             await this.disconnect();
         }
         await this._communicationController.connect();
+        const connectionStringEventHandler = async (event) => {
+            try {
+                const validatedEvent = (0, validation_1.validateEvmEvent)(event);
+                if (validatedEvent.type === 'connectionString') {
+                    this._communicationController.off('event', connectionStringEventHandler);
+                    const { connectionString } = validatedEvent.payload;
+                    this._connectionString = connectionString;
+                    if (this.walletApp) {
+                        if ((0, dapp_utils_1.isAndroid)()) {
+                            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString), {
+                                try_instant_view: true,
+                            });
+                            await (0, core_1.sleep)(1000);
+                            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString), {
+                                try_instant_view: true,
+                            });
+                        }
+                        else {
+                            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString));
+                        }
+                    }
+                    this.emit('connectionString', connectionString);
+                }
+            }
+            catch (error) {
+                console.error(error);
+            }
+        };
+        this._communicationController.on('event', connectionStringEventHandler);
         this._communicationController.on('event', this._createEvmEventHandler());
-        const { payload: { sessionId, walletConnectUri }, } = await this._sendEvmRequest({
+        const { payload: { sessionId }, } = await this._sendEvmRequest({
             type: 'connect',
             payload: { apiKey: this._apiKey, appName: this.appName, appUrl: this.appUrl, appIcon: this.appIcon },
         });
         this._sessionId = sessionId;
-        this._walletConnectUri = walletConnectUri;
-        if (this.walletApp) {
-            if ((0, dapp_utils_1.isAndroid)()) {
-                sdk_1.default.openLink((0, utils_1.getWalletConnectUniversalLink)(this.walletApp, walletConnectUri), { try_instant_view: true });
-                await (0, core_1.sleep)(1000);
-                sdk_1.default.openLink((0, utils_1.getWalletConnectUniversalLink)(this.walletApp, walletConnectUri), { try_instant_view: true });
-            }
-            else {
-                sdk_1.default.openLink((0, utils_1.getWalletConnectUniversalLink)(this.walletApp, walletConnectUri));
-            }
-        }
-        this.emit('connectionString', walletConnectUri);
     }
     async connected() {
         if (!this._sessionId || !this._communicationController.connected()) {
@@ -98,7 +115,7 @@ class TConnectEvmProvider extends core_1.TypedEvent {
             _apiKey: this._apiKey,
             _communicationController: this._communicationController.serialize(),
             _sessionId: this._getSessionId(),
-            _walletConnectUri: this._getWalletConnectUri(),
+            _connectionString: this._getConnectionString(),
         });
     }
     static async deserialize(json) {
@@ -113,7 +130,7 @@ class TConnectEvmProvider extends core_1.TypedEvent {
         });
         provider._communicationController = dapp_communication_1.CommunicationController.deserialize(data._communicationController);
         provider._sessionId = data._sessionId;
-        provider._walletConnectUri = data._walletConnectUri;
+        provider._connectionString = data._connectionString;
         await provider._reconnect();
         return provider;
     }
@@ -184,11 +201,11 @@ class TConnectEvmProvider extends core_1.TypedEvent {
         }
         return this._sessionId;
     }
-    _getWalletConnectUri() {
-        if (!this._walletConnectUri) {
-            throw new Error('WalletConnect URI is not set');
+    _getConnectionString() {
+        if (!this._connectionString) {
+            throw new Error('Connection string is not set');
         }
-        return this._walletConnectUri;
+        return this._connectionString;
     }
 }
 exports.TConnectEvmProvider = TConnectEvmProvider;

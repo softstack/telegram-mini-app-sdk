@@ -4,7 +4,7 @@ import { getErrorMessage, isAndroid } from '@tconnect.io/dapp-utils';
 import { EVENT_CHANNEL, EvmError, REQUEST_CHANNEL, SOCKET_IO_PATH, } from '@tconnect.io/evm-api-types';
 import WebApp from '@twa-dev/sdk';
 import { ProviderRpcError } from './ProviderRpcError';
-import { getUniversalLink, getWalletConnectUniversalLink } from './utils';
+import { getConnectionStringUniversalLink, getUniversalLink } from './utils';
 import { validateEvmEvent, validateEvmResponse } from './validation';
 export class TConnectEvmProvider extends TypedEvent {
     constructor(options) {
@@ -22,24 +22,41 @@ export class TConnectEvmProvider extends TypedEvent {
             await this.disconnect();
         }
         await this._communicationController.connect();
+        const connectionStringEventHandler = async (event) => {
+            try {
+                const validatedEvent = validateEvmEvent(event);
+                if (validatedEvent.type === 'connectionString') {
+                    this._communicationController.off('event', connectionStringEventHandler);
+                    const { connectionString } = validatedEvent.payload;
+                    this._connectionString = connectionString;
+                    if (this.walletApp) {
+                        if (isAndroid()) {
+                            WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString), {
+                                try_instant_view: true,
+                            });
+                            await sleep(1000);
+                            WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString), {
+                                try_instant_view: true,
+                            });
+                        }
+                        else {
+                            WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString));
+                        }
+                    }
+                    this.emit('connectionString', connectionString);
+                }
+            }
+            catch (error) {
+                console.error(error);
+            }
+        };
+        this._communicationController.on('event', connectionStringEventHandler);
         this._communicationController.on('event', this._createEvmEventHandler());
-        const { payload: { sessionId, walletConnectUri }, } = await this._sendEvmRequest({
+        const { payload: { sessionId }, } = await this._sendEvmRequest({
             type: 'connect',
             payload: { apiKey: this._apiKey, appName: this.appName, appUrl: this.appUrl, appIcon: this.appIcon },
         });
         this._sessionId = sessionId;
-        this._walletConnectUri = walletConnectUri;
-        if (this.walletApp) {
-            if (isAndroid()) {
-                WebApp.openLink(getWalletConnectUniversalLink(this.walletApp, walletConnectUri), { try_instant_view: true });
-                await sleep(1000);
-                WebApp.openLink(getWalletConnectUniversalLink(this.walletApp, walletConnectUri), { try_instant_view: true });
-            }
-            else {
-                WebApp.openLink(getWalletConnectUniversalLink(this.walletApp, walletConnectUri));
-            }
-        }
-        this.emit('connectionString', walletConnectUri);
     }
     async connected() {
         if (!this._sessionId || !this._communicationController.connected()) {
@@ -92,7 +109,7 @@ export class TConnectEvmProvider extends TypedEvent {
             _apiKey: this._apiKey,
             _communicationController: this._communicationController.serialize(),
             _sessionId: this._getSessionId(),
-            _walletConnectUri: this._getWalletConnectUri(),
+            _connectionString: this._getConnectionString(),
         });
     }
     static async deserialize(json) {
@@ -107,7 +124,7 @@ export class TConnectEvmProvider extends TypedEvent {
         });
         provider._communicationController = CommunicationController.deserialize(data._communicationController);
         provider._sessionId = data._sessionId;
-        provider._walletConnectUri = data._walletConnectUri;
+        provider._connectionString = data._connectionString;
         await provider._reconnect();
         return provider;
     }
@@ -178,11 +195,11 @@ export class TConnectEvmProvider extends TypedEvent {
         }
         return this._sessionId;
     }
-    _getWalletConnectUri() {
-        if (!this._walletConnectUri) {
-            throw new Error('WalletConnect URI is not set');
+    _getConnectionString() {
+        if (!this._connectionString) {
+            throw new Error('Connection string is not set');
         }
-        return this._walletConnectUri;
+        return this._connectionString;
     }
 }
 //# sourceMappingURL=TConnectEvmProvider.js.map

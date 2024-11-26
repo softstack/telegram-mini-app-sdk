@@ -38,11 +38,11 @@ export const getUniversalLink = (walletApp: EvmWalletApp): string => {
  *
  * @param walletApp - The wallet application for which the universal link is being generated.
  *                    Supported values are 'bitget', 'metaMask', 'rainbow', 'safePal', and 'trust'.
- * @param walletConnectUri - The WalletConnect URI to be encoded and included in the universal link.
+ * @param connectionString - The WalletConnect URI to be encoded and included in the universal link.
  * @returns The universal link for the specified wallet application with the encoded WalletConnect URI.
  */
-export const getWalletConnectUniversalLink = (walletApp: EvmWalletApp, walletConnectUri: string): string => {
-	let encodedUri = encodeURIComponent(walletConnectUri);
+export const getConnectionStringUniversalLink = (walletApp: EvmWalletApp, connectionString: string): string => {
+	let encodedUri = encodeURIComponent(connectionString);
 
 	// Double encode for Android
 	if (isAndroid()) {

@@ -26,7 +26,6 @@ export interface EvmConnectResponse {
 	type: 'connect';
 	payload: {
 		sessionId: string;
-		walletConnectUri: string;
 	};
 }
 
@@ -101,6 +100,13 @@ export type EvmResponse =
 
 // Start events
 
+export interface EvmConnectionStringEvent {
+	type: 'connectionString';
+	payload: {
+		connectionString: string;
+	};
+}
+
 export interface EvmConnectEvent {
 	type: 'connect';
 	payload: {
@@ -136,6 +142,7 @@ export interface EvmDisconnectEvent {
 }
 
 export type EvmEvent =
+	| EvmConnectionStringEvent
 	| EvmConnectEvent
 	| EvmMessageEvent
 	| EvmChainChangedEvent

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EXPERIMENTAL_WALLET = exports.NETWORKS = exports.TEZOS_WC_PROVIDER_STORAGE_KEY = exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = exports.EVM_PROVIDER_STORAGE_KEY = exports.TAILWIND_PREFIX = void 0;
 exports.TAILWIND_PREFIX = 'eotrzpirnbqlbfjhbqpo-';
-exports.EVM_PROVIDER_STORAGE_KEY = 'ptkjfuuopetruxoocapm';
+exports.EVM_PROVIDER_STORAGE_KEY = 'mfiqmlieehlcobqzqiav';
 exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = 'jkdkvddgajorkvmywwub';
 exports.TEZOS_WC_PROVIDER_STORAGE_KEY = 'oergkxuqjljvgrkkzeth';
 exports.NETWORKS = [

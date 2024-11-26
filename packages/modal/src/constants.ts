@@ -11,7 +11,7 @@ export const TAILWIND_PREFIX = 'eotrzpirnbqlbfjhbqpo-';
  * This key is used to identify and retrieve the EVM provider data
  * from the storage.
  */
-export const EVM_PROVIDER_STORAGE_KEY = 'ptkjfuuopetruxoocapm';
+export const EVM_PROVIDER_STORAGE_KEY = 'mfiqmlieehlcobqzqiav';
 
 /**
  * A constant string key used for storing the Tezos Beacon provider information.

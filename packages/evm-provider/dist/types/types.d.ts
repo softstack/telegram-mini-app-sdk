@@ -52,5 +52,5 @@ export interface SerializedTConnectEvmProvider {
     _apiKey: string;
     _communicationController: string;
     _sessionId: string;
-    _walletConnectUri: string;
+    _connectionString: string;
 }

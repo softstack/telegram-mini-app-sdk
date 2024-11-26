@@ -202,5 +202,5 @@ export interface SerializedTConnectEvmProvider {
 	/**
 	 * The URI for WalletConnect.
 	 */
-	_walletConnectUri: string;
+	_connectionString: string;
 }
