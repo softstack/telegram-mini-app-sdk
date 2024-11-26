@@ -7,7 +7,7 @@ COPY . .
 RUN npm i
 
 # Build the packages in correct order
-RUN npm run build --workspace telegram-mini-app
+RUN npm run build
 
 # Install serve globally
 RUN npm install -g serve
