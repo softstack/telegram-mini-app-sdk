@@ -1,10 +1,10 @@
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { useTConnectModal } from '@tconnect.io/modal';
 import { Fragment, memo, useCallback, useEffect, useState } from 'react';
-import { TextButton } from 'telegram-mini-app/src/components/buttons/TextButton';
-import { Col } from 'telegram-mini-app/src/components/flex/Col';
-import { Row } from 'telegram-mini-app/src/components/flex/Row';
 import Web3 from 'web3';
+import { TextButton } from '../components/buttons/TextButton';
+import { Col } from '../components/flex/Col';
+import { Row } from '../components/flex/Row';
 
 export interface EvmConsumerProps {
 	provider: TConnectEvmProvider;

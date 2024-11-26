@@ -3,9 +3,9 @@ import { useTConnectModal } from '@tconnect.io/modal';
 import { TConnectTezosBeaconProvider } from '@tconnect.io/tezos-beacon-provider';
 import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
 import { memo, useCallback, useEffect, useState } from 'react';
-import { TextButton } from 'telegram-mini-app/src/components/buttons/TextButton';
-import { Col } from 'telegram-mini-app/src/components/flex/Col';
-import { Row } from 'telegram-mini-app/src/components/flex/Row';
+import { TextButton } from '../components/buttons/TextButton';
+import { Col } from '../components/flex/Col';
+import { Row } from '../components/flex/Row';
 
 export interface TezosConsumerProps {
 	provider: TConnectTezosBeaconProvider | TConnectTezosWcProvider;

@@ -1,10 +1,10 @@
 import { useTConnectModal } from '@tconnect.io/modal';
 import { Fragment, memo } from 'react';
 import { Link } from 'react-router-dom';
-import { TextButton } from 'telegram-mini-app/src/components/buttons/TextButton';
-import { Col } from 'telegram-mini-app/src/components/flex/Col';
-import { EvmConsumer } from 'telegram-mini-app/src/pages/EvmConsumer';
-import { TezosConsumer } from 'telegram-mini-app/src/pages/TezosConsumer';
+import { TextButton } from '../components/buttons/TextButton';
+import { Col } from '../components/flex/Col';
+import { EvmConsumer } from '../pages/EvmConsumer';
+import { TezosConsumer } from '../pages/TezosConsumer';
 
 export const Main = memo(() => {
 	const tConnect = useTConnectModal();

@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 import { memo } from 'react';
-import { BaseButton, BaseButtonProps } from 'telegram-mini-app/src/components/buttons/BaseButton';
+import { BaseButton, BaseButtonProps } from './BaseButton';
 
 export interface TextButtonProps extends BaseButtonProps {
 	text: string;
