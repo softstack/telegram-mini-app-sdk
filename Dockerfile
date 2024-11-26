@@ -2,9 +2,14 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY . .
+COPY package*.json ./
+COPY packages/*/package*.json ./packages/
+COPY packages/*/tsconfig*.json ./packages/
+
 # Install dependencies
 RUN npm i
+
+COPY . .
 
 # Build the packages in correct order
 RUN npm run build
