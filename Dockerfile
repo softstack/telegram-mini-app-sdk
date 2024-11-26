@@ -19,6 +19,7 @@ COPY packages/tezos-beacon-api-types/package*.json ./packages/tezos-beacon-api-t
 COPY packages/tezos-beacon-provider/package*.json ./packages/tezos-provider/
 COPY packages/tezos-wc-api-types/package*.json ./packages/tezos-wc-api-types/
 COPY packages/tezos-wc-provider/package*.json ./packages/tezos-wc-provider/
+COPY packages/modal/package*.json ./packages/modal/
 
 # Copy all source files
 COPY packages/core ./packages/core/
@@ -31,6 +32,7 @@ COPY packages/tezos-beacon-provider ./packages/tezos-provider/
 COPY packages/tezos-wc-api-types ./packages/tezos-wc-api-types/
 COPY packages/tezos-wc-provider ./packages/tezos-wc-provider/
 COPY packages/telegram-mini-app ./packages/telegram-mini-app/
+COPY packages/modal ./packages/modal/
 
 # Install dependencies at root level
 RUN npm install
