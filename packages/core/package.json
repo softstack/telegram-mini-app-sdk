@@ -1,8 +1,8 @@
 {
 	"name": "@tconnect.io/core",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "",
-	"author": "",
+	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",
 	"repository": {
 		"type": "git",

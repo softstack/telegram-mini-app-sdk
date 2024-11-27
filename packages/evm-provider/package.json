@@ -1,8 +1,8 @@
 {
 	"name": "@tconnect.io/evm-provider",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"description": "",
-	"author": "",
+	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -36,10 +36,10 @@
 		"prepublishOnly": "npm run build && npm test && npm run lint"
 	},
 	"dependencies": {
-		"@tconnect.io/core": "^0.0.5",
-		"@tconnect.io/dapp-communication": "^0.0.5",
-		"@tconnect.io/dapp-utils": "^0.0.7",
-		"@tconnect.io/evm-api-types": "^0.0.8",
+		"@tconnect.io/core": "^0.0.6",
+		"@tconnect.io/dapp-communication": "^0.0.6",
+		"@tconnect.io/dapp-utils": "^0.0.8",
+		"@tconnect.io/evm-api-types": "^0.0.9",
 		"@twa-dev/sdk": "^7.10.1",
 		"joi": "^17.13.3"
 	}

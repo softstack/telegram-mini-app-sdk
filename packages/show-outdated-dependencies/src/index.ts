@@ -95,6 +95,17 @@ const showOutdatedDependencies = (packages: Array<Package>): void => {
 	}
 };
 
+const showUncommitedFiles = async (): Promise<void> => {
+	const uncommitedFiles = await execute('git status --porcelain');
+	if (uncommitedFiles) {
+		console.log('Uncommited files:');
+		console.log(uncommitedFiles);
+		process.exit(1); // eslint-disable-line unicorn/no-process-exit
+	} else {
+		console.log('No uncommited files found.');
+	}
+};
+
 const showPackgaesToPublish = (packages: Array<Package>): void => {
 	const outputLines = new Array<string>();
 	let fixOutput = '';
@@ -166,6 +177,8 @@ const main = async (): Promise<void> => {
 		showPackageVersionsToUpdate(packages);
 		console.log('');
 		showOutdatedDependencies(packages);
+		console.log('');
+		await showUncommitedFiles();
 		console.log('');
 		showPackgaesToPublish(packages);
 	} catch (error) {

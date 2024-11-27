@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"description": "",
-	"author": "",
+	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
