@@ -130,7 +130,7 @@ export interface TConnectTezosBeaconProviderOptions {
 	/**
 	 * Optional: The URL of a generic wallet.
 	 */
-	genericWalletUrl?: string;
+	// genericWalletUrl?: string;
 }
 
 /**

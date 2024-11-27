@@ -20,7 +20,7 @@ import { Row } from '../components/flex/Row';
 import { Header } from '../components/Header';
 import { NETWORKS } from '../constants';
 import { nextVersion, useDarkMode, useVersionedState } from '../utils';
-export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey, networkFilter, genericWalletUrl, step, onChangeStep, currentNetwork, onChangeCurrentNetwork, currentWallet, onChangeCurrentWallet, evmProvider, onChangeEvmProvider, tezosBeaconProvider, onChangeTezosBeaconProvider, tezosWcProvider, onChangeTezosWcProvider, onDisconnect, onClose, onError, }) => {
+export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey, networkFilter, tezosBeaconNetwork, tezosWcNetwork, step, onChangeStep, currentNetwork, onChangeCurrentNetwork, currentWallet, onChangeCurrentWallet, evmProvider, onChangeEvmProvider, tezosBeaconProvider, onChangeTezosBeaconProvider, tezosWcProvider, onChangeTezosWcProvider, onDisconnect, onClose, onError, }) => {
     const darkMode = useDarkMode();
     const backgroundElement = useRef(null);
     const [showNetworks, setShowNetworks] = useState(true);
@@ -161,8 +161,7 @@ export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey
                                 walletApp: wallet.walletApp,
                                 secretSeed: crypto.randomUUID(),
                                 apiKey,
-                                network: { type: 'mainnet' },
-                                genericWalletUrl,
+                                network: tezosBeaconNetwork ?? { type: 'mainnet' },
                             });
                             await provider.permissionRequest();
                             onChangeTezosBeaconProvider(provider);
@@ -176,7 +175,7 @@ export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey
                                 bridgeUrl,
                                 walletApp: wallet.walletApp,
                                 apiKey,
-                                network: 'mainnet',
+                                network: tezosWcNetwork ?? 'mainnet',
                             });
                             await provider.permissionRequest();
                             onChangeTezosWcProvider(provider);
@@ -198,7 +197,8 @@ export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey
         appIcon,
         bridgeUrl,
         apiKey,
-        genericWalletUrl,
+        tezosBeaconNetwork,
+        tezosWcNetwork,
         onChangeEvmProvider,
         onChangeTezosBeaconProvider,
         onChangeTezosWcProvider,

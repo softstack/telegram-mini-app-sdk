@@ -1,8 +1,8 @@
 import { ETHERLINK_CHAIN_ID } from '@tconnect.io/core';
 import { getOperatingSystem } from '@tconnect.io/dapp-utils';
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
-import { TConnectTezosBeaconProvider } from '@tconnect.io/tezos-beacon-provider';
-import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
+import { TConnectTezosBeaconProvider, Network as TezosBeaconNetwork } from '@tconnect.io/tezos-beacon-provider';
+import { TConnectTezosWcProvider, Network as TezosWcNetwork } from '@tconnect.io/tezos-wc-provider';
 import WebApp from '@twa-dev/sdk';
 import { clsx } from 'clsx';
 import { Fragment, memo, MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -29,8 +29,10 @@ export interface TConnectModalProps {
 	appIcon: string | undefined;
 	bridgeUrl: string;
 	apiKey: string;
-	networkFilter?: Array<'etherlink' | 'tezos'>;
-	genericWalletUrl?: string;
+	networkFilter: Array<'etherlink' | 'tezos'> | undefined;
+	tezosBeaconNetwork: TezosBeaconNetwork | undefined;
+	tezosWcNetwork: TezosWcNetwork | undefined;
+	// genericWalletUrl: string | undefined;
 	step: Step;
 	onChangeStep: (action: Step | ((prevStep: Step) => Step)) => void;
 	currentNetwork: Network | undefined;
@@ -57,7 +59,6 @@ export interface TConnectModalProps {
  * @param {string} bridgeUrl - The URL of the bridge server.
  * @param {string} apiKey - The API key for authentication.
  * @param {Array<string>} networkFilter - A filter for the networks to be displayed.
- * @param {string} genericWalletUrl - The URL for generic wallets.
  * @param {string} step - The current step in the connection process.
  * @param {Function} onChangeStep - Callback to change the current step.
  * @param {Network} currentNetwork - The currently selected network.
@@ -84,7 +85,9 @@ export const TConnectModal = memo<TConnectModalProps>(
 		bridgeUrl,
 		apiKey,
 		networkFilter,
-		genericWalletUrl,
+		tezosBeaconNetwork,
+		tezosWcNetwork,
+		// genericWalletUrl,
 		step,
 		onChangeStep,
 		currentNetwork,
@@ -259,8 +262,8 @@ export const TConnectModal = memo<TConnectModalProps>(
 										walletApp: wallet.walletApp,
 										secretSeed: crypto.randomUUID(),
 										apiKey,
-										network: { type: 'mainnet' },
-										genericWalletUrl,
+										network: tezosBeaconNetwork ?? { type: 'mainnet' },
+										// genericWalletUrl,
 									});
 									await provider.permissionRequest();
 									onChangeTezosBeaconProvider(provider);
@@ -274,7 +277,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 										bridgeUrl,
 										walletApp: wallet.walletApp,
 										apiKey,
-										network: 'mainnet',
+										network: tezosWcNetwork ?? 'mainnet',
 									});
 									await provider.permissionRequest();
 									onChangeTezosWcProvider(provider);
@@ -296,7 +299,9 @@ export const TConnectModal = memo<TConnectModalProps>(
 				appIcon,
 				bridgeUrl,
 				apiKey,
-				genericWalletUrl,
+				tezosBeaconNetwork,
+				tezosWcNetwork,
+				// genericWalletUrl,
 				onChangeEvmProvider,
 				onChangeTezosBeaconProvider,
 				onChangeTezosWcProvider,

@@ -13,13 +13,13 @@ const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const tezos_beacon_api_types_1 = require("@tconnect.io/tezos-beacon-api-types");
 const sdk_1 = __importDefault(require("@twa-dev/sdk"));
 const bs58check_1 = __importDefault(require("bs58check"));
-const constants_1 = require("./constants");
 const base_1 = require("./utils/base");
 const utils_1 = require("./utils/utils");
 const validation_1 = require("./validation");
 class TConnectTezosBeaconProvider extends core_1.TypedEvent {
     constructor(options) {
         super();
+        this._genericWalletUrl = '';
         this._permissionRequestCallbacks = new core_1.CallbackController(1000 * 60 * 60);
         this._operationRequestCallbacks = new core_1.CallbackController(1000 * 60 * 60);
         this._signPayloadRequestCallbacks = new core_1.CallbackController(1000 * 60 * 60);
@@ -28,7 +28,6 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         this.appIcon = options.appIcon;
         this._secretSeed = options.secretSeed;
         this._apiKey = options.apiKey;
-        this._genericWalletUrl = options.genericWalletUrl ?? constants_1.GENERIC_WALLET_URL;
         this.network = options.network ?? { type: 'mainnet' };
         this.bridgeUrl = options.bridgeUrl;
         this.walletApp = options.walletApp;
@@ -262,7 +261,6 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
             network: data.network,
             bridgeUrl: data.bridgeUrl,
             walletApp: data.walletApp,
-            genericWalletUrl: data._genericWalletUrl,
         });
         provider._communicationController = dapp_communication_1.CommunicationController.deserialize(data._communicationController);
         provider._sessionId = data._sessionId;

@@ -24,7 +24,6 @@ export interface TConnectTezosBeaconProviderOptions {
     apiKey: string;
     network: Network;
     walletApp?: TezosBeaconWalletApp;
-    genericWalletUrl?: string;
 }
 export interface TConnectTezosBeaconProviderEvents {
     connectionString: string;

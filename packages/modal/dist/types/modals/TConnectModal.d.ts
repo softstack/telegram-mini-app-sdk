@@ -1,6 +1,6 @@
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
-import { TConnectTezosBeaconProvider } from '@tconnect.io/tezos-beacon-provider';
-import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
+import { TConnectTezosBeaconProvider, Network as TezosBeaconNetwork } from '@tconnect.io/tezos-beacon-provider';
+import { TConnectTezosWcProvider, Network as TezosWcNetwork } from '@tconnect.io/tezos-wc-provider';
 import { Network } from '../types';
 export type Step = 'connect' | 'connecting' | 'invalidChainId' | 'connected';
 export interface TConnectModalProps {
@@ -9,8 +9,9 @@ export interface TConnectModalProps {
     appIcon: string | undefined;
     bridgeUrl: string;
     apiKey: string;
-    networkFilter?: Array<'etherlink' | 'tezos'>;
-    genericWalletUrl?: string;
+    networkFilter: Array<'etherlink' | 'tezos'> | undefined;
+    tezosBeaconNetwork: TezosBeaconNetwork | undefined;
+    tezosWcNetwork: TezosWcNetwork | undefined;
     step: Step;
     onChangeStep: (action: Step | ((prevStep: Step) => Step)) => void;
     currentNetwork: Network | undefined;

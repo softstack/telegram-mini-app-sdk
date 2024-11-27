@@ -7,13 +7,13 @@ import { getErrorMessage } from '@tconnect.io/dapp-utils';
 import { EVENT_CHANNEL, REQUEST_CHANNEL, SOCKET_IO_PATH, TezosBeaconError, } from '@tconnect.io/tezos-beacon-api-types';
 import WebApp from '@twa-dev/sdk';
 import bs58check from 'bs58check';
-import { GENERIC_WALLET_URL } from './constants';
 import { formatTransactionAmount, toIntegerString } from './utils/base';
 import { createCryptoBoxClient, createCryptoBoxServer, decryptCryptoboxPayload, encryptCryptoboxPayload, getAddressFromPublicKey, getConnectionStringUniversalLink, getSenderId, getUniversalLink, openCryptobox, toHex, } from './utils/utils';
 import { isDisconnectMessage, isErrorResponse, isOperationResponse, isPairingResponse, isPermissionResponse, isSignPayloadResponse, validateTezosBeaconEvent, validateTezosBeaconResponse, } from './validation';
 export class TConnectTezosBeaconProvider extends TypedEvent {
     constructor(options) {
         super();
+        this._genericWalletUrl = '';
         this._permissionRequestCallbacks = new CallbackController(1000 * 60 * 60);
         this._operationRequestCallbacks = new CallbackController(1000 * 60 * 60);
         this._signPayloadRequestCallbacks = new CallbackController(1000 * 60 * 60);
@@ -22,7 +22,6 @@ export class TConnectTezosBeaconProvider extends TypedEvent {
         this.appIcon = options.appIcon;
         this._secretSeed = options.secretSeed;
         this._apiKey = options.apiKey;
-        this._genericWalletUrl = options.genericWalletUrl ?? GENERIC_WALLET_URL;
         this.network = options.network ?? { type: 'mainnet' };
         this.bridgeUrl = options.bridgeUrl;
         this.walletApp = options.walletApp;
@@ -256,7 +255,6 @@ export class TConnectTezosBeaconProvider extends TypedEvent {
             network: data.network,
             bridgeUrl: data.bridgeUrl,
             walletApp: data.walletApp,
-            genericWalletUrl: data._genericWalletUrl,
         });
         provider._communicationController = CommunicationController.deserialize(data._communicationController);
         provider._sessionId = data._sessionId;

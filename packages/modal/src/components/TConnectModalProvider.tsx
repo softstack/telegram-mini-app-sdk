@@ -1,7 +1,7 @@
 import { ETHERLINK_CHAIN_ID } from '@tconnect.io/core';
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
-import { TConnectTezosBeaconProvider } from '@tconnect.io/tezos-beacon-provider';
-import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
+import { TConnectTezosBeaconProvider, Network as TezosBeaconNetwork } from '@tconnect.io/tezos-beacon-provider';
+import { TConnectTezosWcProvider, Network as TezosWcNetwork } from '@tconnect.io/tezos-wc-provider';
 import { createContext, memo, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
 	EVM_PROVIDER_STORAGE_KEY,
@@ -41,7 +41,9 @@ export interface TConnectModalProviderProps {
 	bridgeUrl: string;
 	apiKey: string;
 	networkFilter?: Array<'etherlink' | 'tezos'>;
-	genericWalletUrl?: string;
+	tezosBeaconNetwork?: TezosBeaconNetwork;
+	tezosWcNetwork?: TezosWcNetwork;
+	// genericWalletUrl?: string;
 	children?: ReactNode | undefined;
 	onError?: (error: unknown) => void;
 	closeModalOnError?: boolean;
@@ -67,7 +69,6 @@ export interface TConnectModalProviderProps {
  *   bridgeUrl="https://bridge.example.com"
  *   apiKey="your-api-key"
  *   networkFilter={['mainnet', 'testnet']}
- *   genericWalletUrl="https://wallet.example.com"
  *   onError={(error) => console.error(error)}
  * >
  *   <YourAppComponents />
@@ -82,7 +83,9 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 		bridgeUrl,
 		apiKey,
 		networkFilter,
-		genericWalletUrl,
+		tezosBeaconNetwork,
+		tezosWcNetwork,
+		// genericWalletUrl,
 		children,
 		onError,
 		closeModalOnError,
@@ -380,7 +383,9 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 						bridgeUrl={bridgeUrl}
 						apiKey={apiKey}
 						networkFilter={networkFilter}
-						genericWalletUrl={genericWalletUrl}
+						tezosBeaconNetwork={tezosBeaconNetwork}
+						tezosWcNetwork={tezosWcNetwork}
+						// genericWalletUrl={genericWalletUrl}
 						step={step}
 						onChangeStep={setStep}
 						currentNetwork={currentNetwork}

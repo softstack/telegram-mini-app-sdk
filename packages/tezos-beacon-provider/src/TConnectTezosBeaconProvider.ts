@@ -36,7 +36,6 @@ import {
 } from '@tconnect.io/tezos-beacon-api-types';
 import WebApp from '@twa-dev/sdk';
 import bs58check from 'bs58check';
-import { GENERIC_WALLET_URL } from './constants';
 import {
 	DisconnectMessageInput,
 	Network,
@@ -103,7 +102,6 @@ export class TConnectTezosBeaconProvider
 	 * @param options.appUrl - The URL of the application.
 	 * @param options.secretSeed - The secret seed used for generating the communication key pair.
 	 * @param options.apiKey - The API key for authentication.
-	 * @param options.genericWalletUrl - The URL of the generic wallet (optional).
 	 * @param options.network - The network configuration (optional, defaults to mainnet).
 	 * @param options.bridgeUrl - The URL of the bridge server.
 	 * @param options.walletApp - The wallet application instance.
@@ -115,7 +113,7 @@ export class TConnectTezosBeaconProvider
 		this.appIcon = options.appIcon;
 		this._secretSeed = options.secretSeed;
 		this._apiKey = options.apiKey;
-		this._genericWalletUrl = options.genericWalletUrl ?? GENERIC_WALLET_URL;
+		// this._genericWalletUrl = options.genericWalletUrl ?? GENERIC_WALLET_URL;
 		this.network = options.network ?? { type: 'mainnet' };
 		this.bridgeUrl = options.bridgeUrl;
 		this.walletApp = options.walletApp;
@@ -158,7 +156,7 @@ export class TConnectTezosBeaconProvider
 	readonly walletApp: TezosBeaconWalletApp | undefined;
 	private readonly _secretSeed: string;
 	private readonly _apiKey: string;
-	private readonly _genericWalletUrl: string;
+	private readonly _genericWalletUrl: string = '';
 	private readonly _communicationKeyPair: KeyPair;
 	private _communicationController: CommunicationController<TezosBeaconRequest, TezosBeaconResponse, TezosBeaconEvent>;
 	private _sessionId: string | undefined;
@@ -651,7 +649,7 @@ export class TConnectTezosBeaconProvider
 			network: data.network,
 			bridgeUrl: data.bridgeUrl,
 			walletApp: data.walletApp,
-			genericWalletUrl: data._genericWalletUrl,
+			// genericWalletUrl: data._genericWalletUrl,
 		});
 		provider._communicationController = CommunicationController.deserialize(data._communicationController);
 		provider._sessionId = data._sessionId;
