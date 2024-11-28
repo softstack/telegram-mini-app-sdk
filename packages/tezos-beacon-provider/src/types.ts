@@ -3,14 +3,13 @@ export type Optional<T, K extends keyof T> = Partial<T> & Omit<T, K>;
 /**
  * Represents the supported Tezos Beacon wallet applications.
  *
- * @typedef {('altme' | 'kukai' | 'temple' | '_generic_')} TezosBeaconWalletApp
+ * @typedef {('altme' | 'kukai' | 'temple')} TezosBeaconWalletApp
  *
  * @property {'altme'} altme - Altme wallet application.
  * @property {'kukai'} kukai - Kukai wallet application.
  * @property {'temple'} temple - Temple wallet application.
- * @property {'_generic_'} _generic_ - Generic wallet application.
  */
-export type TezosBeaconWalletApp = 'altme' | 'kukai' | 'temple' | '_generic_';
+export type TezosBeaconWalletApp = 'altme' | 'kukai' | 'temple';
 
 /**
  * Represents a serialized Tezos Beacon provider configuration.
@@ -54,12 +53,6 @@ export interface SerializedTConnectTezosBeaconProvider {
 	 * @private
 	 */
 	_apiKey: string;
-
-	/**
-	 * The generic wallet URL.
-	 * @private
-	 */
-	_genericWalletUrl: string;
 
 	/**
 	 * The communication controller identifier.
@@ -126,11 +119,6 @@ export interface TConnectTezosBeaconProviderOptions {
 	 * Optional: The Tezos Beacon wallet application.
 	 */
 	walletApp?: TezosBeaconWalletApp;
-
-	/**
-	 * Optional: The URL of a generic wallet.
-	 */
-	// genericWalletUrl?: string;
 }
 
 /**

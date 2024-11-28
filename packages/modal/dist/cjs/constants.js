@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EXPERIMENTAL_WALLET = exports.NETWORKS = exports.TEZOS_WC_PROVIDER_STORAGE_KEY = exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = exports.EVM_PROVIDER_STORAGE_KEY = exports.TAILWIND_PREFIX = void 0;
+exports.NETWORKS = exports.TEZOS_WC_PROVIDER_STORAGE_KEY = exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = exports.EVM_PROVIDER_STORAGE_KEY = exports.TAILWIND_PREFIX = void 0;
 exports.TAILWIND_PREFIX = 'eotrzpirnbqlbfjhbqpo-';
 exports.EVM_PROVIDER_STORAGE_KEY = 'mfiqmlieehlcobqzqiav';
 exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = 'jkdkvddgajorkvmywwub';
@@ -85,12 +85,4 @@ exports.NETWORKS = [
         ],
     },
 ];
-exports.EXPERIMENTAL_WALLET = {
-    name: 'Experimental Wallet',
-    icon: 'transparent',
-    network: 'tezos',
-    bridge: 'beacon',
-    walletApp: '_generic_',
-    supportedOperatingSystems: ['android', 'ios'],
-};
 //# sourceMappingURL=constants.js.map

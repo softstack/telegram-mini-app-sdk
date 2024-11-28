@@ -53,7 +53,6 @@ export const App = (): JSX.Element => {
 				apiKey={API_KEY}
 				tezosBeaconNetwork={{ type: 'ghostnet' }}
 				tezosWcNetwork="ghostnet"
-				// genericWalletUrl={GENERIC_WALLET_URL}
 				onError={handleError}
 				closeModalOnError={true}
 			>

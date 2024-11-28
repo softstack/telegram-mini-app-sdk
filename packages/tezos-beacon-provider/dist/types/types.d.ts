@@ -1,5 +1,5 @@
 export type Optional<T, K extends keyof T> = Partial<T> & Omit<T, K>;
-export type TezosBeaconWalletApp = 'altme' | 'kukai' | 'temple' | '_generic_';
+export type TezosBeaconWalletApp = 'altme' | 'kukai' | 'temple';
 export interface SerializedTConnectTezosBeaconProvider {
     appName: string;
     appUrl: string;
@@ -9,7 +9,6 @@ export interface SerializedTConnectTezosBeaconProvider {
     walletApp: TezosBeaconWalletApp | undefined;
     _secretSeed: string;
     _apiKey: string;
-    _genericWalletUrl: string;
     _communicationController: string;
     _sessionId: string;
     _otherPublicKey: Buffer;

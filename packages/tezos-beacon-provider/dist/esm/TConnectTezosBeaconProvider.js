@@ -13,7 +13,6 @@ import { isDisconnectMessage, isErrorResponse, isOperationResponse, isPairingRes
 export class TConnectTezosBeaconProvider extends TypedEvent {
     constructor(options) {
         super();
-        this._genericWalletUrl = '';
         this._permissionRequestCallbacks = new CallbackController(1000 * 60 * 60);
         this._operationRequestCallbacks = new CallbackController(1000 * 60 * 60);
         this._signPayloadRequestCallbacks = new CallbackController(1000 * 60 * 60);
@@ -53,7 +52,7 @@ export class TConnectTezosBeaconProvider extends TypedEvent {
         const callbackPromise = this._permissionRequestCallbacks.addCallback(permissionRequestId);
         this._communicationController.on('event', this._createTezosBeaconEventHandler(permissionRequestId));
         if (this.walletApp) {
-            WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, loginResponse.payload.connectionString, this._genericWalletUrl));
+            WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, loginResponse.payload.connectionString));
         }
         this.emit('connectionString', loginResponse.payload.connectionString);
         return callbackPromise;
@@ -237,7 +236,6 @@ export class TConnectTezosBeaconProvider extends TypedEvent {
             walletApp: this.walletApp,
             _secretSeed: this._secretSeed,
             _apiKey: this._apiKey,
-            _genericWalletUrl: this._genericWalletUrl,
             _communicationController: this._communicationController.serialize(),
             _sessionId: this._getSessionId(),
             _otherPublicKey: this._getOtherPublicKey(),

@@ -35,7 +35,6 @@ export const TezosBeacon = memo(() => {
 				apiKey: 'a',
 				network: { type: 'ghostnet', name: 'Ghostnet', rpcUrl: 'https://rpc.ghostnet.teztnets.com' },
 				walletApp,
-				// genericWalletUrl: GENERIC_WALLET_URL,
 			});
 			tezos.setWalletProvider(provider);
 

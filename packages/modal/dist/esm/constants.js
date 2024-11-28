@@ -82,12 +82,4 @@ export const NETWORKS = [
         ],
     },
 ];
-export const EXPERIMENTAL_WALLET = {
-    name: 'Experimental Wallet',
-    icon: 'transparent',
-    network: 'tezos',
-    bridge: 'beacon',
-    walletApp: '_generic_',
-    supportedOperatingSystems: ['android', 'ios'],
-};
 //# sourceMappingURL=constants.js.map

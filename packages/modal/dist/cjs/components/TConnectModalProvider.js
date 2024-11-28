@@ -139,9 +139,7 @@ exports.TConnectModalProvider = (0, react_1.memo)(({ appName, appUrl, appIcon, b
             else if (tezosBeaconProvider) {
                 const network = constants_1.NETWORKS.find((network) => network.type === 'tezos');
                 if (network) {
-                    const wallet = tezosBeaconProvider.walletApp === '_generic_'
-                        ? constants_1.EXPERIMENTAL_WALLET
-                        : network.wallets.find((wallet) => wallet.bridge === 'beacon' && wallet.walletApp === tezosBeaconProvider.walletApp);
+                    const wallet = network.wallets.find((wallet) => wallet.bridge === 'beacon' && wallet.walletApp === tezosBeaconProvider.walletApp);
                     if (wallet) {
                         setStep('connected');
                         setCurrentNetwork(network);

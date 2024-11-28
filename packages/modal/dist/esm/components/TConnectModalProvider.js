@@ -4,7 +4,7 @@ import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { TConnectTezosBeaconProvider } from '@tconnect.io/tezos-beacon-provider';
 import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
 import { createContext, memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { EVM_PROVIDER_STORAGE_KEY, EXPERIMENTAL_WALLET, NETWORKS, TEZOS_BEACON_PROVIDER_STORAGE_KEY, TEZOS_WC_PROVIDER_STORAGE_KEY, } from '../constants';
+import { EVM_PROVIDER_STORAGE_KEY, NETWORKS, TEZOS_BEACON_PROVIDER_STORAGE_KEY, TEZOS_WC_PROVIDER_STORAGE_KEY, } from '../constants';
 import { TConnectModal } from '../modals/TConnectModal';
 import { nextVersion, useVersionedState } from '../utils';
 export const TConnectModalContext = createContext({
@@ -136,9 +136,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
             else if (tezosBeaconProvider) {
                 const network = NETWORKS.find((network) => network.type === 'tezos');
                 if (network) {
-                    const wallet = tezosBeaconProvider.walletApp === '_generic_'
-                        ? EXPERIMENTAL_WALLET
-                        : network.wallets.find((wallet) => wallet.bridge === 'beacon' && wallet.walletApp === tezosBeaconProvider.walletApp);
+                    const wallet = network.wallets.find((wallet) => wallet.bridge === 'beacon' && wallet.walletApp === tezosBeaconProvider.walletApp);
                     if (wallet) {
                         setStep('connected');
                         setCurrentNetwork(network);

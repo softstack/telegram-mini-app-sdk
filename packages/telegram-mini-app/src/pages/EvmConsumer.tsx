@@ -44,7 +44,7 @@ export const EvmConsumer = memo<EvmConsumerProps>(({ provider }) => {
 			return;
 		}
 		const web3 = new Web3(provider);
-		const signature = await web3.eth.personal.sign('Hello world', address, 'password');
+		const signature = await web3.eth.personal.sign(`Hello world! ${new Date().toISOString()}`, address, 'password');
 		setSignature(signature);
 	}, [provider, address]);
 

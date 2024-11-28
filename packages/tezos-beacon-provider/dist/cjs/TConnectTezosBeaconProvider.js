@@ -19,7 +19,6 @@ const validation_1 = require("./validation");
 class TConnectTezosBeaconProvider extends core_1.TypedEvent {
     constructor(options) {
         super();
-        this._genericWalletUrl = '';
         this._permissionRequestCallbacks = new core_1.CallbackController(1000 * 60 * 60);
         this._operationRequestCallbacks = new core_1.CallbackController(1000 * 60 * 60);
         this._signPayloadRequestCallbacks = new core_1.CallbackController(1000 * 60 * 60);
@@ -59,7 +58,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         const callbackPromise = this._permissionRequestCallbacks.addCallback(permissionRequestId);
         this._communicationController.on('event', this._createTezosBeaconEventHandler(permissionRequestId));
         if (this.walletApp) {
-            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, loginResponse.payload.connectionString, this._genericWalletUrl));
+            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, loginResponse.payload.connectionString));
         }
         this.emit('connectionString', loginResponse.payload.connectionString);
         return callbackPromise;
@@ -243,7 +242,6 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
             walletApp: this.walletApp,
             _secretSeed: this._secretSeed,
             _apiKey: this._apiKey,
-            _genericWalletUrl: this._genericWalletUrl,
             _communicationController: this._communicationController.serialize(),
             _sessionId: this._getSessionId(),
             _otherPublicKey: this._getOtherPublicKey(),

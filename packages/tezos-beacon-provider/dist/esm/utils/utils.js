@@ -110,7 +110,7 @@ export const getUniversalLink = (walletApp) => {
         }
     }
 };
-export const getConnectionStringUniversalLink = (walletApp, connectionString, genericWalletUrl) => {
+export const getConnectionStringUniversalLink = (walletApp, connectionString) => {
     switch (walletApp) {
         case 'altme': {
             return `https://app.altme.io/app/download?${connectionString.slice(9)}`;
@@ -120,11 +120,6 @@ export const getConnectionStringUniversalLink = (walletApp, connectionString, ge
         }
         case 'temple': {
             return `https://app.templewallet.com?${connectionString.slice(9)}`;
-        }
-        case '_generic_': {
-            const url = new URL(genericWalletUrl);
-            url.searchParams.append('uri', connectionString);
-            return url.toString();
         }
     }
 };

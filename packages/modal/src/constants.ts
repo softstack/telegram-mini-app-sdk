@@ -1,4 +1,4 @@
-import { Network, TezosBeaconWallet } from './types';
+import { Network } from './types';
 
 /**
  * A prefix used for Tailwind CSS classes to ensure uniqueness and avoid conflicts.
@@ -126,24 +126,3 @@ export const NETWORKS: Array<Network> = [
 		],
 	},
 ];
-
-/**
- * An experimental wallet configuration for Tezos Beacon.
- *
- * @constant
- * @type {TezosBeaconWallet}
- * @property {string} name - The name of the wallet.
- * @property {string} icon - The icon type of the wallet.
- * @property {string} network - The network the wallet is connected to.
- * @property {string} bridge - The bridge protocol used by the wallet.
- * @property {string} walletApp - The generic wallet application identifier.
- * @property {string[]} supportedOperatingSystems - The list of supported operating systems.
- */
-export const EXPERIMENTAL_WALLET: TezosBeaconWallet = {
-	name: 'Experimental Wallet',
-	icon: 'transparent',
-	network: 'tezos',
-	bridge: 'beacon',
-	walletApp: '_generic_',
-	supportedOperatingSystems: ['android', 'ios'],
-};

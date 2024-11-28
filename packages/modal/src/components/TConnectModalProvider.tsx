@@ -5,7 +5,6 @@ import { TConnectTezosWcProvider, Network as TezosWcNetwork } from '@tconnect.io
 import { createContext, memo, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
 	EVM_PROVIDER_STORAGE_KEY,
-	EXPERIMENTAL_WALLET,
 	NETWORKS,
 	TEZOS_BEACON_PROVIDER_STORAGE_KEY,
 	TEZOS_WC_PROVIDER_STORAGE_KEY,
@@ -43,7 +42,6 @@ export interface TConnectModalProviderProps {
 	networkFilter?: Array<'etherlink' | 'tezos'>;
 	tezosBeaconNetwork?: TezosBeaconNetwork;
 	tezosWcNetwork?: TezosWcNetwork;
-	// genericWalletUrl?: string;
 	children?: ReactNode | undefined;
 	onError?: (error: unknown) => void;
 	closeModalOnError?: boolean;
@@ -57,7 +55,6 @@ export interface TConnectModalProviderProps {
  * @param {string} props.bridgeUrl - The URL of the bridge server.
  * @param {string} props.apiKey - The API key for authentication.
  * @param {string[]} props.networkFilter - An array of network filters.
- * @param {string} props.genericWalletUrl - The URL for the generic wallet.
  * @param {React.ReactNode} props.children - The child components to be rendered within the provider.
  * @param {(error: unknown) => void} [props.onError] - Optional callback function to handle errors.
  *
@@ -85,7 +82,6 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 		networkFilter,
 		tezosBeaconNetwork,
 		tezosWcNetwork,
-		// genericWalletUrl,
 		children,
 		onError,
 		closeModalOnError,
@@ -213,12 +209,9 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 				} else if (tezosBeaconProvider) {
 					const network = NETWORKS.find((network) => network.type === 'tezos');
 					if (network) {
-						const wallet =
-							tezosBeaconProvider.walletApp === '_generic_'
-								? EXPERIMENTAL_WALLET
-								: (network as TezosNetwork).wallets.find(
-										(wallet) => wallet.bridge === 'beacon' && wallet.walletApp === tezosBeaconProvider.walletApp,
-									);
+						const wallet = (network as TezosNetwork).wallets.find(
+							(wallet) => wallet.bridge === 'beacon' && wallet.walletApp === tezosBeaconProvider.walletApp,
+						);
 						if (wallet) {
 							setStep('connected');
 							setCurrentNetwork(network);
@@ -385,7 +378,6 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 						networkFilter={networkFilter}
 						tezosBeaconNetwork={tezosBeaconNetwork}
 						tezosWcNetwork={tezosWcNetwork}
-						// genericWalletUrl={genericWalletUrl}
 						step={step}
 						onChangeStep={setStep}
 						currentNetwork={currentNetwork}

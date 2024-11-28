@@ -113,7 +113,6 @@ export class TConnectTezosBeaconProvider
 		this.appIcon = options.appIcon;
 		this._secretSeed = options.secretSeed;
 		this._apiKey = options.apiKey;
-		// this._genericWalletUrl = options.genericWalletUrl ?? GENERIC_WALLET_URL;
 		this.network = options.network ?? { type: 'mainnet' };
 		this.bridgeUrl = options.bridgeUrl;
 		this.walletApp = options.walletApp;
@@ -156,7 +155,6 @@ export class TConnectTezosBeaconProvider
 	readonly walletApp: TezosBeaconWalletApp | undefined;
 	private readonly _secretSeed: string;
 	private readonly _apiKey: string;
-	private readonly _genericWalletUrl: string = '';
 	private readonly _communicationKeyPair: KeyPair;
 	private _communicationController: CommunicationController<TezosBeaconRequest, TezosBeaconResponse, TezosBeaconEvent>;
 	private _sessionId: string | undefined;
@@ -211,13 +209,7 @@ export class TConnectTezosBeaconProvider
 		const callbackPromise = this._permissionRequestCallbacks.addCallback(permissionRequestId);
 		this._communicationController.on('event', this._createTezosBeaconEventHandler(permissionRequestId));
 		if (this.walletApp) {
-			WebApp.openLink(
-				getConnectionStringUniversalLink(
-					this.walletApp,
-					loginResponse.payload.connectionString,
-					this._genericWalletUrl,
-				),
-			);
+			WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, loginResponse.payload.connectionString));
 		}
 		this.emit('connectionString', loginResponse.payload.connectionString);
 		return callbackPromise;
@@ -606,7 +598,6 @@ export class TConnectTezosBeaconProvider
 	 * - `walletApp`: The wallet application information.
 	 * - `_secretSeed`: The secret seed used for encryption.
 	 * - `_apiKey`: The API key for authentication.
-	 * - `_genericWalletUrl`: The URL of the generic wallet.
 	 * - `_communicationController`: The serialized communication controller.
 	 * - `_sessionId`: The session ID.
 	 * - `_otherPublicKey`: The public key of the other party.
@@ -624,7 +615,6 @@ export class TConnectTezosBeaconProvider
 			walletApp: this.walletApp,
 			_secretSeed: this._secretSeed,
 			_apiKey: this._apiKey,
-			_genericWalletUrl: this._genericWalletUrl,
 			_communicationController: this._communicationController.serialize(),
 			_sessionId: this._getSessionId(),
 			_otherPublicKey: this._getOtherPublicKey(),
@@ -649,7 +639,6 @@ export class TConnectTezosBeaconProvider
 			network: data.network,
 			bridgeUrl: data.bridgeUrl,
 			walletApp: data.walletApp,
-			// genericWalletUrl: data._genericWalletUrl,
 		});
 		provider._communicationController = CommunicationController.deserialize(data._communicationController);
 		provider._sessionId = data._sessionId;

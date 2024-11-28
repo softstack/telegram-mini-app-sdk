@@ -11,7 +11,6 @@ export declare class TConnectTezosBeaconProvider extends TypedEvent<TConnectTezo
     readonly walletApp: TezosBeaconWalletApp | undefined;
     private readonly _secretSeed;
     private readonly _apiKey;
-    private readonly _genericWalletUrl;
     private readonly _communicationKeyPair;
     private _communicationController;
     private _sessionId;
