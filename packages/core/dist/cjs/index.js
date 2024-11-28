@@ -17,7 +17,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./base"), exports);
 __exportStar(require("./CallbackController"), exports);
 __exportStar(require("./constants"), exports);
-__exportStar(require("./Logger"), exports);
 __exportStar(require("./TupleMap"), exports);
 __exportStar(require("./TupleSet"), exports);
 __exportStar(require("./TypedEvent"), exports);

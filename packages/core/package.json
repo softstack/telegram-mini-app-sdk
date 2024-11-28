@@ -37,7 +37,6 @@
 	},
 	"dependencies": {
 		"@softstack/typed-stringify": "^3.0.0-alpha.2",
-		"get-current-line": "^7.4.0",
 		"joi": "^17.13.3"
 	}
 }
