@@ -14,6 +14,7 @@ export default {
 				lineGrey: '#717171',
 				primaryText: '#212121',
 				primaryTextDark: '#dedede',
+				success: '#4ade80',
 			},
 			spacing: {
 				pageFrame: '1.5rem',

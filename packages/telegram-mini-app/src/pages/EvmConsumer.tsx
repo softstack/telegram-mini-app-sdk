@@ -1,6 +1,7 @@
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { useTConnectModal } from '@tconnect.io/modal';
-import { Fragment, memo, useCallback, useEffect, useState } from 'react';
+import { Fragment, memo, useCallback, useState } from 'react';
+import { toast } from 'react-toastify';
 import Web3 from 'web3';
 import { TextButton } from '../components/buttons/TextButton';
 import { Col } from '../components/flex/Col';
@@ -16,11 +17,6 @@ export const EvmConsumer = memo<EvmConsumerProps>(({ provider }) => {
 	const [address, setAddress] = useState<string | undefined>();
 	const [balance, setBalance] = useState<string | undefined>();
 	const [signature, setSignature] = useState<string | undefined>();
-
-	useEffect(() => {
-		const web3 = new Web3(provider);
-		web3.eth.getChainId().then((chainId) => setChainId(chainId.toString()));
-	}, [provider]);
 
 	const getChainId = useCallback(async () => {
 		const web3 = new Web3(provider);
@@ -49,12 +45,20 @@ export const EvmConsumer = memo<EvmConsumerProps>(({ provider }) => {
 	}, [provider, address]);
 
 	const getBalance = useCallback(async () => {
-		if (!provider || !address) {
-			return;
+		try {
+			if (!provider || !address) {
+				return;
+			}
+			const web3 = new Web3(provider);
+			const balance = await web3.eth.getBalance(address);
+			setBalance(balance.toString());
+		} catch (error) {
+			if (error instanceof Error) {
+				toast.error(error.message);
+			} else {
+				toast.error('An error occurred');
+			}
 		}
-		const web3 = new Web3(provider);
-		const balance = await web3.eth.getBalance(address);
-		setBalance(balance.toString());
 	}, [provider, address]);
 
 	return (

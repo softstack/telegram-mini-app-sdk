@@ -1,5 +1,5 @@
 import { ETHERLINK_CHAIN_ID } from '@tconnect.io/core';
-import { getOperatingSystem } from '@tconnect.io/dapp-utils';
+import { getOperatingSystem, randomUUID } from '@tconnect.io/dapp-utils';
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { TConnectTezosBeaconProvider, Network as TezosBeaconNetwork } from '@tconnect.io/tezos-beacon-provider';
 import { TConnectTezosWcProvider, Network as TezosWcNetwork } from '@tconnect.io/tezos-wc-provider';
@@ -14,10 +14,11 @@ import { BaseButton } from '../components/buttons/BaseButton';
 import { GridButton } from '../components/buttons/GridButton';
 import { HorizontalIconTextButton } from '../components/buttons/HorizontalIconTextButton';
 import { TextButton } from '../components/buttons/TextButton';
+import { EtherlinkField } from '../components/EtherlinkField';
 import { Col } from '../components/flex/Col';
 import { Row } from '../components/flex/Row';
 import { Header } from '../components/Header';
-import { NETWORKS } from '../constants';
+import { ETHERLINK_DETAILS, NETWORKS } from '../constants';
 import { Network } from '../types';
 import { nextVersion, useDarkMode, useVersionedState } from '../utils';
 
@@ -109,7 +110,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 		const [address, setAddress] = useVersionedState<string | undefined>(undefined);
 		const [shortAddress, setShortAddress] = useVersionedState<string | undefined>(undefined);
 		const [showShortAddress, setShowShortAddress] = useState(true);
-		const [copied, setCopied] = useState(false);
+		const [copiedAddress, setCopiedAddress] = useState(false);
 
 		useEffect(() => {
 			(async (): Promise<void> => {
@@ -238,7 +239,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 										appIcon,
 										bridgeUrl,
 										walletApp: wallet.walletApp,
-										secretSeed: crypto.randomUUID(),
+										secretSeed: randomUUID(),
 										apiKey,
 										network: tezosBeaconNetwork ?? { type: 'mainnet' },
 									});
@@ -285,30 +286,31 @@ export const TConnectModal = memo<TConnectModalProps>(
 			],
 		);
 
-		// const handleAddEtherlink = useCallback(async () => {
-		// 	try {
-		// 		if (evmProvider) {
-		// 			await evmProvider.request({
-		// 				method: 'wallet_addEthereumChain',
-		// 				params: [
-		// 					{
-		// 						chainId: '0xa729',
-		// 						chainName: 'Etherlink Mainnet',
-		// 						nativeCurrency: {
-		// 							name: 'Tezos',
-		// 							symbol: 'XTZ',
-		// 							decimals: 18,
-		// 						},
-		// 						rpcUrls: ['https://node.mainnet.etherlink.com'],
-		// 						blockExplorerUrls: ['https://explorer.etherlink.com'],
-		// 					},
-		// 				],
-		// 			});
-		// 		}
-		// 	} catch (error) {
-		// 		onError(error);
-		// 	}
-		// }, [evmProvider, onError]);
+		const handleAddEtherlink = useCallback(async () => {
+			try {
+				if (evmProvider) {
+					await evmProvider.request({
+						method: 'wallet_addEthereumChain',
+						params: [
+							{
+								chainId: '0xa729',
+								chainName: 'Etherlink Mainnet',
+								nativeCurrency: {
+									name: 'Tezos',
+									symbol: 'XTZ',
+									decimals: 18,
+								},
+								rpcUrls: ['https://node.mainnet.etherlink.com'],
+								blockExplorerUrls: ['https://explorer.etherlink.com'],
+							},
+							// '0x06F92f77c3F0D08f3c6efb468aD4f07972578DD1',
+						],
+					});
+				}
+			} catch (error) {
+				onError(error);
+			}
+		}, [evmProvider, onError]);
 
 		const toggleShowShortAddress = useCallback(() => {
 			try {
@@ -322,9 +324,9 @@ export const TConnectModal = memo<TConnectModalProps>(
 			try {
 				if (address) {
 					navigator.clipboard.writeText(address);
-					setCopied(true);
+					setCopiedAddress(true);
 					setTimeout(() => {
-						setCopied(false);
+						setCopiedAddress(false);
 					}, 1500);
 				}
 			} catch (error) {
@@ -410,7 +412,23 @@ export const TConnectModal = memo<TConnectModalProps>(
 								<BeatLoader size={8} color={darkMode ? '#fff' : '#000'} />
 								<Col className="items-center gap-y-2">
 									<Row>Connecting Wallet</Row>
-									{currentWallet && <Row className="text-sm">Please confirm in {currentWallet.name} app</Row>}
+									{currentWallet && (
+										<Fragment>
+											<Row className="text-sm">Please confirm in {currentWallet.name}</Row>
+											{currentWallet.network === 'evm' && (
+												<Fragment>
+													<Row className="text-center text-red-500">
+														If you have issues, please make sure Etherlink has been added to {currentWallet.name}
+													</Row>
+													<Col className="gap-y-3 self-start pt-2">
+														{ETHERLINK_DETAILS.map(({ label, value }, index) => (
+															<EtherlinkField key={index} label={label} value={value} />
+														))}
+													</Col>
+												</Fragment>
+											)}
+										</Fragment>
+									)}
 								</Col>
 							</Col>
 						</Fragment>
@@ -422,6 +440,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 								<Row>Please select Etherlink in {currentWallet?.name}</Row>
 								<Row>If Etherlink has not been added to {currentWallet?.name} yet, you can find a how-to here</Row>
 								<TextButton text="I have selected Etherlink" onClick={onClose} />
+								<TextButton text="Add Etherlink" onClick={handleAddEtherlink} />
 							</Col>
 						</Fragment>
 					) : step === 'connected' ? (
@@ -437,8 +456,8 @@ export const TConnectModal = memo<TConnectModalProps>(
 									</BaseButton>
 									<Row className="justify-between">
 										<HorizontalIconTextButton
-											icon={copied ? 'checkSolid' : 'copyRegular'}
-											iconColorSuccess={copied}
+											icon={copiedAddress ? 'checkSolid' : 'copyRegular'}
+											iconColorSuccess={copiedAddress}
 											text="Copy address"
 											onClick={handleCopyAddress}
 										/>

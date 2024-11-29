@@ -1,4 +1,5 @@
 import { TezosToolkit } from '@taquito/taquito';
+import { randomUUID } from '@tconnect.io/dapp-utils';
 import { TConnectTezosBeaconProvider, TezosBeaconWalletApp } from '@tconnect.io/tezos-beacon-provider';
 import { QRCodeCanvas } from 'qrcode.react';
 import { memo, useCallback, useMemo, useState } from 'react';
@@ -17,7 +18,7 @@ export const TezosBeacon = memo(() => {
 	const [transactionHash, setTransactionHash] = useState<string | undefined>();
 
 	const secretSeed = useMemo(() => {
-		const secretSeed = crypto.randomUUID();
+		const secretSeed = randomUUID();
 		// const secretSeed = '83a56f5c-2b88-4c94-9ee5-5303ca72cc71';
 		console.log('secretSeed', secretSeed);
 		return secretSeed;

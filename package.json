@@ -2,7 +2,7 @@
 	"name": "telegram-mini-app-sdk",
 	"version": "0.0.1",
 	"description": "Based on the Grant Proposal \"Unlocking Tezos Integration for Telegram’s 800 Million Users\"",
-	"author": "",
+	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",
 	"workspaces": [
 		"packages/*"

@@ -27,7 +27,7 @@ export const HorizontalIconTextButton = memo<HorizontalIconTextButtonProps>(
 			className={clsx('h-5 flex-row items-center justify-center gap-x-1.5 text-lineGrey', className)}
 			{...props}
 		>
-			<Icon className={clsx(iconColorSuccess && 'text-green-400')} icon={icon} height={20} width={20} />
+			<Icon className={clsx(iconColorSuccess && 'text-success')} icon={icon} height={20} width={20} />
 			<Row className="text-xs text-primaryText dark:text-primaryTextDark">{text}</Row>
 		</BaseButton>
 	),

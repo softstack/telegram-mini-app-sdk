@@ -54,7 +54,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
                 rawSignature,
             },
         });
-        const permissionRequestId = crypto.randomUUID();
+        const permissionRequestId = (0, dapp_utils_1.randomUUID)();
         const callbackPromise = this._permissionRequestCallbacks.addCallback(permissionRequestId);
         this._communicationController.on('event', this._createTezosBeaconEventHandler(permissionRequestId));
         if (this.walletApp) {
@@ -361,7 +361,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
             }
             : {
                 ...partialMessage,
-                id: crypto.randomUUID(),
+                id: (0, dapp_utils_1.randomUUID)(),
                 version: '2',
                 senderId: (0, utils_1.getSenderId)((0, utils_1.toHex)(this._communicationKeyPair.publicKey)),
             };

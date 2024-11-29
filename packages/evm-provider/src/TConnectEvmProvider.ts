@@ -223,11 +223,7 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 				}
 			}
 		}
-		const response = (await this._communicationController.send({
-			type: 'request',
-			sessionId: this._getSessionId(),
-			payload: args,
-		})) as EvmRequestResponse;
+		const response = await this._sendEvmRequest({ type: 'request', sessionId: this._getSessionId(), payload: args });
 		return response.payload;
 	}
 

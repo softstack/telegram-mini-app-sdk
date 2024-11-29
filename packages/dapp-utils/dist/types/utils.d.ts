@@ -6,3 +6,4 @@ export declare const isAndroid: () => boolean;
 export declare const isMobileSafari: () => boolean;
 export declare const getOperatingSystem: () => OperatingSystem | undefined;
 export declare const getErrorMessage: (errorType: Exclude<EvmErrorType | TezosBeaconErrorType | TezosWcErrorType, "generic">, message: string) => string;
+export declare const randomUUID: () => string;

@@ -36,6 +36,7 @@
 		"prepublishOnly": "npm run build && npm test && npm run lint"
 	},
 	"dependencies": {
+		"@stablelib/random": "^2.0.0",
 		"@tconnect.io/evm-api-types": "^0.0.9",
 		"@tconnect.io/tezos-beacon-api-types": "^0.0.7",
 		"@tconnect.io/tezos-wc-api-types": "^0.0.8",
