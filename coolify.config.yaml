@@ -1,0 +1,13 @@
+build:
+  context: .
+  buildpack: Dockerfile
+watch_paths:
+  - "**"
+environment:
+  - HOST=${HOST}
+  - GENERATE_SOURCEMAP=${GENERATE_SOURCEMAP}
+  - REACT_APP_APP_URL=${REACT_APP_APP_URL}
+  - REACT_APP_API_KEY=${REACT_APP_API_KEY}
+  - REACT_APP_BRIDGE_URL=${REACT_APP_BRIDGE_URL}
+start:
+  command: npm run start:telegram-mini-app
