@@ -1,5 +1,5 @@
 import { ProviderRpcError } from './ProviderRpcError';
-export type EvmWalletApp = 'bitget' | 'metaMask' | 'rainbow' | 'safePal' | 'trust';
+export type EvmWalletApp = 'bitget' | 'metaMask' | 'rainbow' | 'safePal' | 'test-wallet' | 'trust';
 export type Eip1193EventName = 'connect' | 'disconnect' | 'message' | 'chainChanged' | 'accountsChanged';
 export interface RequestArguments {
     readonly method: string;

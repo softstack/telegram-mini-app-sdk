@@ -142,15 +142,15 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 					if (this.walletApp) {
 						// Android needs a second reminder to open the link
 						if (isAndroid()) {
-							WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString), {
+							WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString, this.bridgeUrl), {
 								try_instant_view: true,
 							});
 							await sleep(1000);
-							WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString), {
+							WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString, this.bridgeUrl), {
 								try_instant_view: true,
 							});
 						} else {
-							WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString));
+							WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString, this.bridgeUrl));
 						}
 					}
 					this.emit('connectionString', connectionString);

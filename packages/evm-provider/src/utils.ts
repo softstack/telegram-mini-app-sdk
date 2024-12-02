@@ -27,6 +27,9 @@ export const getUniversalLink = (walletApp: EvmWalletApp): string => {
 		case 'safePal': {
 			return 'https://link.safepal.io';
 		}
+		case 'test-wallet': {
+			return '';
+		}
 		case 'trust': {
 			return 'https://link.trustwallet.com';
 		}
@@ -41,7 +44,11 @@ export const getUniversalLink = (walletApp: EvmWalletApp): string => {
  * @param connectionString - The WalletConnect URI to be encoded and included in the universal link.
  * @returns The universal link for the specified wallet application with the encoded WalletConnect URI.
  */
-export const getConnectionStringUniversalLink = (walletApp: EvmWalletApp, connectionString: string): string => {
+export const getConnectionStringUniversalLink = (
+	walletApp: EvmWalletApp,
+	connectionString: string,
+	bridgeUrl: string,
+): string => {
 	let encodedUri = encodeURIComponent(connectionString);
 
 	// Double encode for Android
@@ -61,6 +68,9 @@ export const getConnectionStringUniversalLink = (walletApp: EvmWalletApp, connec
 		}
 		case 'safePal': {
 			return `https://link.safepal.io/wc?uri=${encodedUri}`;
+		}
+		case 'test-wallet': {
+			return `${bridgeUrl}/api/v1/evm-test-wallet/wc?uri=${encodedUri}`;
 		}
 		case 'trust': {
 			return `https://link.trustwallet.com/wc?uri=${encodedUri}`;

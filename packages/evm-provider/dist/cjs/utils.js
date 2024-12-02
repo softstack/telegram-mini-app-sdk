@@ -16,13 +16,16 @@ const getUniversalLink = (walletApp) => {
         case 'safePal': {
             return 'https://link.safepal.io';
         }
+        case 'test-wallet': {
+            return '';
+        }
         case 'trust': {
             return 'https://link.trustwallet.com';
         }
     }
 };
 exports.getUniversalLink = getUniversalLink;
-const getConnectionStringUniversalLink = (walletApp, connectionString) => {
+const getConnectionStringUniversalLink = (walletApp, connectionString, bridgeUrl) => {
     let encodedUri = encodeURIComponent(connectionString);
     if ((0, dapp_utils_1.isAndroid)()) {
         encodedUri = encodeURIComponent(encodedUri);
@@ -39,6 +42,9 @@ const getConnectionStringUniversalLink = (walletApp, connectionString) => {
         }
         case 'safePal': {
             return `https://link.safepal.io/wc?uri=${encodedUri}`;
+        }
+        case 'test-wallet': {
+            return `${bridgeUrl}/api/v1/evm-test-wallet/wc?uri=${encodedUri}`;
         }
         case 'trust': {
             return `https://link.trustwallet.com/wc?uri=${encodedUri}`;

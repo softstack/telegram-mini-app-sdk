@@ -41,6 +41,14 @@ export const NETWORKS = [
                 supportedOperatingSystems: ['android', 'ios'],
             },
             {
+                name: 'Test',
+                icon: 'xmarkSolid',
+                network: 'evm',
+                walletApp: 'test-wallet',
+                addEtherlinkUrl: '',
+                supportedOperatingSystems: ['android', 'ios'],
+            },
+            {
                 name: 'Trust',
                 icon: 'trust',
                 network: 'evm',

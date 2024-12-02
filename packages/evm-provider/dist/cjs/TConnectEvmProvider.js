@@ -37,16 +37,16 @@ class TConnectEvmProvider extends core_1.TypedEvent {
                     this._connectionString = connectionString;
                     if (this.walletApp) {
                         if ((0, dapp_utils_1.isAndroid)()) {
-                            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString), {
+                            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString, this.bridgeUrl), {
                                 try_instant_view: true,
                             });
                             await (0, core_1.sleep)(1000);
-                            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString), {
+                            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString, this.bridgeUrl), {
                                 try_instant_view: true,
                             });
                         }
                         else {
-                            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString));
+                            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString, this.bridgeUrl));
                         }
                     }
                     this.emit('connectionString', connectionString);

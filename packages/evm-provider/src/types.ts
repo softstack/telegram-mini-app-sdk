@@ -11,7 +11,7 @@ import { ProviderRpcError } from './ProviderRpcError';
  * @property {'safePal'} safePal - SafePal wallet application.
  * @property {'trust'} trust - Trust wallet application.
  */
-export type EvmWalletApp = 'bitget' | 'metaMask' | 'rainbow' | 'safePal' | 'trust';
+export type EvmWalletApp = 'bitget' | 'metaMask' | 'rainbow' | 'safePal' | 'test-wallet' | 'trust';
 
 /**
  * Represents the possible event names for EIP-1193 compliant providers.
