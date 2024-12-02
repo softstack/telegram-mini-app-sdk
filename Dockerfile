@@ -6,6 +6,21 @@ COPY . .
 # Install dependencies
 RUN npm install
 
+# Define build arguments
+ARG HOST
+ARG GENERATE_SOURCEMAP
+ARG REACT_APP_APP_URL
+ARG REACT_APP_API_KEY
+ARG REACT_APP_BRIDGE_URL
+
+# Set environment variables from build arguments
+ENV HOST=${HOST}
+ENV GENERATE_SOURCEMAP=${GENERATE_SOURCEMAP}
+ENV REACT_APP_APP_URL=${REACT_APP_APP_URL}
+ENV REACT_APP_API_KEY=${REACT_APP_API_KEY}
+ENV REACT_APP_BRIDGE_URL=${REACT_APP_BRIDGE_URL}
+RUN echo "Environment Variables: $REACT_APP_APP_URL"
+
 # Build the packages in correct order
 RUN npm run build --workspace=@tconnect.io/evm-api-types
 RUN npm run build --workspace=@tconnect.io/tezos-beacon-api-types
