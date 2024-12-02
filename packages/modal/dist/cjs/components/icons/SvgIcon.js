@@ -7,6 +7,7 @@ exports.SvgIcon = void 0;
 const jsx_runtime_1 = require("react/jsx-runtime");
 const react_1 = require("react");
 const react_inlinesvg_1 = __importDefault(require("react-inlinesvg"));
+const check_solid_svg_1 = __importDefault(require("../../assets/icons/check-solid.svg"));
 const chevron_down_solid_svg_1 = __importDefault(require("../../assets/icons/chevron-down-solid.svg"));
 const chevron_up_solid_svg_1 = __importDefault(require("../../assets/icons/chevron-up-solid.svg"));
 const copy_regular_svg_1 = __importDefault(require("../../assets/icons/copy-regular.svg"));
@@ -16,6 +17,9 @@ const utils_1 = require("../../utils");
 const SvgComponent = react_inlinesvg_1.default;
 const getSrc = (icon) => {
     switch (icon) {
+        case 'checkSolid': {
+            return check_solid_svg_1.default;
+        }
         case 'chevronDownSolid': {
             return chevron_down_solid_svg_1.default;
         }

@@ -148,18 +148,13 @@ export const getUniversalLink = (walletApp: TezosBeaconWalletApp): string | unde
  *
  * @param walletApp - The Tezos wallet application for which the connection string URL is generated.
  * @param connectionString - The connection string to be used for the wallet connection.
- * @param genericWalletUrl - The generic wallet URL to be used if the wallet application is '_generic_'.
  * @returns The generated connection string URL for the specified wallet application.
  */
-export const getConnectionStringUniversalLink = (
-	walletApp: TezosBeaconWalletApp,
-	connectionString: string,
-	genericWalletUrl: string,
-): string => {
+export const getConnectionStringUniversalLink = (walletApp: TezosBeaconWalletApp, connectionString: string): string => {
 	// let encodedConnectionString = encodeURIComponent(connectionString);
 
 	// // Double encode for Android
-	// if (isAndroid() && walletApp !== '_generic_') {
+	// if (isAndroid()) {
 	// 	encodedConnectionString = encodeURIComponent(encodedConnectionString);
 	// }
 
@@ -172,11 +167,6 @@ export const getConnectionStringUniversalLink = (
 		}
 		case 'temple': {
 			return `https://app.templewallet.com?${connectionString.slice(9)}`;
-		}
-		case '_generic_': {
-			const url = new URL(genericWalletUrl);
-			url.searchParams.append('uri', connectionString);
-			return url.toString();
 		}
 	}
 };

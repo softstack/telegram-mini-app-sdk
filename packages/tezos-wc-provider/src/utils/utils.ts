@@ -19,20 +19,20 @@ export const getUniversalLink = (walletApp: TezosWcWalletApp): string => {
  * Generates a universal link for WalletConnect based on the specified wallet application and WalletConnect URI.
  *
  * @param walletApp - The wallet application to generate the link for. Currently supports 'kukai'.
- * @param walletConnectUri - The WalletConnect URI to be encoded and included in the universal link.
+ * @param connectionString - The WalletConnect URI to be encoded and included in the universal link.
  * @returns The universal link for the specified wallet application.
  */
-export const getWalletConnectUniversalLink = (walletApp: TezosWcWalletApp, walletConnectUri: string): string => {
-	let encodedUri = encodeURIComponent(walletConnectUri);
+export const getConnectionStringUniversalLink = (walletApp: TezosWcWalletApp, connectionString: string): string => {
+	let encodedConnectionString = encodeURIComponent(connectionString);
 
 	// Double encode for Android
 	if (isAndroid()) {
-		encodedUri = encodeURIComponent(encodedUri);
+		encodedConnectionString = encodeURIComponent(encodedConnectionString);
 	}
 
 	switch (walletApp) {
 		case 'kukai': {
-			return `https://connect.kukai.app/wc?uri=${encodedUri}`;
+			return `https://connect.kukai.app/wc?uri=${encodedConnectionString}`;
 		}
 	}
 };

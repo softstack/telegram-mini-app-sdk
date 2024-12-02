@@ -9,7 +9,7 @@ import {
 	WalletTransferTicketParams,
 	WalletUnstakeParams,
 } from '@taquito/taquito';
-import { CallbackController, parse, sleep, stringify, TypedEvent } from '@tconnect.io/core';
+import { parse, sleep, stringify, TypedEvent } from '@tconnect.io/core';
 import { CommunicationController } from '@tconnect.io/dapp-communication';
 import { getErrorMessage, isAndroid } from '@tconnect.io/dapp-utils';
 import {
@@ -41,7 +41,7 @@ import {
 	TConnectTezosWcProviderOptions,
 	TezosWcWalletApp,
 } from './types';
-import { getUniversalLink, getWalletConnectUniversalLink } from './utils/utils';
+import { getConnectionStringUniversalLink, getUniversalLink } from './utils/utils';
 import {
 	isGetAccountsResult,
 	isSendResult,
@@ -72,6 +72,7 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 		super();
 		this.appName = options.appName;
 		this.appUrl = options.appUrl;
+		this.appIcon = options.appIcon;
 		this._apiKey = options.apiKey;
 		this.bridgeUrl = options.bridgeUrl;
 		this.walletApp = options.walletApp;
@@ -94,6 +95,7 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 	 * This is a read-only property that holds the URL where the application is hosted.
 	 */
 	readonly appUrl: string;
+	readonly appIcon: string | undefined;
 	/**
 	 * The URL of the bridge server used for communication.
 	 * This URL is required to establish a connection between the wallet and the dApp.
@@ -113,8 +115,7 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 	private readonly _apiKey: string;
 	private _communicationController: CommunicationController<TezosWcRequest, TezosWcResponse, TezosWcEvent>;
 	private _sessionId: string | undefined;
-	private _walletConnectUri: string | undefined;
-	private _permissionRequestCallbacks = new CallbackController<void>(1000 * 60 * 60);
+	private _connectionString: string | undefined;
 
 	/**
 	 * Initiates a permission request to connect to a Tezos wallet using WalletConnect.
@@ -135,28 +136,52 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 			await this.disconnect();
 		}
 		await this._communicationController.connect();
+
+		const connectionStringEventHandler = async (event: TezosWcEvent): Promise<void> => {
+			try {
+				const validatedEvent = validateTezosWcEvent(event);
+				if (validatedEvent.type === 'connectionString') {
+					this._communicationController.off('event', connectionStringEventHandler);
+					const { connectionString } = validatedEvent.payload;
+					this._connectionString = connectionString;
+					if (this.walletApp) {
+						// Android needs a second reminder to open the link
+						if (isAndroid()) {
+							WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString), {
+								try_instant_view: true,
+							});
+							await sleep(1000);
+							WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString), {
+								try_instant_view: true,
+							});
+						} else {
+							WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString));
+						}
+					}
+					this.emit('connectionString', connectionString);
+				}
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		this._communicationController.on('event', connectionStringEventHandler);
+
 		this._communicationController.on('event', this._createTezosWcEventHandler());
+
 		const {
-			payload: { sessionId, walletConnectUri },
+			payload: { sessionId },
 		} = await this._sendTezosWcRequest({
 			type: 'connect',
-			payload: { apiKey: this._apiKey, network: this.network, appName: this.appName, appUrl: this.appUrl },
+			payload: {
+				apiKey: this._apiKey,
+				network: this.network,
+				appName: this.appName,
+				appUrl: this.appUrl,
+				appIcon: this.appIcon,
+			},
 		});
 		this._sessionId = sessionId;
-		this._walletConnectUri = walletConnectUri;
-		const callbackPromise = this._permissionRequestCallbacks.addCallback(sessionId);
-		if (this.walletApp) {
-			// Android needs a second reminder to open the link
-			if (isAndroid()) {
-				WebApp.openLink(getWalletConnectUniversalLink(this.walletApp, walletConnectUri), { try_instant_view: true });
-				await sleep(1000);
-				WebApp.openLink(getWalletConnectUniversalLink(this.walletApp, walletConnectUri), { try_instant_view: true });
-			} else {
-				WebApp.openLink(getWalletConnectUniversalLink(this.walletApp, walletConnectUri));
-			}
-		}
-		this.emit('connectionString', walletConnectUri);
-		return callbackPromise;
 	}
 
 	/**
@@ -206,13 +231,14 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 		return stringify({
 			appName: this.appName,
 			appUrl: this.appUrl,
+			appIcon: this.appIcon,
 			bridgeUrl: this.bridgeUrl,
 			walletApp: this.walletApp,
 			network: this.network,
 			_apiKey: this._apiKey,
 			_communicationController: this._communicationController.serialize(),
 			_sessionId: this._getSessionId(),
-			_walletConnectUri: this._getWalletConnectUri(),
+			_connectionString: this._getConnectionString(),
 		} satisfies SerializedTConnectTezosWcProvider);
 	}
 
@@ -227,6 +253,7 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 		const provider = new TConnectTezosWcProvider({
 			appName: data.appName,
 			appUrl: data.appUrl,
+			appIcon: data.appIcon,
 			bridgeUrl: data.bridgeUrl,
 			apiKey: data._apiKey,
 			walletApp: data.walletApp,
@@ -234,7 +261,7 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 		});
 		provider._communicationController = CommunicationController.deserialize(data._communicationController);
 		provider._sessionId = data._sessionId;
-		provider._walletConnectUri = data._walletConnectUri;
+		provider._connectionString = data._connectionString;
 		await provider._reconnect();
 		return provider;
 	}
@@ -450,10 +477,6 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 			try {
 				const validatedEvent = validateTezosWcEvent(event);
 				switch (validatedEvent.type) {
-					case 'connect': {
-						this._permissionRequestCallbacks.resolveCallback(validatedEvent.payload.sessionId);
-						break;
-					}
 					case 'disconnect': {
 						this.emit('disconnect', undefined);
 						break;
@@ -557,10 +580,10 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 	 * @throws {Error} If the WalletConnect URI is not set.
 	 * @private
 	 */
-	private _getWalletConnectUri(): string {
-		if (!this._walletConnectUri) {
-			throw new Error('WalletConnect URI is not set');
+	private _getConnectionString(): string {
+		if (!this._connectionString) {
+			throw new Error('Connection string is not set');
 		}
-		return this._walletConnectUri;
+		return this._connectionString;
 	}
 }

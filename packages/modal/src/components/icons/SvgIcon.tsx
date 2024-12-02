@@ -1,5 +1,6 @@
 import { FC, memo, SVGProps, useCallback, useEffect, useState } from 'react';
 import Svg, { Props } from 'react-inlinesvg';
+import checkSolid from '../../assets/icons/check-solid.svg';
 import chevronDownSolid from '../../assets/icons/chevron-down-solid.svg';
 import chevronUpSolid from '../../assets/icons/chevron-up-solid.svg';
 import copyRegular from '../../assets/icons/copy-regular.svg';
@@ -12,6 +13,9 @@ const SvgComponent = Svg as FC<Props>;
 
 const getSrc = (icon: SvgIconType): string => {
 	switch (icon) {
+		case 'checkSolid': {
+			return checkSolid;
+		}
 		case 'chevronDownSolid': {
 			return chevronDownSolid;
 		}

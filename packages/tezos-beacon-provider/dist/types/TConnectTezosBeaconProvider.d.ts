@@ -5,12 +5,12 @@ export declare class TConnectTezosBeaconProvider extends TypedEvent<TConnectTezo
     constructor(options: TConnectTezosBeaconProviderOptions);
     readonly appName: string;
     readonly appUrl: string;
+    readonly appIcon: string | undefined;
     readonly network: Network;
     readonly bridgeUrl: string;
     readonly walletApp: TezosBeaconWalletApp | undefined;
     private readonly _secretSeed;
     private readonly _apiKey;
-    private readonly _genericWalletUrl;
     private readonly _communicationKeyPair;
     private _communicationController;
     private _sessionId;
@@ -38,7 +38,7 @@ export declare class TConnectTezosBeaconProvider extends TypedEvent<TConnectTezo
     serialize(): string;
     static deserialize(serialized: string): Promise<TConnectTezosBeaconProvider>;
     private _reconnect;
-    private _createTezosEventHandler;
+    private _createTezosBeaconEventHandler;
     private _sendTezosMessage;
     private _sendTezosBeaconRequest;
     private _getPublicKey;

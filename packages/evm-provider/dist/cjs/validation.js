@@ -21,7 +21,6 @@ const validateEvmResponse = (value) => (0, core_1.validateSchema)(value, joi_1.d
     type: joi_1.default.string().valid('connect').required(),
     payload: joi_1.default.object({
         sessionId: joi_1.default.string().required(),
-        walletConnectUri: joi_1.default.string().required(),
     }),
 }), joi_1.default.object({
     type: joi_1.default.string().valid('connected').required(),
@@ -40,6 +39,11 @@ const validateEvmResponse = (value) => (0, core_1.validateSchema)(value, joi_1.d
 exports.validateEvmResponse = validateEvmResponse;
 const validateEvmEvent = (value) => (0, core_1.validateSchema)(value, joi_1.default.alternatives()
     .try(joi_1.default.object({
+    type: joi_1.default.string().valid('connectionString').required(),
+    payload: joi_1.default.object({
+        connectionString: joi_1.default.string().required(),
+    }),
+}), joi_1.default.object({
     type: joi_1.default.string().valid('connect').required(),
     payload: joi_1.default.object({
         chainId: joi_1.default.string().required(),

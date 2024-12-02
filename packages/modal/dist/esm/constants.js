@@ -1,7 +1,7 @@
 export const TAILWIND_PREFIX = 'eotrzpirnbqlbfjhbqpo-';
-export const EVM_PROVIDER_STORAGE_KEY = 'ptkjfuuopetruxoocapm';
+export const EVM_PROVIDER_STORAGE_KEY = 'mfiqmlieehlcobqzqiav';
 export const TEZOS_BEACON_PROVIDER_STORAGE_KEY = 'jkdkvddgajorkvmywwub';
-export const TEZOS_WC_PROVIDER_STORAGE_KEY = 'oergkxuqjljvgrkkzeth';
+export const TEZOS_WC_PROVIDER_STORAGE_KEY = 'nxmhhphkvgwzhmifdyus';
 export const NETWORKS = [
     {
         type: 'evm',
@@ -82,12 +82,4 @@ export const NETWORKS = [
         ],
     },
 ];
-export const EXPERIMENTAL_WALLET = {
-    name: 'Experimental Wallet',
-    icon: 'transparent',
-    network: 'tezos',
-    bridge: 'beacon',
-    walletApp: '_generic_',
-    supportedOperatingSystems: ['android', 'ios'],
-};
 //# sourceMappingURL=constants.js.map

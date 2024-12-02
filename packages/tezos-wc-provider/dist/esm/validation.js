@@ -15,7 +15,6 @@ export const validateTezosWcResponse = (value) => validateSchema(value, Joi.alte
     type: Joi.string().valid('connect').required(),
     payload: Joi.object({
         sessionId: Joi.string().required(),
-        walletConnectUri: Joi.string().required(),
     }),
 }), Joi.object({
     type: Joi.string().valid('connected').required(),
@@ -33,10 +32,12 @@ export const validateTezosWcResponse = (value) => validateSchema(value, Joi.alte
     .required());
 export const validateTezosWcEvent = (value) => validateSchema(value, Joi.alternatives()
     .try(Joi.object({
-    type: Joi.string().valid('connect').required(),
+    type: Joi.string().valid('connectionString').required(),
     payload: Joi.object({
-        sessionId: Joi.string().required(),
+        connectionString: Joi.string().required(),
     }),
+}), Joi.object({
+    type: Joi.string().valid('disconnect').required(),
 }))
     .required());
 export const isGetAccountsResult = (value) => validateType(value, Joi.array()

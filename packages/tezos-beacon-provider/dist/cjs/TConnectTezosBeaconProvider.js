@@ -13,7 +13,6 @@ const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const tezos_beacon_api_types_1 = require("@tconnect.io/tezos-beacon-api-types");
 const sdk_1 = __importDefault(require("@twa-dev/sdk"));
 const bs58check_1 = __importDefault(require("bs58check"));
-const constants_1 = require("./constants");
 const base_1 = require("./utils/base");
 const utils_1 = require("./utils/utils");
 const validation_1 = require("./validation");
@@ -25,9 +24,9 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         this._signPayloadRequestCallbacks = new core_1.CallbackController(1000 * 60 * 60);
         this.appName = options.appName;
         this.appUrl = options.appUrl;
+        this.appIcon = options.appIcon;
         this._secretSeed = options.secretSeed;
         this._apiKey = options.apiKey;
-        this._genericWalletUrl = options.genericWalletUrl ?? constants_1.GENERIC_WALLET_URL;
         this.network = options.network ?? { type: 'mainnet' };
         this.bridgeUrl = options.bridgeUrl;
         this.walletApp = options.walletApp;
@@ -42,6 +41,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
                 apiKey: this._apiKey,
                 appName: this.appName,
                 appUrl: this.appUrl,
+                appIcon: this.appIcon,
                 publicKey: Buffer.from(this._communicationKeyPair.publicKey).toString('hex'),
             },
         });
@@ -56,9 +56,9 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         });
         const permissionRequestId = crypto.randomUUID();
         const callbackPromise = this._permissionRequestCallbacks.addCallback(permissionRequestId);
-        this._communicationController.on('event', this._createTezosEventHandler(permissionRequestId));
+        this._communicationController.on('event', this._createTezosBeaconEventHandler(permissionRequestId));
         if (this.walletApp) {
-            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, loginResponse.payload.connectionString, this._genericWalletUrl));
+            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, loginResponse.payload.connectionString));
         }
         this.emit('connectionString', loginResponse.payload.connectionString);
         return callbackPromise;
@@ -236,12 +236,12 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         return (0, core_1.stringify)({
             appName: this.appName,
             appUrl: this.appUrl,
+            appIcon: this.appIcon,
             network: this.network,
             bridgeUrl: this.bridgeUrl,
             walletApp: this.walletApp,
             _secretSeed: this._secretSeed,
             _apiKey: this._apiKey,
-            _genericWalletUrl: this._genericWalletUrl,
             _communicationController: this._communicationController.serialize(),
             _sessionId: this._getSessionId(),
             _otherPublicKey: this._getOtherPublicKey(),
@@ -253,12 +253,12 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         const provider = new TConnectTezosBeaconProvider({
             appName: data.appName,
             appUrl: data.appUrl,
+            appIcon: data.appIcon,
             secretSeed: data._secretSeed,
             apiKey: data._apiKey,
             network: data.network,
             bridgeUrl: data.bridgeUrl,
             walletApp: data.walletApp,
-            genericWalletUrl: data._genericWalletUrl,
         });
         provider._communicationController = dapp_communication_1.CommunicationController.deserialize(data._communicationController);
         provider._sessionId = data._sessionId;
@@ -268,11 +268,11 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         return provider;
     }
     async _reconnect() {
-        this._communicationController.on('event', this._createTezosEventHandler(undefined));
+        this._communicationController.on('event', this._createTezosBeaconEventHandler(undefined));
         await this._communicationController.connect();
         await this._sendTezosBeaconRequest({ type: 'reconnect', sessionId: this._getSessionId() });
     }
-    _createTezosEventHandler(permissionRequestId) {
+    _createTezosBeaconEventHandler(permissionRequestId) {
         return async (event) => {
             try {
                 event = (0, validation_1.validateTezosBeaconEvent)(event);
@@ -285,9 +285,9 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
                                 if (!encryptedJson) {
                                     throw new Error('Empty text message');
                                 }
-                                const peerInfo = JSON.parse((0, utils_1.openCryptobox)(Buffer.from(encryptedJson, 'hex'), this._communicationKeyPair.publicKey, this._communicationKeyPair.secretKey));
-                                if ((0, validation_1.isPeerInfo)(peerInfo)) {
-                                    this._otherPublicKey = Buffer.from(peerInfo.publicKey, 'hex');
+                                const pairingResponse = JSON.parse((0, utils_1.openCryptobox)(Buffer.from(encryptedJson, 'hex'), this._communicationKeyPair.publicKey, this._communicationKeyPair.secretKey));
+                                if ((0, validation_1.isPairingResponse)(pairingResponse)) {
+                                    this._otherPublicKey = Buffer.from(pairingResponse.publicKey, 'hex');
                                     const message = {
                                         id: permissionRequestId,
                                         type: 'permission_request',
@@ -296,6 +296,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
                                         appMetadata: {
                                             senderId: (0, utils_1.getSenderId)((0, utils_1.toHex)(this._communicationKeyPair.publicKey)),
                                             name: this.appName,
+                                            icon: this.appIcon,
                                         },
                                         network: this.network,
                                         scopes: ['operation_request', 'sign'],
@@ -303,7 +304,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
                                     await this._sendTezosMessage(message);
                                 }
                                 else {
-                                    console.log("PeerInfo isn't valid", peerInfo);
+                                    console.log("pairingResponse isn't valid", pairingResponse);
                                 }
                             }
                         }

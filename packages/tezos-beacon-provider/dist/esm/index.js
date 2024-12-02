@@ -1,4 +1,3 @@
-export * from './constants';
 export * from './TConnectTezosBeaconProvider';
 export * from './types';
 export * from './utils/base';

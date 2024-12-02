@@ -7,13 +7,13 @@ export interface TezosWcConnectRequest {
         network: TezosWcNetwork;
         appName: string;
         appUrl: string;
+        appIcon: string | undefined;
     };
 }
 export interface TezosWcConnectResponse {
     type: 'connect';
     payload: {
         sessionId: string;
-        walletConnectUri: string;
     };
 }
 export interface TezosWcConnectedRequest {
@@ -81,13 +81,13 @@ export interface TezosWcErrorResponse {
 }
 export type TezosWcRequest = TezosWcConnectRequest | TezosWcConnectedRequest | TezosWcRequestRequest | TezosWcReconnectRequest | TezosWcDisconnectRequest;
 export type TezosWcResponse = TezosWcConnectResponse | TezosWcConnectedResponse | TezosWcRequestResponse | TezosWcReconnectResponse | TezosWcDisconnectResponse;
-export interface TezosWcConnectEvent {
-    type: 'connect';
+export interface TezosWcConnectionStringEvent {
+    type: 'connectionString';
     payload: {
-        sessionId: string;
+        connectionString: string;
     };
 }
 export interface TezosWcDisconnectEvent {
     type: 'disconnect';
 }
-export type TezosWcEvent = TezosWcConnectEvent | TezosWcDisconnectEvent;
+export type TezosWcEvent = TezosWcConnectionStringEvent | TezosWcDisconnectEvent;

@@ -1,8 +1,8 @@
 import { ETHERLINK_CHAIN_ID } from '@tconnect.io/core';
 import { getOperatingSystem } from '@tconnect.io/dapp-utils';
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
-import { TConnectTezosBeaconProvider } from '@tconnect.io/tezos-beacon-provider';
-import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
+import { TConnectTezosBeaconProvider, Network as TezosBeaconNetwork } from '@tconnect.io/tezos-beacon-provider';
+import { TConnectTezosWcProvider, Network as TezosWcNetwork } from '@tconnect.io/tezos-wc-provider';
 import WebApp from '@twa-dev/sdk';
 import { clsx } from 'clsx';
 import { Fragment, memo, MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -26,10 +26,12 @@ export type Step = 'connect' | 'connecting' | 'invalidChainId' | 'connected';
 export interface TConnectModalProps {
 	appName: string;
 	appUrl: string;
+	appIcon: string | undefined;
 	bridgeUrl: string;
 	apiKey: string;
-	networkFilter?: Array<'etherlink' | 'tezos'>;
-	genericWalletUrl?: string;
+	networkFilter: Array<'etherlink' | 'tezos'> | undefined;
+	tezosBeaconNetwork: TezosBeaconNetwork | undefined;
+	tezosWcNetwork: TezosWcNetwork | undefined;
 	step: Step;
 	onChangeStep: (action: Step | ((prevStep: Step) => Step)) => void;
 	currentNetwork: Network | undefined;
@@ -56,7 +58,6 @@ export interface TConnectModalProps {
  * @param {string} bridgeUrl - The URL of the bridge server.
  * @param {string} apiKey - The API key for authentication.
  * @param {Array<string>} networkFilter - A filter for the networks to be displayed.
- * @param {string} genericWalletUrl - The URL for generic wallets.
  * @param {string} step - The current step in the connection process.
  * @param {Function} onChangeStep - Callback to change the current step.
  * @param {Network} currentNetwork - The currently selected network.
@@ -79,10 +80,12 @@ export const TConnectModal = memo<TConnectModalProps>(
 	({
 		appName,
 		appUrl,
+		appIcon,
 		bridgeUrl,
 		apiKey,
 		networkFilter,
-		genericWalletUrl,
+		tezosBeaconNetwork,
+		tezosWcNetwork,
 		step,
 		onChangeStep,
 		currentNetwork,
@@ -103,10 +106,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 		const backgroundElement = useRef(null);
 		const [showNetworks, setShowNetworks] = useState(true);
 		const [showWallets, setShowWallets] = useState(false);
-		const [showGenericWallets, setShowGenericWallets] = useState(false);
 		const [address, setAddress] = useVersionedState<string | undefined>(undefined);
 		const [shortAddress, setShortAddress] = useVersionedState<string | undefined>(undefined);
 		const [showShortAddress, setShowShortAddress] = useState(true);
+		const [copied, setCopied] = useState(false);
 
 		useEffect(() => {
 			(async (): Promise<void> => {
@@ -153,7 +156,6 @@ export const TConnectModal = memo<TConnectModalProps>(
 				try {
 					onChangeCurrentNetwork(network);
 					setShowWallets(true);
-					setShowGenericWallets(true);
 				} catch (error) {
 					onError(error);
 				}
@@ -189,27 +191,9 @@ export const TConnectModal = memo<TConnectModalProps>(
 					}
 					case 'tezos': {
 						return currentNetwork.wallets.filter(
-							(wallet) =>
-								wallet.walletApp !== '_generic_' &&
-								(!operatingSystem || wallet.supportedOperatingSystems.includes(operatingSystem)),
+							(wallet) => !operatingSystem || wallet.supportedOperatingSystems.includes(operatingSystem),
 						);
 					}
-				}
-			} catch (error) {
-				onError(error);
-			}
-			return [];
-		}, [currentNetwork, onError]);
-
-		const genericWallets = useMemo(() => {
-			try {
-				const operatingSystem = getOperatingSystem();
-				if (currentNetwork?.type === 'tezos') {
-					return currentNetwork.wallets.filter(
-						(wallet) =>
-							wallet.walletApp === '_generic_' &&
-							(!operatingSystem || wallet.supportedOperatingSystems.includes(operatingSystem)),
-					);
 				}
 			} catch (error) {
 				onError(error);
@@ -227,6 +211,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 							const provider = new TConnectEvmProvider({
 								appName,
 								appUrl,
+								appIcon,
 								bridgeUrl,
 								walletApp: wallet.walletApp,
 								apiKey,
@@ -250,12 +235,12 @@ export const TConnectModal = memo<TConnectModalProps>(
 									const provider = new TConnectTezosBeaconProvider({
 										appName,
 										appUrl,
+										appIcon,
 										bridgeUrl,
 										walletApp: wallet.walletApp,
 										secretSeed: crypto.randomUUID(),
 										apiKey,
-										network: { type: 'mainnet' },
-										genericWalletUrl,
+										network: tezosBeaconNetwork ?? { type: 'mainnet' },
 									});
 									await provider.permissionRequest();
 									onChangeTezosBeaconProvider(provider);
@@ -265,10 +250,11 @@ export const TConnectModal = memo<TConnectModalProps>(
 									const provider = new TConnectTezosWcProvider({
 										appName,
 										appUrl,
+										appIcon,
 										bridgeUrl,
 										walletApp: wallet.walletApp,
 										apiKey,
-										network: 'mainnet',
+										network: tezosWcNetwork ?? 'mainnet',
 									});
 									await provider.permissionRequest();
 									onChangeTezosWcProvider(provider);
@@ -287,9 +273,11 @@ export const TConnectModal = memo<TConnectModalProps>(
 				onChangeCurrentWallet,
 				appName,
 				appUrl,
+				appIcon,
 				bridgeUrl,
 				apiKey,
-				genericWalletUrl,
+				tezosBeaconNetwork,
+				tezosWcNetwork,
 				onChangeEvmProvider,
 				onChangeTezosBeaconProvider,
 				onChangeTezosWcProvider,
@@ -334,6 +322,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 			try {
 				if (address) {
 					navigator.clipboard.writeText(address);
+					setCopied(true);
+					setTimeout(() => {
+						setCopied(false);
+					}, 1500);
 				}
 			} catch (error) {
 				onError(error);
@@ -407,26 +399,6 @@ export const TConnectModal = memo<TConnectModalProps>(
 												);
 											})}
 										</Accordion>
-										{genericWallets.length > 0 && (
-											<Accordion
-												title="Select Experimental Wallet"
-												open={showGenericWallets}
-												onChangeOpen={setShowGenericWallets}
-											>
-												{genericWallets.map((wallet) => {
-													const { name, icon } = wallet;
-													return (
-														<GridButton
-															key={name}
-															icon={icon}
-															text={name}
-															selected={false}
-															onClick={() => handleChangeWallet(wallet)}
-														/>
-													);
-												})}
-											</Accordion>
-										)}
 									</Fragment>
 								)}
 							</Col>
@@ -464,7 +436,12 @@ export const TConnectModal = memo<TConnectModalProps>(
 										<Row className="break-all">{showShortAddress ? shortAddress : address}</Row>
 									</BaseButton>
 									<Row className="justify-between">
-										<HorizontalIconTextButton icon="copyRegular" text="Copy address" onClick={handleCopyAddress} />
+										<HorizontalIconTextButton
+											icon={copied ? 'checkSolid' : 'copyRegular'}
+											iconColorSuccess={copied}
+											text="Copy address"
+											onClick={handleCopyAddress}
+										/>
 										<HorizontalIconTextButton
 											icon="fileLinesRegular"
 											text="View on explorer"

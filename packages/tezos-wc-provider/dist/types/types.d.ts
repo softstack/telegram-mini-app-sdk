@@ -4,6 +4,7 @@ export type Network = 'mainnet' | 'ghostnet';
 export interface TConnectTezosWcProviderOptions {
     appName: string;
     appUrl: string;
+    appIcon?: string;
     apiKey: string;
     network: Network;
     bridgeUrl: string;
@@ -12,13 +13,14 @@ export interface TConnectTezosWcProviderOptions {
 export interface SerializedTConnectTezosWcProvider {
     appName: string;
     appUrl: string;
+    appIcon: string | undefined;
     walletApp: TezosWcWalletApp | undefined;
     network: Network;
     bridgeUrl: string;
     _apiKey: string;
     _communicationController: string;
     _sessionId: string;
-    _walletConnectUri: string;
+    _connectionString: string;
 }
 export interface TConnectTezosWcProviderEvents {
     connectionString: string;

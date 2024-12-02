@@ -1,14 +1,14 @@
 export type Optional<T, K extends keyof T> = Partial<T> & Omit<T, K>;
-export type TezosBeaconWalletApp = 'altme' | 'kukai' | 'temple' | '_generic_';
+export type TezosBeaconWalletApp = 'altme' | 'kukai' | 'temple';
 export interface SerializedTConnectTezosBeaconProvider {
     appName: string;
     appUrl: string;
+    appIcon: string | undefined;
     network: Network;
     bridgeUrl: string;
     walletApp: TezosBeaconWalletApp | undefined;
     _secretSeed: string;
     _apiKey: string;
-    _genericWalletUrl: string;
     _communicationController: string;
     _sessionId: string;
     _otherPublicKey: Buffer;
@@ -17,18 +17,18 @@ export interface SerializedTConnectTezosBeaconProvider {
 export interface TConnectTezosBeaconProviderOptions {
     appName: string;
     appUrl: string;
+    appIcon?: string;
     bridgeUrl: string;
     secretSeed: string;
     apiKey: string;
     network: Network;
     walletApp?: TezosBeaconWalletApp;
-    genericWalletUrl?: string;
 }
 export interface TConnectTezosBeaconProviderEvents {
     connectionString: string;
     disconnect: undefined;
 }
-export interface PeerInfo {
+export interface PairingResponse {
     type: 'p2p-pairing-response';
     id: string;
     name: string;

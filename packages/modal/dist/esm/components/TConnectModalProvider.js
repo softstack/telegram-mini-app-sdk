@@ -4,7 +4,7 @@ import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { TConnectTezosBeaconProvider } from '@tconnect.io/tezos-beacon-provider';
 import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
 import { createContext, memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { EVM_PROVIDER_STORAGE_KEY, EXPERIMENTAL_WALLET, NETWORKS, TEZOS_BEACON_PROVIDER_STORAGE_KEY, TEZOS_WC_PROVIDER_STORAGE_KEY, } from '../constants';
+import { EVM_PROVIDER_STORAGE_KEY, NETWORKS, TEZOS_BEACON_PROVIDER_STORAGE_KEY, TEZOS_WC_PROVIDER_STORAGE_KEY, } from '../constants';
 import { TConnectModal } from '../modals/TConnectModal';
 import { nextVersion, useVersionedState } from '../utils';
 export const TConnectModalContext = createContext({
@@ -15,7 +15,7 @@ export const TConnectModalContext = createContext({
     tezosWcProvider: undefined,
     connected: false,
 });
-export const TConnectModalProvider = memo(({ appName, appUrl, bridgeUrl, apiKey, networkFilter, genericWalletUrl, children, onError, ...props }) => {
+export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey, networkFilter, tezosBeaconNetwork, tezosWcNetwork, children, onError, closeModalOnError, ...props }) => {
     const [showModal, setShowModal] = useState(false);
     const [step, setStep] = useState('connect');
     const [currentNetwork, setCurrentNetwork] = useState(undefined);
@@ -25,13 +25,17 @@ export const TConnectModalProvider = memo(({ appName, appUrl, bridgeUrl, apiKey,
     const [tezosWcProvider, setTezosWcProvider] = useVersionedState(undefined);
     const [connected, setConnected] = useVersionedState(false);
     const handleError = useCallback((error) => {
+        if (closeModalOnError) {
+            setShowModal(false);
+        }
         if (onError) {
+            setShowModal(false);
             onError(error);
         }
         else {
             console.error(error);
         }
-    }, [onError]);
+    }, [onError, closeModalOnError]);
     useEffect(() => {
         (async () => {
             try {
@@ -132,9 +136,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, bridgeUrl, apiKey,
             else if (tezosBeaconProvider) {
                 const network = NETWORKS.find((network) => network.type === 'tezos');
                 if (network) {
-                    const wallet = tezosBeaconProvider.walletApp === '_generic_'
-                        ? EXPERIMENTAL_WALLET
-                        : network.wallets.find((wallet) => wallet.bridge === 'beacon' && wallet.walletApp === tezosBeaconProvider.walletApp);
+                    const wallet = network.wallets.find((wallet) => wallet.bridge === 'beacon' && wallet.walletApp === tezosBeaconProvider.walletApp);
                     if (wallet) {
                         setStep('connected');
                         setCurrentNetwork(network);
@@ -266,7 +268,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, bridgeUrl, apiKey,
         tezosWcProvider,
         connected,
     }), [openModal, closeModal, step, evmProvider, tezosBeaconProvider, tezosWcProvider, connected]);
-    return (_jsxs(TConnectModalContext.Provider, { value: value, ...props, children: [children, showModal && (_jsx(TConnectModal, { appName: appName, appUrl: appUrl, bridgeUrl: bridgeUrl, apiKey: apiKey, networkFilter: networkFilter, genericWalletUrl: genericWalletUrl, step: step, onChangeStep: setStep, currentNetwork: currentNetwork, onChangeCurrentNetwork: setCurrentNetwork, currentWallet: currentWallet, onChangeCurrentWallet: setCurrentWallet, evmProvider: evmProvider, onChangeEvmProvider: handleEvmProvider, tezosBeaconProvider: tezosBeaconProvider, onChangeTezosBeaconProvider: handleTezosBeaconProvider, tezosWcProvider: tezosWcProvider, onChangeTezosWcProvider: handleTezosWcProvider, onDisconnect: handleDisconnect, onClose: closeModal, onError: handleError }))] }));
+    return (_jsxs(TConnectModalContext.Provider, { value: value, ...props, children: [children, showModal && (_jsx(TConnectModal, { appName: appName, appUrl: appUrl, appIcon: appIcon, bridgeUrl: bridgeUrl, apiKey: apiKey, networkFilter: networkFilter, tezosBeaconNetwork: tezosBeaconNetwork, tezosWcNetwork: tezosWcNetwork, step: step, onChangeStep: setStep, currentNetwork: currentNetwork, onChangeCurrentNetwork: setCurrentNetwork, currentWallet: currentWallet, onChangeCurrentWallet: setCurrentWallet, evmProvider: evmProvider, onChangeEvmProvider: handleEvmProvider, tezosBeaconProvider: tezosBeaconProvider, onChangeTezosBeaconProvider: handleTezosBeaconProvider, tezosWcProvider: tezosWcProvider, onChangeTezosWcProvider: handleTezosWcProvider, onDisconnect: handleDisconnect, onClose: closeModal, onError: handleError }))] }));
 });
 TConnectModalProvider.displayName = 'TConnectModalProvider';
 export const useTConnectModal = () => useContext(TConnectModalContext);

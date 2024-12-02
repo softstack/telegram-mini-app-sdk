@@ -30,8 +30,8 @@ export interface PackagePack {
 export interface Package {
 	packagePath: string;
 	packageJson: PackageJson;
-	packageView: PackageView | undefined;
 	packagePack: PackagePack | undefined;
+	packageView: PackageView | undefined;
 }
 
 export interface OutdatedDependentPackage {
@@ -41,4 +41,10 @@ export interface OutdatedDependentPackage {
 		oldVersion: string;
 		newVersion: string;
 	}>;
+}
+
+export interface Version {
+	major: bigint;
+	minor: bigint;
+	patch: bigint;
 }

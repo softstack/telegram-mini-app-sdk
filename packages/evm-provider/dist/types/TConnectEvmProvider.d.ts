@@ -4,12 +4,13 @@ export declare class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderE
     constructor(options: TConnectEvmProviderOptions);
     readonly appName: string;
     readonly appUrl: string;
+    readonly appIcon: string | undefined;
     readonly bridgeUrl: string;
     readonly walletApp: EvmWalletApp | undefined;
     private readonly _apiKey;
     private _communicationController;
     private _sessionId;
-    private _walletConnectUri;
+    private _connectionString;
     connect(): Promise<void>;
     connected(): Promise<boolean>;
     request(args: RequestArguments): Promise<unknown>;
@@ -20,5 +21,5 @@ export declare class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderE
     private _createEvmEventHandler;
     private _sendEvmRequest;
     private _getSessionId;
-    private _getWalletConnectUri;
+    private _getConnectionString;
 }

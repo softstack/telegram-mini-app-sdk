@@ -6,14 +6,14 @@ export declare class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcP
     constructor(options: TConnectTezosWcProviderOptions);
     readonly appName: string;
     readonly appUrl: string;
+    readonly appIcon: string | undefined;
     readonly bridgeUrl: string;
     readonly walletApp: TezosWcWalletApp | undefined;
     readonly network: TezosWcNetwork;
     private readonly _apiKey;
     private _communicationController;
     private _sessionId;
-    private _walletConnectUri;
-    private _permissionRequestCallbacks;
+    private _connectionString;
     permissionRequest(): Promise<void>;
     connected(): Promise<boolean>;
     disconnect(): Promise<void>;
@@ -37,5 +37,5 @@ export declare class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcP
     private _getAccounts;
     private _sendTezosWcRequest;
     private _getSessionId;
-    private _getWalletConnectUri;
+    private _getConnectionString;
 }

@@ -1,4 +1,4 @@
-import { Network, TezosBeaconWallet } from './types';
+import { Network } from './types';
 
 /**
  * A prefix used for Tailwind CSS classes to ensure uniqueness and avoid conflicts.
@@ -11,7 +11,7 @@ export const TAILWIND_PREFIX = 'eotrzpirnbqlbfjhbqpo-';
  * This key is used to identify and retrieve the EVM provider data
  * from the storage.
  */
-export const EVM_PROVIDER_STORAGE_KEY = 'ptkjfuuopetruxoocapm';
+export const EVM_PROVIDER_STORAGE_KEY = 'mfiqmlieehlcobqzqiav';
 
 /**
  * A constant string key used for storing the Tezos Beacon provider information.
@@ -24,7 +24,7 @@ export const TEZOS_BEACON_PROVIDER_STORAGE_KEY = 'jkdkvddgajorkvmywwub';
  * A constant string key used for storing the Tezos WalletConnect provider information.
  * This key is used to identify and retrieve the provider data from storage.
  */
-export const TEZOS_WC_PROVIDER_STORAGE_KEY = 'oergkxuqjljvgrkkzeth';
+export const TEZOS_WC_PROVIDER_STORAGE_KEY = 'nxmhhphkvgwzhmifdyus';
 
 /**
  * A constant array of network configurations.
@@ -126,24 +126,3 @@ export const NETWORKS: Array<Network> = [
 		],
 	},
 ];
-
-/**
- * An experimental wallet configuration for Tezos Beacon.
- *
- * @constant
- * @type {TezosBeaconWallet}
- * @property {string} name - The name of the wallet.
- * @property {string} icon - The icon type of the wallet.
- * @property {string} network - The network the wallet is connected to.
- * @property {string} bridge - The bridge protocol used by the wallet.
- * @property {string} walletApp - The generic wallet application identifier.
- * @property {string[]} supportedOperatingSystems - The list of supported operating systems.
- */
-export const EXPERIMENTAL_WALLET: TezosBeaconWallet = {
-	name: 'Experimental Wallet',
-	icon: 'transparent',
-	network: 'tezos',
-	bridge: 'beacon',
-	walletApp: '_generic_',
-	supportedOperatingSystems: ['android', 'ios'],
-};

@@ -6,7 +6,7 @@ import {
 	DisconnectMessage,
 	ErrorResponse,
 	OperationResponse,
-	PeerInfo,
+	PairingResponse,
 	PermissionResponse,
 	SignPayloadResponse,
 } from './types';
@@ -117,9 +117,9 @@ export const validateTezosBeaconEvent = (value: TezosBeaconEvent): TezosBeaconEv
  * - `icon`: An optional string representing the icon URL, which can be empty.
  *
  * @param value - The value to validate.
- * @returns A boolean indicating whether the value is a valid PeerInfo.
+ * @returns A boolean indicating whether the value is a valid PairingResponse.
  */
-export const isPeerInfo = (value: unknown): value is PeerInfo =>
+export const isPairingResponse = (value: unknown): value is PairingResponse =>
 	validateType(
 		value,
 		Joi.object({

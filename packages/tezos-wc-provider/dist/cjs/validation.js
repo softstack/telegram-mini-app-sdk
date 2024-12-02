@@ -21,7 +21,6 @@ const validateTezosWcResponse = (value) => (0, core_1.validateSchema)(value, joi
     type: joi_1.default.string().valid('connect').required(),
     payload: joi_1.default.object({
         sessionId: joi_1.default.string().required(),
-        walletConnectUri: joi_1.default.string().required(),
     }),
 }), joi_1.default.object({
     type: joi_1.default.string().valid('connected').required(),
@@ -40,10 +39,12 @@ const validateTezosWcResponse = (value) => (0, core_1.validateSchema)(value, joi
 exports.validateTezosWcResponse = validateTezosWcResponse;
 const validateTezosWcEvent = (value) => (0, core_1.validateSchema)(value, joi_1.default.alternatives()
     .try(joi_1.default.object({
-    type: joi_1.default.string().valid('connect').required(),
+    type: joi_1.default.string().valid('connectionString').required(),
     payload: joi_1.default.object({
-        sessionId: joi_1.default.string().required(),
+        connectionString: joi_1.default.string().required(),
     }),
+}), joi_1.default.object({
+    type: joi_1.default.string().valid('disconnect').required(),
 }))
     .required());
 exports.validateTezosWcEvent = validateTezosWcEvent;

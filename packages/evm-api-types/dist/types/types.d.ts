@@ -5,13 +5,13 @@ export interface EvmConnectRequest {
         apiKey: string;
         appName: string;
         appUrl: string;
+        appIcon: string | undefined;
     };
 }
 export interface EvmConnectResponse {
     type: 'connect';
     payload: {
         sessionId: string;
-        walletConnectUri: string;
     };
 }
 export interface EvmConnectedRequest {
@@ -60,6 +60,12 @@ export interface EvmErrorResponse {
 }
 export type EvmRequest = EvmConnectRequest | EvmConnectedRequest | EvmRequestRequest | EvmReconnectRequest | EvmDisconnectRequest;
 export type EvmResponse = EvmConnectResponse | EvmConnectedResponse | EvmRequestResponse | EvmReconnectResponse | EvmDisconnectResponse;
+export interface EvmConnectionStringEvent {
+    type: 'connectionString';
+    payload: {
+        connectionString: string;
+    };
+}
 export interface EvmConnectEvent {
     type: 'connect';
     payload: {
@@ -89,4 +95,4 @@ export interface EvmDisconnectEvent {
         data?: unknown;
     };
 }
-export type EvmEvent = EvmConnectEvent | EvmMessageEvent | EvmChainChangedEvent | EvmAccountsChangedEvent | EvmDisconnectEvent;
+export type EvmEvent = EvmConnectionStringEvent | EvmConnectEvent | EvmMessageEvent | EvmChainChangedEvent | EvmAccountsChangedEvent | EvmDisconnectEvent;

@@ -1,8 +1,8 @@
 {
 	"name": "@tconnect.io/core",
-	"version": "0.0.4",
+	"version": "0.0.6",
 	"description": "",
-	"author": "",
+	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -37,7 +37,6 @@
 	},
 	"dependencies": {
 		"@softstack/typed-stringify": "^3.0.0-alpha.2",
-		"get-current-line": "^7.4.0",
 		"joi": "^17.13.3"
 	}
 }

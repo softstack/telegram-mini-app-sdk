@@ -5,6 +5,7 @@ export interface TezosBeaconInitRequest {
         apiKey: string;
         appName: string;
         appUrl: string;
+        appIcon: string | undefined;
         publicKey: string;
     };
 }

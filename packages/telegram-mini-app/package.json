@@ -2,6 +2,9 @@
 	"name": "telegram-mini-app",
 	"version": "0.0.1",
 	"private": true,
+	"description": "",
+	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
+	"license": "MIT",
 	"scripts": {
 		"start": "craco start",
 		"tailwindcss:build": "tailwindcss build -i ./src/input.css -o ./build/output.css",
@@ -23,7 +26,7 @@
 	},
 	"dependencies": {
 		"@taquito/taquito": "^20.0.1",
-		"@tconnect.io/modal": "^0.0.8",
+		"@tconnect.io/modal": "^0.0.11",
 		"@testing-library/jest-dom": "^5.17.0",
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^13.5.0",

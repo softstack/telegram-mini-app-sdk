@@ -40,23 +40,21 @@ export const TezosConsumer = memo<TezosConsumerProps>(({ provider }) => {
 	}, [tezos, provider]);
 
 	const sign = useCallback(async () => {
+		const message = `Hello world! ${new Date().toISOString()}`;
 		if (provider instanceof TConnectTezosWcProvider) {
-			const bytes = Buffer.from('Hello World!').toString('hex');
+			const bytes = Buffer.from(message).toString('hex');
 			const bytesLength = (bytes.length / 2).toString(16).padStart(8, '0');
 			const payload = '05' + '01' + bytesLength + bytes;
 			const signature = await provider.requestSignPayload({ payload });
 			setSignature(signature);
-		} else if (tezos) {
-			if (!tezos) {
-				return;
-			}
-			const response = await tezos.wallet.signFailingNoop({
-				arbitrary: Buffer.from('Hello World!').toString('hex'),
-				basedOnBlock: 'head',
-			});
-			setSignature(response.signature);
+		} else if (provider instanceof TConnectTezosBeaconProvider) {
+			const bytes = Buffer.from(message).toString('hex');
+			const bytesLength = (bytes.length / 2).toString(16).padStart(8, '0');
+			const payload = '05' + '01' + bytesLength + bytes;
+			const { signature } = await provider.requestSignPayload({ payload });
+			setSignature(signature);
 		}
-	}, [tezos, provider]);
+	}, [provider]);
 
 	const transfer = useCallback(async () => {
 		if (!tezos) {

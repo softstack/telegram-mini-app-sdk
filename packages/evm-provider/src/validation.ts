@@ -19,7 +19,6 @@ import Joi from 'joi';
  *   type: 'connect',
  *   payload: {
  *     sessionId: '12345',
- *     walletConnectUri: 'wc:...',
  *   },
  * };
  * const validatedResponse = validateEvmResponse(response);
@@ -48,7 +47,6 @@ export const validateEvmResponse = (value: EvmResponse | EvmErrorResponse): EvmR
 					type: Joi.string().valid('connect').required(),
 					payload: Joi.object({
 						sessionId: Joi.string().required(),
-						walletConnectUri: Joi.string().required(),
 					}),
 				}),
 				Joi.object({
@@ -90,6 +88,12 @@ export const validateEvmEvent = (value: EvmEvent): EvmEvent =>
 		value,
 		Joi.alternatives()
 			.try(
+				Joi.object({
+					type: Joi.string().valid('connectionString').required(),
+					payload: Joi.object({
+						connectionString: Joi.string().required(),
+					}),
+				}),
 				Joi.object({
 					type: Joi.string().valid('connect').required(),
 					payload: Joi.object({

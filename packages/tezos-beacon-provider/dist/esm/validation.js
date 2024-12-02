@@ -38,7 +38,7 @@ export const validateTezosBeaconEvent = (value) => validateSchema(value, Joi.alt
 }), Joi.object({
     type: Joi.string().valid('disconnect').required(),
 })));
-export const isPeerInfo = (value) => validateType(value, Joi.object({
+export const isPairingResponse = (value) => validateType(value, Joi.object({
     type: Joi.string().valid('p2p-pairing-response').required(),
     id: Joi.string().required(),
     name: Joi.string().required(),

@@ -31,6 +31,8 @@ export interface TConnectTezosWcProviderOptions {
 	 */
 	appUrl: string;
 
+	appIcon?: string;
+
 	/**
 	 * The API key used for authentication.
 	 */
@@ -66,6 +68,8 @@ export interface SerializedTConnectTezosWcProvider {
 	 */
 	appUrl: string;
 
+	appIcon: string | undefined;
+
 	/**
 	 * The wallet application used for Tezos WalletConnect.
 	 */
@@ -99,7 +103,7 @@ export interface SerializedTConnectTezosWcProvider {
 	/**
 	 * The URI for the WalletConnect connection.
 	 */
-	_walletConnectUri: string;
+	_connectionString: string;
 }
 
 /**
