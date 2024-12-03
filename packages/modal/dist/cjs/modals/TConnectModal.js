@@ -32,9 +32,6 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TConnectModal = void 0;
 const jsx_runtime_1 = require("react/jsx-runtime");
@@ -43,7 +40,6 @@ const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const evm_provider_1 = require("@tconnect.io/evm-provider");
 const tezos_beacon_provider_1 = require("@tconnect.io/tezos-beacon-provider");
 const tezos_wc_provider_1 = require("@tconnect.io/tezos-wc-provider");
-const sdk_1 = __importDefault(require("@twa-dev/sdk"));
 const clsx_1 = require("clsx");
 const react_1 = require("react");
 const react_dom_1 = require("react-dom");
@@ -255,11 +251,11 @@ exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, appIcon, bridgeUrl
             if (currentWallet) {
                 switch (currentWallet.network) {
                     case 'evm': {
-                        sdk_1.default.openLink(`https://explorer.etherlink.com/address/${address}`);
+                        (0, dapp_utils_1.openLink)(`https://explorer.etherlink.com/address/${address}`);
                         break;
                     }
                     case 'tezos': {
-                        sdk_1.default.openLink(`https://tzkt.io/${address}`);
+                        (0, dapp_utils_1.openLink)(`https://tzkt.io/${address}`);
                         break;
                     }
                 }

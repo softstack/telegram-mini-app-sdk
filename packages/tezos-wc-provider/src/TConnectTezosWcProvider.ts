@@ -11,7 +11,7 @@ import {
 } from '@taquito/taquito';
 import { parse, sleep, stringify, TypedEvent } from '@tconnect.io/core';
 import { CommunicationController } from '@tconnect.io/dapp-communication';
-import { getErrorMessage, isAndroid } from '@tconnect.io/dapp-utils';
+import { getErrorMessage, isAndroid, openLink } from '@tconnect.io/dapp-utils';
 import {
 	EVENT_CHANNEL,
 	REQUEST_CHANNEL,
@@ -32,7 +32,6 @@ import {
 	TezosWcRequestResponse,
 	TezosWcResponse,
 } from '@tconnect.io/tezos-wc-api-types';
-import WebApp from '@twa-dev/sdk';
 import {
 	GetAccountsResult,
 	RequestSignPayloadInput,
@@ -147,15 +146,15 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 					if (this.walletApp) {
 						// Android needs a second reminder to open the link
 						if (isAndroid()) {
-							WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString), {
+							openLink(getConnectionStringUniversalLink(this.walletApp, connectionString), {
 								try_instant_view: true,
 							});
 							await sleep(1000);
-							WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString), {
+							openLink(getConnectionStringUniversalLink(this.walletApp, connectionString), {
 								try_instant_view: true,
 							});
 						} else {
-							WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, connectionString));
+							openLink(getConnectionStringUniversalLink(this.walletApp, connectionString));
 						}
 					}
 					this.emit('connectionString', connectionString);
@@ -532,7 +531,7 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 			switch (tezosRequest.payload.method) {
 				case 'tezos_send':
 				case 'tezos_sign': {
-					WebApp.openLink(getUniversalLink(this.walletApp));
+					openLink(getUniversalLink(this.walletApp));
 					break;
 				}
 			}

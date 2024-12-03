@@ -1,10 +1,9 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { ETHERLINK_CHAIN_ID } from '@tconnect.io/core';
-import { getOperatingSystem, randomUUID } from '@tconnect.io/dapp-utils';
+import { getOperatingSystem, openLink, randomUUID } from '@tconnect.io/dapp-utils';
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { TConnectTezosBeaconProvider } from '@tconnect.io/tezos-beacon-provider';
 import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
-import WebApp from '@twa-dev/sdk';
 import { clsx } from 'clsx';
 import { Fragment, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -216,11 +215,11 @@ export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey
             if (currentWallet) {
                 switch (currentWallet.network) {
                     case 'evm': {
-                        WebApp.openLink(`https://explorer.etherlink.com/address/${address}`);
+                        openLink(`https://explorer.etherlink.com/address/${address}`);
                         break;
                     }
                     case 'tezos': {
-                        WebApp.openLink(`https://tzkt.io/${address}`);
+                        openLink(`https://tzkt.io/${address}`);
                         break;
                     }
                 }

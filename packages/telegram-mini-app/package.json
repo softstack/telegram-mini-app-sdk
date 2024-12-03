@@ -26,11 +26,11 @@
 	},
 	"dependencies": {
 		"@taquito/taquito": "^20.0.1",
-		"@tconnect.io/modal": "^0.0.12",
+		"@tconnect.io/modal": "^0.0.13",
 		"@testing-library/jest-dom": "^5.17.0",
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^13.5.0",
-		"@twa-dev/sdk": "^7.8.0",
+		"@twa-dev/sdk": "^8.0.1",
 		"@types/jest": "^27.5.2",
 		"@types/node": "^16.18.105",
 		"@types/react": "^18.3.4",
