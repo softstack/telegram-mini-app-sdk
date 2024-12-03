@@ -12,7 +12,6 @@ import { Main } from './pages/Main';
 import { TezosBeacon } from './pages/TezosBeacon';
 import { TezosWc } from './pages/TezosWc';
 import { Web3Js } from './pages/Web3Js';
-import { handleError } from './utils';
 
 const router = createBrowserRouter([
 	{ path: '/', element: <Main /> },
@@ -53,8 +52,6 @@ export const App = (): JSX.Element => {
 				apiKey={API_KEY}
 				tezosBeaconNetwork={{ type: 'ghostnet' }}
 				tezosWcNetwork="ghostnet"
-				onError={handleError}
-				closeModalOnError={true}
 			>
 				<Col className="min-h-screen bg-white text-black dark:bg-black dark:text-white">
 					<RouterProvider router={router} />

@@ -209,6 +209,7 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 	 * - 'personal_sign'
 	 */
 	async request(args: RequestArguments): Promise<unknown> {
+		// The universal link does not open the bitget app
 		if (this.walletApp && this.walletApp !== 'bitget') {
 			switch (args.method) {
 				case 'eth_sendTransaction':

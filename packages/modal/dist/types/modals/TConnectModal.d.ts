@@ -26,6 +26,5 @@ export interface TConnectModalProps {
     onChangeTezosWcProvider: (provider: TConnectTezosWcProvider) => void;
     onDisconnect: () => void;
     onClose: () => void;
-    onError: (error: unknown) => void;
 }
 export declare const TConnectModal: import("react").NamedExoticComponent<TConnectModalProps>;

@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useDarkMode = exports.useVersionedState = exports.nextVersion = exports.tw = exports.createTailwindPrefixer = void 0;
+exports.handleError = exports.useDarkMode = exports.useVersionedState = exports.nextVersion = exports.tw = exports.createTailwindPrefixer = void 0;
 const react_1 = require("react");
+const react_toastify_1 = require("react-toastify");
 const tailwind_merge_1 = require("tailwind-merge");
 const constants_1 = require("./constants");
 const createTailwindPrefixer = (prefix, separator = ':') => {
@@ -70,4 +71,13 @@ const useDarkMode = () => {
     return darkMode;
 };
 exports.useDarkMode = useDarkMode;
+const handleError = (error) => {
+    if (error instanceof Error) {
+        react_toastify_1.toast.error(error.message, { containerId: constants_1.TOAST_CONTAINER_ID });
+    }
+    else {
+        console.error(error);
+    }
+};
+exports.handleError = handleError;
 //# sourceMappingURL=utils.js.map

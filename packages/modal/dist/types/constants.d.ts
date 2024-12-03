@@ -8,3 +8,4 @@ export declare const ETHERLINK_DETAILS: {
     label: string;
     value: string;
 }[];
+export declare const TOAST_CONTAINER_ID = "qbpoorwpbcmnyejvnqad";

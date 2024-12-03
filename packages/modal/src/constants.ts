@@ -133,3 +133,5 @@ export const ETHERLINK_DETAILS = [
 	{ label: 'RPC URL', value: 'https://node.mainnet.etherlink.com' },
 	{ label: 'Block Explorer URL', value: 'https://explorer.etherlink.com' },
 ];
+
+export const TOAST_CONTAINER_ID = 'qbpoorwpbcmnyejvnqad';

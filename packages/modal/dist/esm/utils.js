@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
-import { TAILWIND_PREFIX } from './constants';
+import { TAILWIND_PREFIX, TOAST_CONTAINER_ID } from './constants';
 export const createTailwindPrefixer = (prefix, separator = ':') => {
     return (...args) => {
         let className = '';
@@ -62,5 +63,13 @@ export const useDarkMode = () => {
         return () => observer.disconnect();
     }, []);
     return darkMode;
+};
+export const handleError = (error) => {
+    if (error instanceof Error) {
+        toast.error(error.message, { containerId: TOAST_CONTAINER_ID });
+    }
+    else {
+        console.error(error);
+    }
 };
 //# sourceMappingURL=utils.js.map

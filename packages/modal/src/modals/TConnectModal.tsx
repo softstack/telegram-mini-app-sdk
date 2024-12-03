@@ -9,6 +9,7 @@ import { Fragment, memo, MouseEvent, useCallback, useEffect, useMemo, useRef, us
 import { createPortal } from 'react-dom';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { BeatLoader } from 'react-spinners';
+import { Bounce, ToastContainer } from 'react-toastify';
 import { Accordion } from '../components/Accordion';
 import { BaseButton } from '../components/buttons/BaseButton';
 import { GridButton } from '../components/buttons/GridButton';
@@ -18,9 +19,9 @@ import { EtherlinkField } from '../components/EtherlinkField';
 import { Col } from '../components/flex/Col';
 import { Row } from '../components/flex/Row';
 import { Header } from '../components/Header';
-import { ETHERLINK_DETAILS, NETWORKS } from '../constants';
+import { ETHERLINK_DETAILS, NETWORKS, TOAST_CONTAINER_ID } from '../constants';
 import { Network } from '../types';
-import { nextVersion, useDarkMode, useVersionedState } from '../utils';
+import { handleError, nextVersion, useDarkMode, useVersionedState } from '../utils';
 
 export type Step = 'connect' | 'connecting' | 'invalidChainId' | 'connected';
 
@@ -47,7 +48,6 @@ export interface TConnectModalProps {
 	onChangeTezosWcProvider: (provider: TConnectTezosWcProvider) => void;
 	onDisconnect: () => void;
 	onClose: () => void;
-	onError: (error: unknown) => void;
 }
 
 /**
@@ -73,7 +73,6 @@ export interface TConnectModalProps {
  * @param {Function} onChangeTezosWcProvider - Callback to change the Tezos WalletConnect provider.
  * @param {Function} onDisconnect - Callback to handle disconnection.
  * @param {Function} onClose - Callback to handle closing the modal.
- * @param {Function} onError - Callback to handle errors.
  *
  * @returns {JSX.Element} The rendered TConnectModal component.
  */
@@ -101,7 +100,6 @@ export const TConnectModal = memo<TConnectModalProps>(
 		onChangeTezosWcProvider,
 		onDisconnect,
 		onClose,
-		onError,
 	}) => {
 		const darkMode = useDarkMode();
 		const backgroundElement = useRef(null);
@@ -134,10 +132,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 						setShortAddress(version, `${address.slice(0, 10)}...${address.slice(-10)}`);
 					}
 				} catch (error) {
-					onError(error);
+					handleError(error);
 				}
 			})();
-		}, [evmProvider, tezosBeaconProvider, tezosWcProvider, setAddress, setShortAddress, onError]);
+		}, [evmProvider, tezosBeaconProvider, tezosWcProvider, setAddress, setShortAddress]);
 
 		const handleBackground = useCallback(
 			(event: MouseEvent<HTMLDivElement>) => {
@@ -146,10 +144,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 						onClose();
 					}
 				} catch (error) {
-					onError(error);
+					handleError(error);
 				}
 			},
-			[onClose, onError],
+			[onClose],
 		);
 
 		const handleChangeNetwork = useCallback(
@@ -158,10 +156,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 					onChangeCurrentNetwork(network);
 					setShowWallets(true);
 				} catch (error) {
-					onError(error);
+					handleError(error);
 				}
 			},
-			[onChangeCurrentNetwork, onError],
+			[onChangeCurrentNetwork],
 		);
 
 		const filteredNetworks = useMemo(() => {
@@ -170,10 +168,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 					(network) => !networkFilter || networkFilter.includes(network.type === 'evm' ? 'etherlink' : 'tezos'),
 				);
 			} catch (error) {
-				onError(error);
+				handleError(error);
 			}
 			return [];
-		}, [networkFilter, onError]);
+		}, [networkFilter]);
 
 		useEffect(() => {
 			if (filteredNetworks.length === 1) {
@@ -197,10 +195,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 					}
 				}
 			} catch (error) {
-				onError(error);
+				handleError(error);
 			}
 			return [];
-		}, [currentNetwork, onError]);
+		}, [currentNetwork]);
 
 		const handleChangeWallet = useCallback(
 			async (wallet: Network['wallets'][0]) => {
@@ -266,7 +264,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 						}
 					}
 				} catch (error) {
-					onError(error);
+					handleError(error);
 				}
 			},
 			[
@@ -282,43 +280,42 @@ export const TConnectModal = memo<TConnectModalProps>(
 				onChangeEvmProvider,
 				onChangeTezosBeaconProvider,
 				onChangeTezosWcProvider,
-				onError,
 			],
 		);
 
-		const handleAddEtherlink = useCallback(async () => {
-			try {
-				if (evmProvider) {
-					await evmProvider.request({
-						method: 'wallet_addEthereumChain',
-						params: [
-							{
-								chainId: '0xa729',
-								chainName: 'Etherlink Mainnet',
-								nativeCurrency: {
-									name: 'Tezos',
-									symbol: 'XTZ',
-									decimals: 18,
-								},
-								rpcUrls: ['https://node.mainnet.etherlink.com'],
-								blockExplorerUrls: ['https://explorer.etherlink.com'],
-							},
-							// '0x06F92f77c3F0D08f3c6efb468aD4f07972578DD1',
-						],
-					});
-				}
-			} catch (error) {
-				onError(error);
-			}
-		}, [evmProvider, onError]);
+		// const handleAddEtherlink = useCallback(async () => {
+		// 	try {
+		// 		if (evmProvider) {
+		// 			await evmProvider.request({
+		// 				method: 'wallet_addEthereumChain',
+		// 				params: [
+		// 					{
+		// 						chainId: '0xa729',
+		// 						chainName: 'Etherlink Mainnet',
+		// 						nativeCurrency: {
+		// 							name: 'Tezos',
+		// 							symbol: 'XTZ',
+		// 							decimals: 18,
+		// 						},
+		// 						rpcUrls: ['https://node.mainnet.etherlink.com'],
+		// 						blockExplorerUrls: ['https://explorer.etherlink.com'],
+		// 					},
+		// 					// '0x06F92f77c3F0D08f3c6efb468aD4f07972578DD1',
+		// 				],
+		// 			});
+		// 		}
+		// 	} catch (error) {
+		// 		handleError(error);
+		// 	}
+		// }, [evmProvider]);
 
 		const toggleShowShortAddress = useCallback(() => {
 			try {
 				setShowShortAddress((prevShowShortAddress) => !prevShowShortAddress);
 			} catch (error) {
-				onError(error);
+				handleError(error);
 			}
-		}, [onError]);
+		}, []);
 
 		const handleCopyAddress = useCallback(() => {
 			try {
@@ -330,9 +327,9 @@ export const TConnectModal = memo<TConnectModalProps>(
 					}, 1500);
 				}
 			} catch (error) {
-				onError(error);
+				handleError(error);
 			}
-		}, [address, onError]);
+		}, [address]);
 
 		const handleShowExplorer = useCallback(() => {
 			try {
@@ -349,9 +346,9 @@ export const TConnectModal = memo<TConnectModalProps>(
 					}
 				}
 			} catch (error) {
-				onError(error);
+				handleError(error);
 			}
-		}, [currentWallet, address, onError]);
+		}, [currentWallet, address]);
 
 		return createPortal(
 			<Col
@@ -436,11 +433,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 						<Fragment>
 							<Header title="Unsupported Network" onClose={onClose} />
 							<Col className="gap-y-pageFrame overflow-y-scroll p-pageFrame">
-								{/* <TextButton text="Add Etherlink" onClick={handleAddEtherlink} /> */}
 								<Row>Please select Etherlink in {currentWallet?.name}</Row>
 								<Row>If Etherlink has not been added to {currentWallet?.name} yet, you can find a how-to here</Row>
 								<TextButton text="I have selected Etherlink" onClick={onClose} />
-								<TextButton text="Add Etherlink" onClick={handleAddEtherlink} />
+								{/* <TextButton text="Add Etherlink" onClick={handleAddEtherlink} /> */}
 							</Col>
 						</Fragment>
 					) : step === 'connected' ? (
@@ -481,6 +477,20 @@ export const TConnectModal = memo<TConnectModalProps>(
 						</Fragment>
 					) : undefined}
 				</Col>
+				<ToastContainer
+					containerId={TOAST_CONTAINER_ID}
+					position="top-center"
+					autoClose={5000}
+					hideProgressBar={false}
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+					theme="colored"
+					transition={Bounce}
+				/>
 			</Col>,
 			document.body,
 		);

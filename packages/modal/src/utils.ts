@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
-import { TAILWIND_PREFIX } from './constants';
+import { TAILWIND_PREFIX, TOAST_CONTAINER_ID } from './constants';
 
 /**
  * Creates a function that prefixes Tailwind CSS class names with a specified prefix.
@@ -120,4 +121,12 @@ export const useDarkMode = (): boolean => {
 	}, []);
 
 	return darkMode;
+};
+
+export const handleError = (error: unknown): void => {
+	if (error instanceof Error) {
+		toast.error(error.message, { containerId: TOAST_CONTAINER_ID });
+	} else {
+		console.error(error);
+	}
 };

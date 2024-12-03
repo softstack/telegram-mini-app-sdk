@@ -13,8 +13,6 @@ export interface TConnectModalProviderProps {
     tezosBeaconNetwork?: TezosBeaconNetwork;
     tezosWcNetwork?: TezosWcNetwork;
     children?: ReactNode | undefined;
-    onError?: (error: unknown) => void;
-    closeModalOnError?: boolean;
 }
 export declare const TConnectModalProvider: import("react").NamedExoticComponent<TConnectModalProviderProps>;
 export declare const useTConnectModal: () => TConnectModalContextValue;
