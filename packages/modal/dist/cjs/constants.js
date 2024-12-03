@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NETWORKS = exports.TEZOS_WC_PROVIDER_STORAGE_KEY = exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = exports.EVM_PROVIDER_STORAGE_KEY = exports.TAILWIND_PREFIX = void 0;
+exports.TOAST_CONTAINER_ID = exports.ETHERLINK_DETAILS = exports.NETWORKS = exports.TEZOS_WC_PROVIDER_STORAGE_KEY = exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = exports.EVM_PROVIDER_STORAGE_KEY = exports.TAILWIND_PREFIX = void 0;
 exports.TAILWIND_PREFIX = 'eotrzpirnbqlbfjhbqpo-';
 exports.EVM_PROVIDER_STORAGE_KEY = 'mfiqmlieehlcobqzqiav';
 exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = 'jkdkvddgajorkvmywwub';
@@ -85,4 +85,11 @@ exports.NETWORKS = [
         ],
     },
 ];
+exports.ETHERLINK_DETAILS = [
+    { label: 'Network Name', value: 'Etherlink Mainnet' },
+    { label: 'Chain ID', value: '42793' },
+    { label: 'RPC URL', value: 'https://node.mainnet.etherlink.com' },
+    { label: 'Block Explorer URL', value: 'https://explorer.etherlink.com' },
+];
+exports.TOAST_CONTAINER_ID = 'qbpoorwpbcmnyejvnqad';
 //# sourceMappingURL=constants.js.map

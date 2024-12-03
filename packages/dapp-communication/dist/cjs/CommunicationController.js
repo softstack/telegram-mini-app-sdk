@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommunicationController = void 0;
 const core_1 = require("@tconnect.io/core");
+const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const socket_io_client_1 = require("socket.io-client");
 const validation_1 = require("./validation");
 class CommunicationController extends core_1.TypedEvent {
@@ -77,7 +78,7 @@ class CommunicationController extends core_1.TypedEvent {
             throw new Error("Can't send request without connection");
         }
         const wrappedRequest = {
-            requestId: crypto.randomUUID(),
+            requestId: (0, dapp_utils_1.randomUUID)(),
             request: request,
         };
         const callbackPromise = this._requestCallbacks.addCallback(wrappedRequest.requestId);

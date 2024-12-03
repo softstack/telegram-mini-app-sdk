@@ -1,4 +1,5 @@
 import { CallbackController, parse, stringify, TypedEvent } from '@tconnect.io/core';
+import { randomUUID } from '@tconnect.io/dapp-utils';
 import { io } from 'socket.io-client';
 import { validateWrappedResponse } from './validation';
 export class CommunicationController extends TypedEvent {
@@ -74,7 +75,7 @@ export class CommunicationController extends TypedEvent {
             throw new Error("Can't send request without connection");
         }
         const wrappedRequest = {
-            requestId: crypto.randomUUID(),
+            requestId: randomUUID(),
             request: request,
         };
         const callbackPromise = this._requestCallbacks.addCallback(wrappedRequest.requestId);

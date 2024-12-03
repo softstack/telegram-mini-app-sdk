@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/dapp-communication",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "",
 	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",
@@ -37,6 +37,7 @@
 	},
 	"dependencies": {
 		"@tconnect.io/core": "^0.0.6",
+		"@tconnect.io/dapp-utils": "^0.0.9",
 		"joi": "^17.13.3",
 		"socket.io-client": "^4.7.5"
 	}

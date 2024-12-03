@@ -14,7 +14,7 @@ import {
 } from '@taquito/taquito';
 import { CallbackController, parse, stringify, TypedEvent } from '@tconnect.io/core';
 import { CommunicationController } from '@tconnect.io/dapp-communication';
-import { getErrorMessage } from '@tconnect.io/dapp-utils';
+import { getErrorMessage, randomUUID } from '@tconnect.io/dapp-utils';
 import {
 	EVENT_CHANNEL,
 	REQUEST_CHANNEL,
@@ -205,7 +205,7 @@ export class TConnectTezosBeaconProvider
 				rawSignature,
 			},
 		});
-		const permissionRequestId = crypto.randomUUID();
+		const permissionRequestId = randomUUID();
 		const callbackPromise = this._permissionRequestCallbacks.addCallback(permissionRequestId);
 		this._communicationController.on('event', this._createTezosBeaconEventHandler(permissionRequestId));
 		if (this.walletApp) {
@@ -804,7 +804,7 @@ export class TConnectTezosBeaconProvider
 					}
 				: {
 						...partialMessage,
-						id: crypto.randomUUID(),
+						id: randomUUID(),
 						version: '2',
 						senderId: getSenderId(toHex(this._communicationKeyPair.publicKey)),
 					};

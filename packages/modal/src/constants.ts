@@ -126,3 +126,12 @@ export const NETWORKS: Array<Network> = [
 		],
 	},
 ];
+
+export const ETHERLINK_DETAILS = [
+	{ label: 'Network Name', value: 'Etherlink Mainnet' },
+	{ label: 'Chain ID', value: '42793' },
+	{ label: 'RPC URL', value: 'https://node.mainnet.etherlink.com' },
+	{ label: 'Block Explorer URL', value: 'https://explorer.etherlink.com' },
+];
+
+export const TOAST_CONTAINER_ID = 'qbpoorwpbcmnyejvnqad';

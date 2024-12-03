@@ -1,3 +1,4 @@
+import { randomBytes } from '@stablelib/random';
 import { EvmErrorType } from '@tconnect.io/evm-api-types';
 import { TezosBeaconErrorType } from '@tconnect.io/tezos-beacon-api-types';
 import { TezosWcErrorType } from '@tconnect.io/tezos-wc-api-types';
@@ -77,4 +78,13 @@ export const getErrorMessage = (
 			return 'Wallet request failed';
 		}
 	}
+};
+
+export const randomUUID = (): string => {
+	const buf = randomBytes(16);
+	return [buf.slice(0, 4), buf.slice(4, 6), buf.slice(6, 8), buf.slice(8, 10), buf.slice(10, 16)]
+		.map(function (subbuf) {
+			return Buffer.from(subbuf).toString('hex');
+		})
+		.join('-');
 };

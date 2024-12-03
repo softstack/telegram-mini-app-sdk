@@ -1,5 +1,5 @@
 import { ETHERLINK_CHAIN_ID } from '@tconnect.io/core';
-import { getOperatingSystem } from '@tconnect.io/dapp-utils';
+import { getOperatingSystem, randomUUID } from '@tconnect.io/dapp-utils';
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { TConnectTezosBeaconProvider, Network as TezosBeaconNetwork } from '@tconnect.io/tezos-beacon-provider';
 import { TConnectTezosWcProvider, Network as TezosWcNetwork } from '@tconnect.io/tezos-wc-provider';
@@ -9,17 +9,19 @@ import { Fragment, memo, MouseEvent, useCallback, useEffect, useMemo, useRef, us
 import { createPortal } from 'react-dom';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { BeatLoader } from 'react-spinners';
+import { Bounce, ToastContainer } from 'react-toastify';
 import { Accordion } from '../components/Accordion';
 import { BaseButton } from '../components/buttons/BaseButton';
 import { GridButton } from '../components/buttons/GridButton';
 import { HorizontalIconTextButton } from '../components/buttons/HorizontalIconTextButton';
 import { TextButton } from '../components/buttons/TextButton';
+import { EtherlinkField } from '../components/EtherlinkField';
 import { Col } from '../components/flex/Col';
 import { Row } from '../components/flex/Row';
 import { Header } from '../components/Header';
-import { NETWORKS } from '../constants';
+import { ETHERLINK_DETAILS, NETWORKS, TOAST_CONTAINER_ID } from '../constants';
 import { Network } from '../types';
-import { nextVersion, useDarkMode, useVersionedState } from '../utils';
+import { handleError, nextVersion, useDarkMode, useVersionedState } from '../utils';
 
 export type Step = 'connect' | 'connecting' | 'invalidChainId' | 'connected';
 
@@ -46,7 +48,6 @@ export interface TConnectModalProps {
 	onChangeTezosWcProvider: (provider: TConnectTezosWcProvider) => void;
 	onDisconnect: () => void;
 	onClose: () => void;
-	onError: (error: unknown) => void;
 }
 
 /**
@@ -72,7 +73,6 @@ export interface TConnectModalProps {
  * @param {Function} onChangeTezosWcProvider - Callback to change the Tezos WalletConnect provider.
  * @param {Function} onDisconnect - Callback to handle disconnection.
  * @param {Function} onClose - Callback to handle closing the modal.
- * @param {Function} onError - Callback to handle errors.
  *
  * @returns {JSX.Element} The rendered TConnectModal component.
  */
@@ -100,7 +100,6 @@ export const TConnectModal = memo<TConnectModalProps>(
 		onChangeTezosWcProvider,
 		onDisconnect,
 		onClose,
-		onError,
 	}) => {
 		const darkMode = useDarkMode();
 		const backgroundElement = useRef(null);
@@ -109,7 +108,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 		const [address, setAddress] = useVersionedState<string | undefined>(undefined);
 		const [shortAddress, setShortAddress] = useVersionedState<string | undefined>(undefined);
 		const [showShortAddress, setShowShortAddress] = useState(true);
-		const [copied, setCopied] = useState(false);
+		const [copiedAddress, setCopiedAddress] = useState(false);
 
 		useEffect(() => {
 			(async (): Promise<void> => {
@@ -133,10 +132,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 						setShortAddress(version, `${address.slice(0, 10)}...${address.slice(-10)}`);
 					}
 				} catch (error) {
-					onError(error);
+					handleError(error);
 				}
 			})();
-		}, [evmProvider, tezosBeaconProvider, tezosWcProvider, setAddress, setShortAddress, onError]);
+		}, [evmProvider, tezosBeaconProvider, tezosWcProvider, setAddress, setShortAddress]);
 
 		const handleBackground = useCallback(
 			(event: MouseEvent<HTMLDivElement>) => {
@@ -145,10 +144,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 						onClose();
 					}
 				} catch (error) {
-					onError(error);
+					handleError(error);
 				}
 			},
-			[onClose, onError],
+			[onClose],
 		);
 
 		const handleChangeNetwork = useCallback(
@@ -157,10 +156,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 					onChangeCurrentNetwork(network);
 					setShowWallets(true);
 				} catch (error) {
-					onError(error);
+					handleError(error);
 				}
 			},
-			[onChangeCurrentNetwork, onError],
+			[onChangeCurrentNetwork],
 		);
 
 		const filteredNetworks = useMemo(() => {
@@ -169,10 +168,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 					(network) => !networkFilter || networkFilter.includes(network.type === 'evm' ? 'etherlink' : 'tezos'),
 				);
 			} catch (error) {
-				onError(error);
+				handleError(error);
 			}
 			return [];
-		}, [networkFilter, onError]);
+		}, [networkFilter]);
 
 		useEffect(() => {
 			if (filteredNetworks.length === 1) {
@@ -196,10 +195,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 					}
 				}
 			} catch (error) {
-				onError(error);
+				handleError(error);
 			}
 			return [];
-		}, [currentNetwork, onError]);
+		}, [currentNetwork]);
 
 		const handleChangeWallet = useCallback(
 			async (wallet: Network['wallets'][0]) => {
@@ -238,7 +237,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 										appIcon,
 										bridgeUrl,
 										walletApp: wallet.walletApp,
-										secretSeed: crypto.randomUUID(),
+										secretSeed: randomUUID(),
 										apiKey,
 										network: tezosBeaconNetwork ?? { type: 'mainnet' },
 									});
@@ -265,7 +264,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 						}
 					}
 				} catch (error) {
-					onError(error);
+					handleError(error);
 				}
 			},
 			[
@@ -281,7 +280,6 @@ export const TConnectModal = memo<TConnectModalProps>(
 				onChangeEvmProvider,
 				onChangeTezosBeaconProvider,
 				onChangeTezosWcProvider,
-				onError,
 			],
 		);
 
@@ -302,35 +300,36 @@ export const TConnectModal = memo<TConnectModalProps>(
 		// 						rpcUrls: ['https://node.mainnet.etherlink.com'],
 		// 						blockExplorerUrls: ['https://explorer.etherlink.com'],
 		// 					},
+		// 					// '0x06F92f77c3F0D08f3c6efb468aD4f07972578DD1',
 		// 				],
 		// 			});
 		// 		}
 		// 	} catch (error) {
-		// 		onError(error);
+		// 		handleError(error);
 		// 	}
-		// }, [evmProvider, onError]);
+		// }, [evmProvider]);
 
 		const toggleShowShortAddress = useCallback(() => {
 			try {
 				setShowShortAddress((prevShowShortAddress) => !prevShowShortAddress);
 			} catch (error) {
-				onError(error);
+				handleError(error);
 			}
-		}, [onError]);
+		}, []);
 
 		const handleCopyAddress = useCallback(() => {
 			try {
 				if (address) {
 					navigator.clipboard.writeText(address);
-					setCopied(true);
+					setCopiedAddress(true);
 					setTimeout(() => {
-						setCopied(false);
+						setCopiedAddress(false);
 					}, 1500);
 				}
 			} catch (error) {
-				onError(error);
+				handleError(error);
 			}
-		}, [address, onError]);
+		}, [address]);
 
 		const handleShowExplorer = useCallback(() => {
 			try {
@@ -347,9 +346,9 @@ export const TConnectModal = memo<TConnectModalProps>(
 					}
 				}
 			} catch (error) {
-				onError(error);
+				handleError(error);
 			}
-		}, [currentWallet, address, onError]);
+		}, [currentWallet, address]);
 
 		return createPortal(
 			<Col
@@ -410,7 +409,23 @@ export const TConnectModal = memo<TConnectModalProps>(
 								<BeatLoader size={8} color={darkMode ? '#fff' : '#000'} />
 								<Col className="items-center gap-y-2">
 									<Row>Connecting Wallet</Row>
-									{currentWallet && <Row className="text-sm">Please confirm in {currentWallet.name} app</Row>}
+									{currentWallet && (
+										<Fragment>
+											<Row className="text-sm">Please confirm in {currentWallet.name}</Row>
+											{currentWallet.network === 'evm' && (
+												<Fragment>
+													<Row className="text-center text-red-500">
+														If you have issues, please make sure Etherlink has been added to {currentWallet.name}
+													</Row>
+													<Col className="gap-y-3 self-start pt-2">
+														{ETHERLINK_DETAILS.map(({ label, value }, index) => (
+															<EtherlinkField key={index} label={label} value={value} />
+														))}
+													</Col>
+												</Fragment>
+											)}
+										</Fragment>
+									)}
 								</Col>
 							</Col>
 						</Fragment>
@@ -418,10 +433,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 						<Fragment>
 							<Header title="Unsupported Network" onClose={onClose} />
 							<Col className="gap-y-pageFrame overflow-y-scroll p-pageFrame">
-								{/* <TextButton text="Add Etherlink" onClick={handleAddEtherlink} /> */}
 								<Row>Please select Etherlink in {currentWallet?.name}</Row>
 								<Row>If Etherlink has not been added to {currentWallet?.name} yet, you can find a how-to here</Row>
 								<TextButton text="I have selected Etherlink" onClick={onClose} />
+								{/* <TextButton text="Add Etherlink" onClick={handleAddEtherlink} /> */}
 							</Col>
 						</Fragment>
 					) : step === 'connected' ? (
@@ -437,8 +452,8 @@ export const TConnectModal = memo<TConnectModalProps>(
 									</BaseButton>
 									<Row className="justify-between">
 										<HorizontalIconTextButton
-											icon={copied ? 'checkSolid' : 'copyRegular'}
-											iconColorSuccess={copied}
+											icon={copiedAddress ? 'checkSolid' : 'copyRegular'}
+											iconColorSuccess={copiedAddress}
 											text="Copy address"
 											onClick={handleCopyAddress}
 										/>
@@ -462,6 +477,20 @@ export const TConnectModal = memo<TConnectModalProps>(
 						</Fragment>
 					) : undefined}
 				</Col>
+				<ToastContainer
+					containerId={TOAST_CONTAINER_ID}
+					position="top-center"
+					autoClose={5000}
+					hideProgressBar={false}
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+					theme="colored"
+					transition={Bounce}
+				/>
 			</Col>,
 			document.body,
 		);

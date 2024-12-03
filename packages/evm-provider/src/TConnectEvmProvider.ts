@@ -209,6 +209,7 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 	 * - 'personal_sign'
 	 */
 	async request(args: RequestArguments): Promise<unknown> {
+		// The universal link does not open the bitget app
 		if (this.walletApp && this.walletApp !== 'bitget') {
 			switch (args.method) {
 				case 'eth_sendTransaction':
@@ -223,11 +224,7 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 				}
 			}
 		}
-		const response = (await this._communicationController.send({
-			type: 'request',
-			sessionId: this._getSessionId(),
-			payload: args,
-		})) as EvmRequestResponse;
+		const response = await this._sendEvmRequest({ type: 'request', sessionId: this._getSessionId(), payload: args });
 		return response.payload;
 	}
 

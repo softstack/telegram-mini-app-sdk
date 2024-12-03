@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getErrorMessage = exports.getOperatingSystem = exports.isMobileSafari = exports.isAndroid = void 0;
+exports.randomUUID = exports.getErrorMessage = exports.getOperatingSystem = exports.isMobileSafari = exports.isAndroid = void 0;
+const random_1 = require("@stablelib/random");
 const ua_parser_js_1 = require("ua-parser-js");
 const isAndroid = () => {
     const parser = new ua_parser_js_1.UAParser();
@@ -40,4 +41,13 @@ const getErrorMessage = (errorType, message) => {
     }
 };
 exports.getErrorMessage = getErrorMessage;
+const randomUUID = () => {
+    const buf = (0, random_1.randomBytes)(16);
+    return [buf.slice(0, 4), buf.slice(4, 6), buf.slice(6, 8), buf.slice(8, 10), buf.slice(10, 16)]
+        .map(function (subbuf) {
+        return Buffer.from(subbuf).toString('hex');
+    })
+        .join('-');
+};
+exports.randomUUID = randomUUID;
 //# sourceMappingURL=utils.js.map

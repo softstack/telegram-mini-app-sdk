@@ -6,7 +6,7 @@ import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
 import { createContext, memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { EVM_PROVIDER_STORAGE_KEY, NETWORKS, TEZOS_BEACON_PROVIDER_STORAGE_KEY, TEZOS_WC_PROVIDER_STORAGE_KEY, } from '../constants';
 import { TConnectModal } from '../modals/TConnectModal';
-import { nextVersion, useVersionedState } from '../utils';
+import { handleError, nextVersion, useVersionedState } from '../utils';
 export const TConnectModalContext = createContext({
     openModal: () => undefined,
     closeModal: () => undefined,
@@ -15,7 +15,7 @@ export const TConnectModalContext = createContext({
     tezosWcProvider: undefined,
     connected: false,
 });
-export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey, networkFilter, tezosBeaconNetwork, tezosWcNetwork, children, onError, closeModalOnError, ...props }) => {
+export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey, networkFilter, tezosBeaconNetwork, tezosWcNetwork, children, ...props }) => {
     const [showModal, setShowModal] = useState(false);
     const [step, setStep] = useState('connect');
     const [currentNetwork, setCurrentNetwork] = useState(undefined);
@@ -24,18 +24,6 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
     const [tezosBeaconProvider, setTezosBeaconProvider] = useVersionedState(undefined);
     const [tezosWcProvider, setTezosWcProvider] = useVersionedState(undefined);
     const [connected, setConnected] = useVersionedState(false);
-    const handleError = useCallback((error) => {
-        if (closeModalOnError) {
-            setShowModal(false);
-        }
-        if (onError) {
-            setShowModal(false);
-            onError(error);
-        }
-        else {
-            console.error(error);
-        }
-    }, [onError, closeModalOnError]);
     useEffect(() => {
         (async () => {
             try {
@@ -47,7 +35,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
                 }
             }
             catch (error) {
-                console.error(error);
+                handleError(error);
             }
         })();
     }, [setEvmProvider]);
@@ -63,7 +51,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
         catch (error) {
             handleError(error);
         }
-    }, [evmProvider, handleError]);
+    }, [evmProvider]);
     useEffect(() => {
         (async () => {
             try {
@@ -75,7 +63,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
                 }
             }
             catch (error) {
-                console.error(error);
+                handleError(error);
             }
         })();
     }, [setTezosBeaconProvider]);
@@ -91,7 +79,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
         catch (error) {
             handleError(error);
         }
-    }, [tezosBeaconProvider, handleError]);
+    }, [tezosBeaconProvider]);
     useEffect(() => {
         (async () => {
             try {
@@ -103,7 +91,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
                 }
             }
             catch (error) {
-                console.error(error);
+                handleError(error);
             }
         })();
     }, [setTezosWcProvider]);
@@ -119,7 +107,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
         catch (error) {
             handleError(error);
         }
-    }, [tezosWcProvider, handleError]);
+    }, [tezosWcProvider]);
     const openModal = useCallback(() => {
         try {
             if (evmProvider) {
@@ -165,7 +153,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
         catch (error) {
             handleError(error);
         }
-    }, [evmProvider, tezosBeaconProvider, tezosWcProvider, handleError]);
+    }, [evmProvider, tezosBeaconProvider, tezosWcProvider]);
     const closeModal = useCallback(async () => {
         try {
             setStep((prevStep) => (prevStep === 'invalidChainId' ? 'connected' : prevStep));
@@ -174,7 +162,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
         catch (error) {
             handleError(error);
         }
-    }, [handleError]);
+    }, []);
     const handleEvmProvider = useCallback(async (provider, chainId) => {
         try {
             if (evmProvider) {
@@ -191,7 +179,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
         catch (error) {
             handleError(error);
         }
-    }, [evmProvider, setEvmProvider, closeModal, handleError]);
+    }, [evmProvider, setEvmProvider, closeModal]);
     const handleTezosBeaconProvider = useCallback(async (provider) => {
         try {
             if (tezosBeaconProvider) {
@@ -206,7 +194,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
         catch (error) {
             handleError(error);
         }
-    }, [tezosBeaconProvider, setTezosBeaconProvider, closeModal, handleError]);
+    }, [tezosBeaconProvider, setTezosBeaconProvider, closeModal]);
     const handleTezosWcProvider = useCallback(async (provider) => {
         try {
             if (tezosWcProvider) {
@@ -221,7 +209,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
         catch (error) {
             handleError(error);
         }
-    }, [tezosWcProvider, setTezosWcProvider, closeModal, handleError]);
+    }, [tezosWcProvider, setTezosWcProvider, closeModal]);
     useEffect(() => {
         (async () => {
             try {
@@ -234,7 +222,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
                 handleError(error);
             }
         })();
-    }, [step, evmProvider, tezosBeaconProvider, setConnected, handleError]);
+    }, [step, evmProvider, tezosBeaconProvider, setConnected]);
     const handleDisconnect = useCallback(async () => {
         try {
             await Promise.all([
@@ -258,7 +246,6 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
         setTezosBeaconProvider,
         setTezosWcProvider,
         closeModal,
-        handleError,
     ]);
     const value = useMemo(() => ({
         openModal,
@@ -268,7 +255,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
         tezosWcProvider,
         connected,
     }), [openModal, closeModal, step, evmProvider, tezosBeaconProvider, tezosWcProvider, connected]);
-    return (_jsxs(TConnectModalContext.Provider, { value: value, ...props, children: [children, showModal && (_jsx(TConnectModal, { appName: appName, appUrl: appUrl, appIcon: appIcon, bridgeUrl: bridgeUrl, apiKey: apiKey, networkFilter: networkFilter, tezosBeaconNetwork: tezosBeaconNetwork, tezosWcNetwork: tezosWcNetwork, step: step, onChangeStep: setStep, currentNetwork: currentNetwork, onChangeCurrentNetwork: setCurrentNetwork, currentWallet: currentWallet, onChangeCurrentWallet: setCurrentWallet, evmProvider: evmProvider, onChangeEvmProvider: handleEvmProvider, tezosBeaconProvider: tezosBeaconProvider, onChangeTezosBeaconProvider: handleTezosBeaconProvider, tezosWcProvider: tezosWcProvider, onChangeTezosWcProvider: handleTezosWcProvider, onDisconnect: handleDisconnect, onClose: closeModal, onError: handleError }))] }));
+    return (_jsxs(TConnectModalContext.Provider, { value: value, ...props, children: [children, showModal && (_jsx(TConnectModal, { appName: appName, appUrl: appUrl, appIcon: appIcon, bridgeUrl: bridgeUrl, apiKey: apiKey, networkFilter: networkFilter, tezosBeaconNetwork: tezosBeaconNetwork, tezosWcNetwork: tezosWcNetwork, step: step, onChangeStep: setStep, currentNetwork: currentNetwork, onChangeCurrentNetwork: setCurrentNetwork, currentWallet: currentWallet, onChangeCurrentWallet: setCurrentWallet, evmProvider: evmProvider, onChangeEvmProvider: handleEvmProvider, tezosBeaconProvider: tezosBeaconProvider, onChangeTezosBeaconProvider: handleTezosBeaconProvider, tezosWcProvider: tezosWcProvider, onChangeTezosWcProvider: handleTezosWcProvider, onDisconnect: handleDisconnect, onClose: closeModal }))] }));
 });
 TConnectModalProvider.displayName = 'TConnectModalProvider';
 export const useTConnectModal = () => useContext(TConnectModalContext);
