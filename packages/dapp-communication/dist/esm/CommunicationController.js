@@ -84,8 +84,8 @@ export class CommunicationController extends TypedEvent {
     }
     disconnect() {
         if (this._socket) {
-            this._socket.removeAllListeners();
             this._socket.disconnect();
+            this._socket.removeAllListeners();
             this._socket = undefined;
         }
     }

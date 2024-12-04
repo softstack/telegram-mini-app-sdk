@@ -95,6 +95,7 @@ class TConnectEvmProvider extends core_1.TypedEvent {
         finally {
             this.emit('disconnect', new ProviderRpcError_1.ProviderRpcError('Disconnected', 4900));
             this._communicationController.disconnect();
+            this._communicationController.removeAllListeners();
         }
     }
     serialize() {
