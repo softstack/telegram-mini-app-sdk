@@ -192,8 +192,8 @@ export class CommunicationController<Request, Response, Event> extends TypedEven
 	 */
 	disconnect(): void {
 		if (this._socket) {
-			this._socket.removeAllListeners();
 			this._socket.disconnect();
+			this._socket.removeAllListeners();
 			this._socket = undefined;
 		}
 	}

@@ -14,7 +14,7 @@ import {
 } from '@taquito/taquito';
 import { CallbackController, parse, stringify, TypedEvent } from '@tconnect.io/core';
 import { CommunicationController } from '@tconnect.io/dapp-communication';
-import { getErrorMessage, randomUUID } from '@tconnect.io/dapp-utils';
+import { getErrorMessage, openLink, randomUUID } from '@tconnect.io/dapp-utils';
 import {
 	EVENT_CHANNEL,
 	REQUEST_CHANNEL,
@@ -34,7 +34,6 @@ import {
 	TezosBeaconRequest,
 	TezosBeaconResponse,
 } from '@tconnect.io/tezos-beacon-api-types';
-import WebApp from '@twa-dev/sdk';
 import bs58check from 'bs58check';
 import {
 	DisconnectMessageInput,
@@ -209,7 +208,7 @@ export class TConnectTezosBeaconProvider
 		const callbackPromise = this._permissionRequestCallbacks.addCallback(permissionRequestId);
 		this._communicationController.on('event', this._createTezosBeaconEventHandler(permissionRequestId));
 		if (this.walletApp) {
-			WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, loginResponse.payload.connectionString));
+			openLink(getConnectionStringUniversalLink(this.walletApp, loginResponse.payload.connectionString));
 		}
 		this.emit('connectionString', loginResponse.payload.connectionString);
 		return callbackPromise;
@@ -819,7 +818,7 @@ export class TConnectTezosBeaconProvider
 				case 'sign_payload_request': {
 					const universalLink = getUniversalLink(this.walletApp);
 					if (universalLink) {
-						WebApp.openLink(universalLink);
+						openLink(universalLink);
 					}
 				}
 			}

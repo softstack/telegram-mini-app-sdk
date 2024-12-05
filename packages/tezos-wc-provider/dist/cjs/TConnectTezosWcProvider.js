@@ -1,14 +1,10 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TConnectTezosWcProvider = void 0;
 const core_1 = require("@tconnect.io/core");
 const dapp_communication_1 = require("@tconnect.io/dapp-communication");
 const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const tezos_wc_api_types_1 = require("@tconnect.io/tezos-wc-api-types");
-const sdk_1 = __importDefault(require("@twa-dev/sdk"));
 const utils_1 = require("./utils/utils");
 const validation_1 = require("./validation");
 class TConnectTezosWcProvider extends core_1.TypedEvent {
@@ -37,16 +33,16 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
                     this._connectionString = connectionString;
                     if (this.walletApp) {
                         if ((0, dapp_utils_1.isAndroid)()) {
-                            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString), {
+                            (0, dapp_utils_1.openLink)((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString), {
                                 try_instant_view: true,
                             });
                             await (0, core_1.sleep)(1000);
-                            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString), {
+                            (0, dapp_utils_1.openLink)((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString), {
                                 try_instant_view: true,
                             });
                         }
                         else {
-                            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString));
+                            (0, dapp_utils_1.openLink)((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, connectionString));
                         }
                     }
                     this.emit('connectionString', connectionString);
@@ -262,7 +258,7 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
             switch (tezosRequest.payload.method) {
                 case 'tezos_send':
                 case 'tezos_sign': {
-                    sdk_1.default.openLink((0, utils_1.getUniversalLink)(this.walletApp));
+                    (0, dapp_utils_1.openLink)((0, utils_1.getUniversalLink)(this.walletApp));
                     break;
                 }
             }

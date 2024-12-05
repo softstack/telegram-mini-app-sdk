@@ -7,3 +7,6 @@ export declare const isMobileSafari: () => boolean;
 export declare const getOperatingSystem: () => OperatingSystem | undefined;
 export declare const getErrorMessage: (errorType: Exclude<EvmErrorType | TezosBeaconErrorType | TezosWcErrorType, "generic">, message: string) => string;
 export declare const randomUUID: () => string;
+export declare const openLink: (link: string, options?: {
+    try_instant_view: boolean;
+}) => Promise<void>;

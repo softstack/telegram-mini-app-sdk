@@ -3,9 +3,8 @@ import { generateKeyPairFromSeed, sign } from '@stablelib/ed25519';
 import { encode } from '@stablelib/utf8';
 import { CallbackController, parse, stringify, TypedEvent } from '@tconnect.io/core';
 import { CommunicationController } from '@tconnect.io/dapp-communication';
-import { getErrorMessage, randomUUID } from '@tconnect.io/dapp-utils';
+import { getErrorMessage, openLink, randomUUID } from '@tconnect.io/dapp-utils';
 import { EVENT_CHANNEL, REQUEST_CHANNEL, SOCKET_IO_PATH, TezosBeaconError, } from '@tconnect.io/tezos-beacon-api-types';
-import WebApp from '@twa-dev/sdk';
 import bs58check from 'bs58check';
 import { formatTransactionAmount, toIntegerString } from './utils/base';
 import { createCryptoBoxClient, createCryptoBoxServer, decryptCryptoboxPayload, encryptCryptoboxPayload, getAddressFromPublicKey, getConnectionStringUniversalLink, getSenderId, getUniversalLink, openCryptobox, toHex, } from './utils/utils';
@@ -52,7 +51,7 @@ export class TConnectTezosBeaconProvider extends TypedEvent {
         const callbackPromise = this._permissionRequestCallbacks.addCallback(permissionRequestId);
         this._communicationController.on('event', this._createTezosBeaconEventHandler(permissionRequestId));
         if (this.walletApp) {
-            WebApp.openLink(getConnectionStringUniversalLink(this.walletApp, loginResponse.payload.connectionString));
+            openLink(getConnectionStringUniversalLink(this.walletApp, loginResponse.payload.connectionString));
         }
         this.emit('connectionString', loginResponse.payload.connectionString);
         return callbackPromise;
@@ -367,7 +366,7 @@ export class TConnectTezosBeaconProvider extends TypedEvent {
                 case 'sign_payload_request': {
                     const universalLink = getUniversalLink(this.walletApp);
                     if (universalLink) {
-                        WebApp.openLink(universalLink);
+                        openLink(universalLink);
                     }
                 }
             }

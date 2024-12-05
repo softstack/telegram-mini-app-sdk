@@ -42,4 +42,10 @@ export const randomUUID = () => {
     })
         .join('-');
 };
+export const openLink = async (link, options) => {
+    if (typeof window !== 'undefined') {
+        const webApp = await import('@twa-dev/sdk');
+        webApp.default.openLink(link, options);
+    }
+};
 //# sourceMappingURL=utils.js.map

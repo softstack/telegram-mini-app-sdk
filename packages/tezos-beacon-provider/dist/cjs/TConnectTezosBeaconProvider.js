@@ -11,7 +11,6 @@ const core_1 = require("@tconnect.io/core");
 const dapp_communication_1 = require("@tconnect.io/dapp-communication");
 const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const tezos_beacon_api_types_1 = require("@tconnect.io/tezos-beacon-api-types");
-const sdk_1 = __importDefault(require("@twa-dev/sdk"));
 const bs58check_1 = __importDefault(require("bs58check"));
 const base_1 = require("./utils/base");
 const utils_1 = require("./utils/utils");
@@ -58,7 +57,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         const callbackPromise = this._permissionRequestCallbacks.addCallback(permissionRequestId);
         this._communicationController.on('event', this._createTezosBeaconEventHandler(permissionRequestId));
         if (this.walletApp) {
-            sdk_1.default.openLink((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, loginResponse.payload.connectionString));
+            (0, dapp_utils_1.openLink)((0, utils_1.getConnectionStringUniversalLink)(this.walletApp, loginResponse.payload.connectionString));
         }
         this.emit('connectionString', loginResponse.payload.connectionString);
         return callbackPromise;
@@ -373,7 +372,7 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
                 case 'sign_payload_request': {
                     const universalLink = (0, utils_1.getUniversalLink)(this.walletApp);
                     if (universalLink) {
-                        sdk_1.default.openLink(universalLink);
+                        (0, dapp_utils_1.openLink)(universalLink);
                     }
                 }
             }
