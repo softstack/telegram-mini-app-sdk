@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/modal",
-	"version": "0.0.14",
+	"version": "0.0.15",
 	"description": "",
 	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",
@@ -39,9 +39,9 @@
 	},
 	"dependencies": {
 		"@tconnect.io/dapp-utils": "^0.0.10",
-		"@tconnect.io/evm-provider": "^0.0.11",
-		"@tconnect.io/tezos-beacon-provider": "^0.0.13",
-		"@tconnect.io/tezos-wc-provider": "^0.0.11",
+		"@tconnect.io/evm-provider": "^0.0.12",
+		"@tconnect.io/tezos-beacon-provider": "^0.0.14",
+		"@tconnect.io/tezos-wc-provider": "^0.0.12",
 		"clsx": "^2.1.1",
 		"react-inlinesvg": "^4.1.3",
 		"react-jazzicon": "^1.0.4",

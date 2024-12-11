@@ -37,14 +37,16 @@ const validateTezosBeaconResponse = (value) => (0, core_1.validateSchema)(value,
 }))
     .required());
 exports.validateTezosBeaconResponse = validateTezosBeaconResponse;
-const validateTezosBeaconEvent = (value) => (0, core_1.validateSchema)(value, joi_1.default.alternatives().try(joi_1.default.object({
+const validateTezosBeaconEvent = (value) => (0, core_1.validateSchema)(value, joi_1.default.alternatives()
+    .try(joi_1.default.object({
     type: joi_1.default.string().valid('message').required(),
     payload: joi_1.default.object({
         message: joi_1.default.string().required(),
     }),
 }), joi_1.default.object({
     type: joi_1.default.string().valid('disconnect').required(),
-})));
+}))
+    .required());
 exports.validateTezosBeaconEvent = validateTezosBeaconEvent;
 const isPairingResponse = (value) => (0, core_1.validateType)(value, joi_1.default.object({
     type: joi_1.default.string().valid('p2p-pairing-response').required(),
@@ -55,7 +57,7 @@ const isPairingResponse = (value) => (0, core_1.validateType)(value, joi_1.defau
     relayServer: joi_1.default.string().required(),
     appUrl: joi_1.default.string().allow(''),
     icon: joi_1.default.string().allow(''),
-}));
+}).required());
 exports.isPairingResponse = isPairingResponse;
 const isBaseMessage = (value) => (0, core_1.validateType)(value, joi_1.default.object({
     type: joi_1.default.string()
@@ -64,7 +66,9 @@ const isBaseMessage = (value) => (0, core_1.validateType)(value, joi_1.default.o
     version: joi_1.default.string().required(),
     id: joi_1.default.string().required(),
     senderId: joi_1.default.string().required(),
-}).options({ allowUnknown: true }));
+})
+    .options({ allowUnknown: true })
+    .required());
 exports.isBaseMessage = isBaseMessage;
 const isPermissionResponse = (value) => (0, core_1.validateType)(value, joi_1.default.object({
     type: joi_1.default.string().valid('permission_response').required(),
@@ -89,7 +93,7 @@ const isPermissionResponse = (value) => (0, core_1.validateType)(value, joi_1.de
         name: joi_1.default.string().required(),
         icon: joi_1.default.string().allow(''),
     }),
-}));
+}).required());
 exports.isPermissionResponse = isPermissionResponse;
 const isOperationResponse = (value) => (0, core_1.validateType)(value, joi_1.default.object({
     type: joi_1.default.string().valid('operation_response').required(),
@@ -97,7 +101,7 @@ const isOperationResponse = (value) => (0, core_1.validateType)(value, joi_1.def
     id: joi_1.default.string().required(),
     senderId: joi_1.default.string().required(),
     transactionHash: joi_1.default.string().required(),
-}));
+}).required());
 exports.isOperationResponse = isOperationResponse;
 const isSignPayloadResponse = (value) => (0, core_1.validateType)(value, joi_1.default.object({
     type: joi_1.default.string().valid('sign_payload_response').required(),
@@ -106,14 +110,14 @@ const isSignPayloadResponse = (value) => (0, core_1.validateType)(value, joi_1.d
     senderId: joi_1.default.string().required(),
     signature: joi_1.default.string().required(),
     signingType: joi_1.default.string(),
-}));
+}).required());
 exports.isSignPayloadResponse = isSignPayloadResponse;
 const isDisconnectMessage = (value) => (0, core_1.validateType)(value, joi_1.default.object({
     type: joi_1.default.string().valid('disconnect').required(),
     version: joi_1.default.string().required(),
     id: joi_1.default.string().required(),
     senderId: joi_1.default.string().required(),
-}));
+}).required());
 exports.isDisconnectMessage = isDisconnectMessage;
 const isErrorResponse = (value) => (0, core_1.validateType)(value, joi_1.default.object({
     type: joi_1.default.string().valid('error').required(),
@@ -123,6 +127,6 @@ const isErrorResponse = (value) => (0, core_1.validateType)(value, joi_1.default
     errorType: joi_1.default.string()
         .valid('BROADCAST_ERROR', 'NETWORK_NOT_SUPPORTED', 'NO_ADDRESS_ERROR', 'NO_PRIVATE_KEY_FOUND_ERROR', 'NOT_GRANTED_ERROR', 'PARAMETERS_INVALID_ERROR', 'TOO_MANY_OPERATIONS', 'TRANSACTION_INVALID_ERROR', 'ABORTED_ERROR', 'UNKNOWN_ERROR')
         .required(),
-}));
+}).required());
 exports.isErrorResponse = isErrorResponse;
 //# sourceMappingURL=validation.js.map

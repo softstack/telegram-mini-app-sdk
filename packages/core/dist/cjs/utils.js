@@ -26,7 +26,7 @@ const validateKeys = (value, keys) => {
     for (const key of keys) {
         keyMap[key] = joi_1.default.any().required();
     }
-    const schema = joi_1.default.object().keys(keyMap);
+    const schema = joi_1.default.object().keys(keyMap).required();
     return (0, exports.validateType)(value, schema);
 };
 exports.validateKeys = validateKeys;

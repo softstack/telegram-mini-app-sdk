@@ -112,7 +112,8 @@ export const isGetAccountsResult = (value: unknown): value is GetAccountsResult 
 					pubkey: Joi.string().required(),
 					algo: Joi.string().required(),
 				}).options({ allowUnknown: true }),
-			),
+			)
+			.required(),
 	);
 
 /**
@@ -127,7 +128,14 @@ export const isGetAccountsResult = (value: unknown): value is GetAccountsResult 
  * @returns A boolean indicating whether the value is a SignResult.
  */
 export const isSignResult = (value: unknown): value is SignResult =>
-	validateType(value, Joi.object({ signature: Joi.string().required() }).options({ allowUnknown: true }));
+	validateType(
+		value,
+		Joi.object({
+			signature: Joi.string().required(),
+		})
+			.options({ allowUnknown: true })
+			.required(),
+	);
 
 /**
  * Checks if the provided value is of type `SendResult`.
@@ -140,4 +148,11 @@ export const isSignResult = (value: unknown): value is SignResult =>
  * @returns `true` if the value is a `SendResult`, otherwise `false`.
  */
 export const isSendResult = (value: unknown): value is SendResult =>
-	validateType(value, Joi.object({ operationHash: Joi.string().required() }).options({ allowUnknown: true }));
+	validateType(
+		value,
+		Joi.object({
+			operationHash: Joi.string().required(),
+		})
+			.options({ allowUnknown: true })
+			.required(),
+	);

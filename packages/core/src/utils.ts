@@ -60,7 +60,7 @@ export const validateKeys = <T>(value: unknown, keys: Array<keyof T>): value is 
 	for (const key of keys) {
 		keyMap[key] = Joi.any().required();
 	}
-	const schema = Joi.object().keys(keyMap);
+	const schema = Joi.object().keys(keyMap).required();
 	return validateType(value, schema);
 };
 

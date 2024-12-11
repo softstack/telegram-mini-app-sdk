@@ -17,7 +17,7 @@ export const validateKeys = (value, keys) => {
     for (const key of keys) {
         keyMap[key] = Joi.any().required();
     }
-    const schema = Joi.object().keys(keyMap);
+    const schema = Joi.object().keys(keyMap).required();
     return validateType(value, schema);
 };
 const customStringify = (obj) => {

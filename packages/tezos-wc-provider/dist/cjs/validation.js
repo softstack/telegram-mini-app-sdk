@@ -54,10 +54,19 @@ const isGetAccountsResult = (value) => (0, core_1.validateType)(value, joi_1.def
     address: joi_1.default.string().required(),
     pubkey: joi_1.default.string().required(),
     algo: joi_1.default.string().required(),
-}).options({ allowUnknown: true })));
+}).options({ allowUnknown: true }))
+    .required());
 exports.isGetAccountsResult = isGetAccountsResult;
-const isSignResult = (value) => (0, core_1.validateType)(value, joi_1.default.object({ signature: joi_1.default.string().required() }).options({ allowUnknown: true }));
+const isSignResult = (value) => (0, core_1.validateType)(value, joi_1.default.object({
+    signature: joi_1.default.string().required(),
+})
+    .options({ allowUnknown: true })
+    .required());
 exports.isSignResult = isSignResult;
-const isSendResult = (value) => (0, core_1.validateType)(value, joi_1.default.object({ operationHash: joi_1.default.string().required() }).options({ allowUnknown: true }));
+const isSendResult = (value) => (0, core_1.validateType)(value, joi_1.default.object({
+    operationHash: joi_1.default.string().required(),
+})
+    .options({ allowUnknown: true })
+    .required());
 exports.isSendResult = isSendResult;
 //# sourceMappingURL=validation.js.map

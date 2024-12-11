@@ -90,17 +90,19 @@ export const validateTezosBeaconResponse = (
 export const validateTezosBeaconEvent = (value: TezosBeaconEvent): TezosBeaconEvent =>
 	validateSchema(
 		value,
-		Joi.alternatives().try(
-			Joi.object({
-				type: Joi.string().valid('message').required(),
-				payload: Joi.object({
-					message: Joi.string().required(),
+		Joi.alternatives()
+			.try(
+				Joi.object({
+					type: Joi.string().valid('message').required(),
+					payload: Joi.object({
+						message: Joi.string().required(),
+					}),
 				}),
-			}),
-			Joi.object({
-				type: Joi.string().valid('disconnect').required(),
-			}),
-		),
+				Joi.object({
+					type: Joi.string().valid('disconnect').required(),
+				}),
+			)
+			.required(),
 	);
 
 /**
@@ -131,7 +133,7 @@ export const isPairingResponse = (value: unknown): value is PairingResponse =>
 			relayServer: Joi.string().required(),
 			appUrl: Joi.string().allow(''),
 			icon: Joi.string().allow(''),
-		}),
+		}).required(),
 	);
 
 /**
@@ -179,7 +181,9 @@ export const isBaseMessage = (value: unknown): value is BaseMessage =>
 			version: Joi.string().required(),
 			id: Joi.string().required(),
 			senderId: Joi.string().required(),
-		}).options({ allowUnknown: true }),
+		})
+			.options({ allowUnknown: true })
+			.required(),
 	);
 
 /**
@@ -214,7 +218,7 @@ export const isPermissionResponse = (value: unknown): value is PermissionRespons
 				name: Joi.string().required(),
 				icon: Joi.string().allow(''),
 			}),
-		}),
+		}).required(),
 	);
 
 /**
@@ -232,7 +236,7 @@ export const isOperationResponse = (value: unknown): value is OperationResponse 
 			id: Joi.string().required(),
 			senderId: Joi.string().required(),
 			transactionHash: Joi.string().required(),
-		}),
+		}).required(),
 	);
 
 /**
@@ -251,7 +255,7 @@ export const isSignPayloadResponse = (value: unknown): value is SignPayloadRespo
 			senderId: Joi.string().required(),
 			signature: Joi.string().required(),
 			signingType: Joi.string(), // 'raw'
-		}),
+		}).required(),
 	);
 
 /**
@@ -268,7 +272,7 @@ export const isDisconnectMessage = (value: unknown): value is DisconnectMessage 
 			version: Joi.string().required(),
 			id: Joi.string().required(),
 			senderId: Joi.string().required(),
-		}),
+		}).required(),
 	);
 
 /**
@@ -302,5 +306,5 @@ export const isErrorResponse = (value: unknown): value is ErrorResponse =>
 					'UNKNOWN_ERROR',
 				)
 				.required(),
-		}),
+		}).required(),
 	);
