@@ -10,7 +10,6 @@ export type PngIconType =
 	| 'etherlink'
 	| 'kukai'
 	| 'metaMask'
-	| 'rainbow'
 	| 'safePal'
 	| 'temple'
 	| 'tezos'

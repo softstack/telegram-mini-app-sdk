@@ -45,7 +45,6 @@ export const Evm = memo<EvmProps>(
 						<button onClick={() => connect()}>QR Code</button>
 						<button onClick={() => connect('bitget')}>Bitget</button>
 						<button onClick={() => connect('metaMask')}>Meta Mask</button>
-						<button onClick={() => connect('rainbow')}>Rainbow</button>
 						<button onClick={() => connect('safePal')}>SafePal</button>
 						<button onClick={() => connect('trust')}>Trust</button>
 					</div>

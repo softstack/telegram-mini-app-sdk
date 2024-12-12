@@ -25,14 +25,6 @@ export const NETWORKS = [
                 supportedOperatingSystems: ['android', 'ios'],
             },
             {
-                name: 'Rainbow',
-                icon: 'rainbow',
-                network: 'evm',
-                walletApp: 'rainbow',
-                addEtherlinkUrl: '',
-                supportedOperatingSystems: ['android', 'ios'],
-            },
-            {
                 name: 'SafePal',
                 icon: 'safePal',
                 network: 'evm',

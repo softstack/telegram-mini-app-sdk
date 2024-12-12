@@ -12,7 +12,6 @@ const bitget_png_1 = __importDefault(require("../../assets/icons/bitget.png"));
 const etherlink_png_1 = __importDefault(require("../../assets/icons/etherlink.png"));
 const kukai_png_1 = __importDefault(require("../../assets/icons/kukai.png"));
 const meta_mask_png_1 = __importDefault(require("../../assets/icons/meta-mask.png"));
-const rainbow_png_1 = __importDefault(require("../../assets/icons/rainbow.png"));
 const safe_pal_png_1 = __importDefault(require("../../assets/icons/safe-pal.png"));
 const temple_png_1 = __importDefault(require("../../assets/icons/temple.png"));
 const tezos_png_1 = __importDefault(require("../../assets/icons/tezos.png"));
@@ -39,9 +38,6 @@ exports.PngIcon = (0, react_1.memo)(({ icon, height, width, className, ...props 
             }
             case 'metaMask': {
                 return meta_mask_png_1.default;
-            }
-            case 'rainbow': {
-                return rainbow_png_1.default;
             }
             case 'safePal': {
                 return safe_pal_png_1.default;

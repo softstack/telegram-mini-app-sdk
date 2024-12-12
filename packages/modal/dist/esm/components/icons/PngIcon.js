@@ -6,7 +6,6 @@ import bitget from '../../assets/icons/bitget.png';
 import etherlink from '../../assets/icons/etherlink.png';
 import kukai from '../../assets/icons/kukai.png';
 import metaMask from '../../assets/icons/meta-mask.png';
-import rainbow from '../../assets/icons/rainbow.png';
 import safePal from '../../assets/icons/safe-pal.png';
 import temple from '../../assets/icons/temple.png';
 import tezos from '../../assets/icons/tezos.png';
@@ -33,9 +32,6 @@ export const PngIcon = memo(({ icon, height, width, className, ...props }) => {
             }
             case 'metaMask': {
                 return metaMask;
-            }
-            case 'rainbow': {
-                return rainbow;
             }
             case 'safePal': {
                 return safePal;

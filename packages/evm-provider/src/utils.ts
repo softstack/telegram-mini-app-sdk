@@ -21,9 +21,6 @@ export const getUniversalLink = (walletApp: EvmWalletApp): string => {
 		case 'metaMask': {
 			return 'https://metamask.app.link';
 		}
-		case 'rainbow': {
-			return 'https://rnbwapp.com';
-		}
 		case 'safePal': {
 			return 'https://link.safepal.io';
 		}
@@ -37,7 +34,7 @@ export const getUniversalLink = (walletApp: EvmWalletApp): string => {
  * Generates a universal link for WalletConnect based on the specified wallet application and WalletConnect URI.
  *
  * @param walletApp - The wallet application for which the universal link is being generated.
- *                    Supported values are 'bitget', 'metaMask', 'rainbow', 'safePal', and 'trust'.
+ *                    Supported values are 'bitget', 'metaMask', 'safePal', and 'trust'.
  * @param connectionString - The WalletConnect URI to be encoded and included in the universal link.
  * @returns The universal link for the specified wallet application with the encoded WalletConnect URI.
  */
@@ -55,9 +52,6 @@ export const getConnectionStringUniversalLink = (walletApp: EvmWalletApp, connec
 		}
 		case 'metaMask': {
 			return `https://metamask.app.link/wc?uri=${encodedUri}`;
-		}
-		case 'rainbow': {
-			return `https://rnbwapp.com/wc?uri=${encodedUri}`;
 		}
 		case 'safePal': {
 			return `https://link.safepal.io/wc?uri=${encodedUri}`;

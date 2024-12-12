@@ -10,9 +10,6 @@ const getUniversalLink = (walletApp) => {
         case 'metaMask': {
             return 'https://metamask.app.link';
         }
-        case 'rainbow': {
-            return 'https://rnbwapp.com';
-        }
         case 'safePal': {
             return 'https://link.safepal.io';
         }
@@ -33,9 +30,6 @@ const getConnectionStringUniversalLink = (walletApp, connectionString) => {
         }
         case 'metaMask': {
             return `https://metamask.app.link/wc?uri=${encodedUri}`;
-        }
-        case 'rainbow': {
-            return `https://rnbwapp.com/wc?uri=${encodedUri}`;
         }
         case 'safePal': {
             return `https://link.safepal.io/wc?uri=${encodedUri}`;

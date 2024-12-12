@@ -5,7 +5,6 @@ import bitget from '../../assets/icons/bitget.png';
 import etherlink from '../../assets/icons/etherlink.png';
 import kukai from '../../assets/icons/kukai.png';
 import metaMask from '../../assets/icons/meta-mask.png';
-import rainbow from '../../assets/icons/rainbow.png';
 import safePal from '../../assets/icons/safe-pal.png';
 import temple from '../../assets/icons/temple.png';
 import tezos from '../../assets/icons/tezos.png';
@@ -25,7 +24,7 @@ export interface PngIconProps extends HTMLAttributes<HTMLImageElement> {
  *
  * @param {PngIconProps} props - The properties for the PngIcon component.
  * @param {string} props.icon - The name of the icon to be displayed. Possible values are:
- *   'airGap', 'altme', 'bitget', 'etherlink', 'kukai', 'metaMask', 'rainbow', 'safePal', 'temple', 'tezos', 'transparent', 'trust'.
+ *   'airGap', 'altme', 'bitget', 'etherlink', 'kukai', 'metaMask', 'safePal', 'temple', 'tezos', 'transparent', 'trust'.
  * @param {string | number} props.height - The height of the image.
  * @param {string | number} props.width - The width of the image.
  * @param {string} [props.className] - Additional CSS classes to apply to the image.
@@ -53,9 +52,6 @@ export const PngIcon = memo<PngIconProps>(({ icon, height, width, className, ...
 			}
 			case 'metaMask': {
 				return metaMask;
-			}
-			case 'rainbow': {
-				return rainbow;
 			}
 			case 'safePal': {
 				return safePal;
