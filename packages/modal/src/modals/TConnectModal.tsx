@@ -104,6 +104,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 		const backgroundElement = useRef(null);
 		const [showNetworks, setShowNetworks] = useState(true);
 		const [showWallets, setShowWallets] = useState(false);
+		const [isConnectingError, setIsConnectingError] = useState(false);
 		const [address, setAddress] = useVersionedState<string | undefined>(undefined);
 		const [shortAddress, setShortAddress] = useVersionedState<string | undefined>(undefined);
 		const [showShortAddress, setShowShortAddress] = useState(true);
@@ -204,6 +205,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 				try {
 					onChangeStep('connecting');
 					onChangeCurrentWallet(wallet);
+					setIsConnectingError(false);
 					switch (wallet.network) {
 						case 'evm': {
 							const provider = new TConnectEvmProvider({
@@ -263,6 +265,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 						}
 					}
 				} catch (error) {
+					setIsConnectingError(true);
 					handleError(error);
 				}
 			},
@@ -405,12 +408,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 						<Fragment>
 							<Header title="Connecting" onClose={onClose} />
 							<Col className="items-center gap-y-pageFrame overflow-y-scroll p-pageFrame">
-								<BeatLoader size={8} color={darkMode ? '#fff' : '#000'} />
-								<Col className="items-center gap-y-2">
-									<Row>Connecting Wallet</Row>
-									{currentWallet && (
+								{isConnectingError ? (
+									currentWallet && (
 										<Fragment>
-											<Row className="text-sm">Please confirm in {currentWallet.name}</Row>
+											<TextButton text="Try again" onClick={() => handleChangeWallet(currentWallet)} />
 											{currentWallet.network === 'evm' && (
 												<Fragment>
 													<Row className="text-center text-red-500">
@@ -424,8 +425,16 @@ export const TConnectModal = memo<TConnectModalProps>(
 												</Fragment>
 											)}
 										</Fragment>
-									)}
-								</Col>
+									)
+								) : (
+									<Fragment>
+										<BeatLoader size={8} color={darkMode ? '#fff' : '#000'} />
+										<Col className="items-center gap-y-2">
+											<Row>Connecting Wallet</Row>
+											{currentWallet && <Row className="text-sm">Please confirm in {currentWallet.name}</Row>}
+										</Col>
+									</Fragment>
+								)}
 							</Col>
 						</Fragment>
 					) : step === 'invalidChainId' ? (
