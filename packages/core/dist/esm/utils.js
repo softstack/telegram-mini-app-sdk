@@ -1,5 +1,4 @@
 import { parse as _parse, stringify as _stringify, } from '@softstack/typed-stringify';
-import Joi from 'joi';
 export const validateSchema = (value, schema) => {
     const { error, value: validatedValue } = schema.validate(value);
     if (error) {
@@ -13,12 +12,19 @@ export const validateType = (value, schema) => {
 };
 export const validateGuardian = (value, schema) => validateType(value, schema);
 export const validateKeys = (value, keys) => {
-    const keyMap = {};
-    for (const key of keys) {
-        keyMap[key] = Joi.any().required();
+    if (typeof value !== 'object' || value === null) {
+        return false;
     }
-    const schema = Joi.object().keys(keyMap).required();
-    return validateType(value, schema);
+    const valueKeys = Object.keys(value);
+    if (valueKeys.length !== keys.length) {
+        return false;
+    }
+    for (const key of keys) {
+        if (!valueKeys.includes(key.toString())) {
+            return false;
+        }
+    }
+    return true;
 };
 const customStringify = (obj) => {
     if (obj instanceof Buffer) {
