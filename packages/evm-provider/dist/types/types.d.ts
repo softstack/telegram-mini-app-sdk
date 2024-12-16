@@ -1,3 +1,4 @@
+import { EvmNetwork } from '@tconnect.io/evm-api-types';
 import { ProviderRpcError } from './ProviderRpcError';
 export type EvmWalletApp = 'bitget' | 'metaMask' | 'safePal' | 'trust';
 export type Eip1193EventName = 'connect' | 'disconnect' | 'message' | 'chainChanged' | 'accountsChanged';
@@ -41,6 +42,7 @@ export interface TConnectEvmProviderOptions {
     appIcon?: string;
     bridgeUrl: string;
     apiKey: string;
+    network: EvmNetwork;
     walletApp?: EvmWalletApp;
 }
 export interface SerializedTConnectEvmProvider {
@@ -49,6 +51,7 @@ export interface SerializedTConnectEvmProvider {
     appIcon: string | undefined;
     bridgeUrl: string;
     walletApp: EvmWalletApp | undefined;
+    network: EvmNetwork;
     _apiKey: string;
     _communicationController: string;
     _sessionId: string;

@@ -11,6 +11,7 @@ import {
 	EvmDisconnectResponse,
 	EvmError,
 	EvmEvent,
+	EvmNetwork,
 	EvmReconnectRequest,
 	EvmReconnectResponse,
 	EvmRequest,
@@ -48,6 +49,7 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 		this.appIcon = options.appIcon;
 		this.bridgeUrl = options.bridgeUrl;
 		this.walletApp = options?.walletApp;
+		this.network = options.network;
 		this._apiKey = options.apiKey;
 		this._communicationController = new CommunicationController(
 			this.bridgeUrl,
@@ -78,6 +80,8 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 	 * This property is read-only and may be undefined if the wallet application is not initialized.
 	 */
 	readonly walletApp: EvmWalletApp | undefined;
+
+	readonly network: EvmNetwork;
 
 	/**
 	 * The API key used for authentication with the EVM provider.
@@ -166,7 +170,13 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 			payload: { sessionId },
 		} = await this._sendEvmRequest({
 			type: 'connect',
-			payload: { apiKey: this._apiKey, appName: this.appName, appUrl: this.appUrl, appIcon: this.appIcon },
+			payload: {
+				apiKey: this._apiKey,
+				appName: this.appName,
+				appUrl: this.appUrl,
+				appIcon: this.appIcon,
+				network: this.network,
+			},
 		});
 		this._sessionId = sessionId;
 	}
@@ -259,6 +269,7 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 			appIcon: this.appIcon,
 			bridgeUrl: this.bridgeUrl,
 			walletApp: this.walletApp,
+			network: this.network,
 			_apiKey: this._apiKey,
 			_communicationController: this._communicationController.serialize(),
 			_sessionId: this._getSessionId(),
@@ -281,6 +292,7 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 			bridgeUrl: data.bridgeUrl,
 			apiKey: data._apiKey,
 			walletApp: data.walletApp,
+			network: data.network,
 		});
 		provider._communicationController = CommunicationController.deserialize(data._communicationController);
 		provider._sessionId = data._sessionId;

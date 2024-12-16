@@ -1,5 +1,5 @@
 export const TAILWIND_PREFIX = 'eotrzpirnbqlbfjhbqpo-';
-export const EVM_PROVIDER_STORAGE_KEY = 'mfiqmlieehlcobqzqiav';
+export const EVM_PROVIDER_STORAGE_KEY = 'evvcswyjarnlkwvdlrfr';
 export const TEZOS_BEACON_PROVIDER_STORAGE_KEY = 'jkdkvddgajorkvmywwub';
 export const TEZOS_WC_PROVIDER_STORAGE_KEY = 'nxmhhphkvgwzhmifdyus';
 export const NETWORKS = [
@@ -74,12 +74,19 @@ export const NETWORKS = [
         ],
     },
 ];
-export const ETHERLINK_DETAILS = [
+export const ETHERLINK_MAINNET_DETAILS = [
     { label: 'Network Name', value: 'Etherlink Mainnet' },
     { label: 'Chain ID', value: '42793' },
     { label: 'RPC URL', value: 'https://node.mainnet.etherlink.com' },
     { label: 'Block Explorer URL', value: 'https://explorer.etherlink.com' },
 ];
+export const ETHERLINK_GHOSTNET_DETAILS = [
+    { label: 'Network Name', value: 'Etherlink Testnet' },
+    { label: 'Chain ID', value: '128123' },
+    { label: 'RPC URL', value: 'https://node.ghostnet.etherlink.com' },
+    { label: 'Block Explorer URL', value: '	https://testnet.explorer.etherlink.com' },
+];
 export const TOAST_CONTAINER_ID = 'qbpoorwpbcmnyejvnqad';
-export const ADD_ETHERLINK_URL = 'https://add-etherlink.tconnect.io';
+export const ADD_ETHERLINK_MAINNET_URL = 'https://add-etherlink-mainnet.tconnect.io';
+export const ADD_ETHERLINK_GHOSTNET_URL = 'https://add-etherlink-ghostnet.tconnect.io';
 //# sourceMappingURL=constants.js.map

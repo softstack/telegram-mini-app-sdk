@@ -1,3 +1,4 @@
+import { EvmNetwork } from '@tconnect.io/evm-api-types';
 import { ProviderRpcError } from './ProviderRpcError';
 
 /**
@@ -154,6 +155,7 @@ export interface TConnectEvmProviderOptions {
 	appIcon?: string;
 	bridgeUrl: string;
 	apiKey: string;
+	network: EvmNetwork;
 	walletApp?: EvmWalletApp;
 }
 
@@ -182,6 +184,8 @@ export interface SerializedTConnectEvmProvider {
 	 * The wallet application used for EVM interactions.
 	 */
 	walletApp: EvmWalletApp | undefined;
+
+	network: EvmNetwork;
 
 	/**
 	 * The API key for authentication.

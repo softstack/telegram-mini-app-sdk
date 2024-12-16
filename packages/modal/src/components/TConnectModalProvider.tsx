@@ -1,7 +1,9 @@
 import { ETHERLINK_CHAIN_ID } from '@tconnect.io/core';
+import { EvmNetwork as EvmNetworkType } from '@tconnect.io/evm-api-types';
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { TConnectTezosBeaconProvider, Network as TezosBeaconNetwork } from '@tconnect.io/tezos-beacon-provider';
-import { TConnectTezosWcProvider, Network as TezosWcNetwork } from '@tconnect.io/tezos-wc-provider';
+import { TezosWcNetwork } from '@tconnect.io/tezos-wc-api-types';
+import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
 import { createContext, memo, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
 	EVM_PROVIDER_STORAGE_KEY,
@@ -40,6 +42,7 @@ export interface TConnectModalProviderProps {
 	bridgeUrl: string;
 	apiKey: string;
 	networkFilter?: Array<'etherlink' | 'tezos'>;
+	evmNetwork?: EvmNetworkType;
 	tezosBeaconNetwork?: TezosBeaconNetwork;
 	tezosWcNetwork?: TezosWcNetwork;
 	children?: ReactNode | undefined;
@@ -78,6 +81,7 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 		bridgeUrl,
 		apiKey,
 		networkFilter,
+		evmNetwork,
 		tezosBeaconNetwork,
 		tezosWcNetwork,
 		children,
@@ -356,6 +360,7 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 						bridgeUrl={bridgeUrl}
 						apiKey={apiKey}
 						networkFilter={networkFilter}
+						evmNetwork={evmNetwork}
 						tezosBeaconNetwork={tezosBeaconNetwork}
 						tezosWcNetwork={tezosWcNetwork}
 						step={step}

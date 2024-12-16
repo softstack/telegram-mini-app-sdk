@@ -1,3 +1,5 @@
+import { TezosWcNetwork } from '@tconnect.io/tezos-wc-api-types';
+
 /**
  * Represents the supported Tezos Wallet Connect applications.
  *
@@ -6,16 +8,6 @@
 export type TezosWcWalletApp = 'kukai';
 
 export type SigningType = 'raw' | 'operation' | 'micheline';
-
-/**
- * Represents the available Tezos networks.
- *
- * @typedef {('mainnet' | 'ghostnet')} Network
- *
- * @property {'mainnet'} mainnet - The main Tezos network.
- * @property {'ghostnet'} ghostnet - The Tezos test network.
- */
-export type Network = 'mainnet' | 'ghostnet';
 
 /**
  * Options for connecting a Tezos WalletConnect provider.
@@ -41,7 +33,7 @@ export interface TConnectTezosWcProviderOptions {
 	/**
 	 * The network to connect to (e.g., mainnet, testnet).
 	 */
-	network: Network;
+	network: TezosWcNetwork;
 
 	/**
 	 * The URL of the WalletConnect bridge server.
@@ -78,7 +70,7 @@ export interface SerializedTConnectTezosWcProvider {
 	/**
 	 * The network configuration for the Tezos blockchain.
 	 */
-	network: Network;
+	network: TezosWcNetwork;
 
 	/**
 	 * The URL of the bridge server used for WalletConnect communication.

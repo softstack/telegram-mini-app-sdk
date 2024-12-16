@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/dapp-utils",
-	"version": "0.0.10",
+	"version": "0.0.11",
 	"description": "",
 	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",
@@ -37,7 +37,7 @@
 	},
 	"dependencies": {
 		"@stablelib/random": "^2.0.0",
-		"@tconnect.io/evm-api-types": "^0.0.9",
+		"@tconnect.io/evm-api-types": "^0.0.10",
 		"@tconnect.io/tezos-beacon-api-types": "^0.0.7",
 		"@tconnect.io/tezos-wc-api-types": "^0.0.8",
 		"@twa-dev/sdk": "^8.0.1",
