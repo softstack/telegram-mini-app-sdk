@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TOAST_CONTAINER_ID = exports.ETHERLINK_DETAILS = exports.NETWORKS = exports.TEZOS_WC_PROVIDER_STORAGE_KEY = exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = exports.EVM_PROVIDER_STORAGE_KEY = exports.TAILWIND_PREFIX = void 0;
+exports.ADD_ETHERLINK_URL = exports.TOAST_CONTAINER_ID = exports.ETHERLINK_DETAILS = exports.NETWORKS = exports.TEZOS_WC_PROVIDER_STORAGE_KEY = exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = exports.EVM_PROVIDER_STORAGE_KEY = exports.TAILWIND_PREFIX = void 0;
 exports.TAILWIND_PREFIX = 'eotrzpirnbqlbfjhbqpo-';
 exports.EVM_PROVIDER_STORAGE_KEY = 'mfiqmlieehlcobqzqiav';
 exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = 'jkdkvddgajorkvmywwub';
@@ -84,4 +84,5 @@ exports.ETHERLINK_DETAILS = [
     { label: 'Block Explorer URL', value: 'https://explorer.etherlink.com' },
 ];
 exports.TOAST_CONTAINER_ID = 'qbpoorwpbcmnyejvnqad';
+exports.ADD_ETHERLINK_URL = 'https://add-etherlink.tconnect.io';
 //# sourceMappingURL=constants.js.map

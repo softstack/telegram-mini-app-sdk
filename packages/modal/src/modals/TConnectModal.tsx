@@ -11,14 +11,15 @@ import { BeatLoader } from 'react-spinners';
 import { Bounce, ToastContainer } from 'react-toastify';
 import { Accordion } from '../components/Accordion';
 import { BaseButton } from '../components/buttons/BaseButton';
+import { CopyButton } from '../components/buttons/CopyButton';
 import { GridButton } from '../components/buttons/GridButton';
 import { HorizontalIconTextButton } from '../components/buttons/HorizontalIconTextButton';
 import { TextButton } from '../components/buttons/TextButton';
-import { EtherlinkField } from '../components/EtherlinkField';
 import { Col } from '../components/flex/Col';
 import { Row } from '../components/flex/Row';
 import { Header } from '../components/Header';
-import { ETHERLINK_DETAILS, NETWORKS, TOAST_CONTAINER_ID } from '../constants';
+import { Labelled } from '../components/Labelled';
+import { ADD_ETHERLINK_URL, ETHERLINK_DETAILS, NETWORKS, TOAST_CONTAINER_ID } from '../constants';
 import { Network } from '../types';
 import { handleError, nextVersion, useDarkMode, useVersionedState } from '../utils';
 
@@ -417,9 +418,16 @@ export const TConnectModal = memo<TConnectModalProps>(
 													<Row className="text-center text-red-500">
 														If you have issues, please make sure Etherlink has been added to {currentWallet.name}
 													</Row>
+													<Row>
+														You can either visit the link below via your wallet&rsquo;s browser or add Etherlink
+														manually
+													</Row>
+													<CopyButton text={ADD_ETHERLINK_URL} />
 													<Col className="gap-y-3 self-start pt-2">
 														{ETHERLINK_DETAILS.map(({ label, value }, index) => (
-															<EtherlinkField key={index} label={label} value={value} />
+															<Labelled key={index} label={label}>
+																<CopyButton text={value} />
+															</Labelled>
 														))}
 													</Col>
 												</Fragment>

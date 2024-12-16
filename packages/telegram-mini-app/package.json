@@ -6,8 +6,8 @@
 	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",
 	"scripts": {
-		"start": "craco start",
 		"tailwindcss:build": "tailwindcss build -i ./src/input.css -o ./build/output.css",
+		"start": "craco start",
 		"build": "craco build && npm run tailwindcss:build && rm -rf ./live && cp -r ./build ./live",
 		"test": "craco test",
 		"eject": "craco eject"

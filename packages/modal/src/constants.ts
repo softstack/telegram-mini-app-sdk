@@ -127,3 +127,5 @@ export const ETHERLINK_DETAILS = [
 ];
 
 export const TOAST_CONTAINER_ID = 'qbpoorwpbcmnyejvnqad';
+
+export const ADD_ETHERLINK_URL = 'https://add-etherlink.tconnect.io';

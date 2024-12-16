@@ -181,12 +181,20 @@
   height: 1.25rem;
 }
 
+.eotrzpirnbqlbfjhbqpo-h-\[20px\] {
+  height: 20px;
+}
+
 .eotrzpirnbqlbfjhbqpo-min-h-6 {
   min-height: 1.5rem;
 }
 
 .eotrzpirnbqlbfjhbqpo-min-h-\[3\.625rem\] {
   min-height: 3.625rem;
+}
+
+.eotrzpirnbqlbfjhbqpo-w-\[20px\] {
+  width: 20px;
 }
 
 .eotrzpirnbqlbfjhbqpo-cursor-pointer {

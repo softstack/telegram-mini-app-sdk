@@ -81,4 +81,5 @@ export const ETHERLINK_DETAILS = [
     { label: 'Block Explorer URL', value: 'https://explorer.etherlink.com' },
 ];
 export const TOAST_CONTAINER_ID = 'qbpoorwpbcmnyejvnqad';
+export const ADD_ETHERLINK_URL = 'https://add-etherlink.tconnect.io';
 //# sourceMappingURL=constants.js.map

@@ -9,3 +9,4 @@ export declare const ETHERLINK_DETAILS: {
     value: string;
 }[];
 export declare const TOAST_CONTAINER_ID = "qbpoorwpbcmnyejvnqad";
+export declare const ADD_ETHERLINK_URL = "https://add-etherlink.tconnect.io";
