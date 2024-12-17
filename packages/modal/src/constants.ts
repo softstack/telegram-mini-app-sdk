@@ -122,6 +122,7 @@ export const NETWORKS: Array<Network> = [
 export const ETHERLINK_MAINNET_DETAILS = [
 	{ label: 'Network Name', value: 'Etherlink Mainnet' },
 	{ label: 'Chain ID', value: '42793' },
+	{ label: 'Symbol', value: 'XTZ' },
 	{ label: 'RPC URL', value: 'https://node.mainnet.etherlink.com' },
 	{ label: 'Block Explorer URL', value: 'https://explorer.etherlink.com' },
 ];
@@ -129,6 +130,7 @@ export const ETHERLINK_MAINNET_DETAILS = [
 export const ETHERLINK_GHOSTNET_DETAILS = [
 	{ label: 'Network Name', value: 'Etherlink Testnet' },
 	{ label: 'Chain ID', value: '128123' },
+	{ label: 'Symbol', value: 'XTZ' },
 	{ label: 'RPC URL', value: 'https://node.ghostnet.etherlink.com' },
 	{ label: 'Block Explorer URL', value: '	https://testnet.explorer.etherlink.com' },
 ];

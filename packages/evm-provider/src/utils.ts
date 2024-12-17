@@ -25,7 +25,7 @@ export const getUniversalLink = (walletApp: EvmWalletApp): string => {
 			return 'https://link.safepal.io';
 		}
 		case 'trust': {
-			return 'https://link.trustwallet.com';
+			return 'trust://wc';
 		}
 	}
 };
@@ -57,7 +57,7 @@ export const getConnectionStringUniversalLink = (walletApp: EvmWalletApp, connec
 			return `https://link.safepal.io/wc?uri=${encodedConnectionString}`;
 		}
 		case 'trust': {
-			return `https://link.trustwallet.com/wc?uri=${encodedConnectionString}`;
+			return `trust://wc?uri=${encodedConnectionString}`;
 		}
 	}
 };
