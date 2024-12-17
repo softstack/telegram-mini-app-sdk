@@ -5,7 +5,7 @@ const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const getUniversalLink = (walletApp) => {
     switch (walletApp) {
         case 'kukai': {
-            return `https://connect.kukai.app`;
+            return 'https://connect.kukai.app';
         }
     }
 };
