@@ -164,7 +164,8 @@ exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, appIcon, bridgeUrl
                         network: evmNetwork,
                     });
                     provider.once('connect', (info) => {
-                        if (BigInt(info.chainId) === core_1.ETHERLINK_CHAIN_ID) {
+                        if ((evmNetwork === 'mainnet' && BigInt(info.chainId) === core_1.ETHERLINK_MAINNET_CHAIN_ID) ||
+                            (evmNetwork === 'ghostnet' && BigInt(info.chainId) === core_1.ETHERLINK_GHOSTNET_CHAIN_ID)) {
                             onChangeStep('connected');
                         }
                         else {

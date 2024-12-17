@@ -1,4 +1,4 @@
-import { ETHERLINK_CHAIN_ID } from '@tconnect.io/core';
+import { ETHERLINK_GHOSTNET_CHAIN_ID, ETHERLINK_MAINNET_CHAIN_ID } from '@tconnect.io/core';
 import { EvmNetwork as EvmNetworkType } from '@tconnect.io/evm-api-types';
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { TConnectTezosBeaconProvider, Network as TezosBeaconNetwork } from '@tconnect.io/tezos-beacon-provider';
@@ -235,7 +235,7 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 			}
 		}, []);
 
-		const handleEvmProvider = useCallback(
+		const handleChangeEvmProvider = useCallback(
 			async (provider: TConnectEvmProvider, chainId: bigint) => {
 				try {
 					if (evmProvider) {
@@ -247,7 +247,7 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 					});
 
 					setEvmProvider(nextVersion(), provider);
-					if (chainId === ETHERLINK_CHAIN_ID) {
+					if (chainId === ETHERLINK_MAINNET_CHAIN_ID || chainId === ETHERLINK_GHOSTNET_CHAIN_ID) {
 						closeModal();
 					}
 				} catch (error) {
@@ -257,7 +257,7 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 			[evmProvider, setEvmProvider, closeModal],
 		);
 
-		const handleTezosBeaconProvider = useCallback(
+		const handleChangeTezosBeaconProvider = useCallback(
 			async (provider: TConnectTezosBeaconProvider) => {
 				try {
 					if (tezosBeaconProvider) {
@@ -279,7 +279,7 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 			[tezosBeaconProvider, setTezosBeaconProvider, closeModal],
 		);
 
-		const handleTezosWcProvider = useCallback(
+		const handleChangeTezosWcProvider = useCallback(
 			async (provider: TConnectTezosWcProvider) => {
 				try {
 					if (tezosWcProvider) {
@@ -370,11 +370,11 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 						currentWallet={currentWallet}
 						onChangeCurrentWallet={setCurrentWallet}
 						evmProvider={evmProvider}
-						onChangeEvmProvider={handleEvmProvider}
+						onChangeEvmProvider={handleChangeEvmProvider}
 						tezosBeaconProvider={tezosBeaconProvider}
-						onChangeTezosBeaconProvider={handleTezosBeaconProvider}
+						onChangeTezosBeaconProvider={handleChangeTezosBeaconProvider}
 						tezosWcProvider={tezosWcProvider}
-						onChangeTezosWcProvider={handleTezosWcProvider}
+						onChangeTezosWcProvider={handleChangeTezosWcProvider}
 						onDisconnect={handleDisconnect}
 						onClose={closeModal}
 					/>

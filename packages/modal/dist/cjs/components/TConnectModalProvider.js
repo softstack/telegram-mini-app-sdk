@@ -166,7 +166,7 @@ exports.TConnectModalProvider = (0, react_1.memo)(({ appName, appUrl, appIcon, b
             (0, utils_1.handleError)(error);
         }
     }, []);
-    const handleEvmProvider = (0, react_1.useCallback)(async (provider, chainId) => {
+    const handleChangeEvmProvider = (0, react_1.useCallback)(async (provider, chainId) => {
         try {
             if (evmProvider) {
                 await evmProvider.disconnect();
@@ -175,7 +175,7 @@ exports.TConnectModalProvider = (0, react_1.memo)(({ appName, appUrl, appIcon, b
                 setEvmProvider((0, utils_1.nextVersion)(), (prevProvider) => (prevProvider === provider ? undefined : prevProvider));
             });
             setEvmProvider((0, utils_1.nextVersion)(), provider);
-            if (chainId === core_1.ETHERLINK_CHAIN_ID) {
+            if (chainId === core_1.ETHERLINK_MAINNET_CHAIN_ID || chainId === core_1.ETHERLINK_GHOSTNET_CHAIN_ID) {
                 closeModal();
             }
         }
@@ -183,7 +183,7 @@ exports.TConnectModalProvider = (0, react_1.memo)(({ appName, appUrl, appIcon, b
             (0, utils_1.handleError)(error);
         }
     }, [evmProvider, setEvmProvider, closeModal]);
-    const handleTezosBeaconProvider = (0, react_1.useCallback)(async (provider) => {
+    const handleChangeTezosBeaconProvider = (0, react_1.useCallback)(async (provider) => {
         try {
             if (tezosBeaconProvider) {
                 await tezosBeaconProvider.disconnect();
@@ -198,7 +198,7 @@ exports.TConnectModalProvider = (0, react_1.memo)(({ appName, appUrl, appIcon, b
             (0, utils_1.handleError)(error);
         }
     }, [tezosBeaconProvider, setTezosBeaconProvider, closeModal]);
-    const handleTezosWcProvider = (0, react_1.useCallback)(async (provider) => {
+    const handleChangeTezosWcProvider = (0, react_1.useCallback)(async (provider) => {
         try {
             if (tezosWcProvider) {
                 await tezosWcProvider.disconnect();
@@ -258,7 +258,7 @@ exports.TConnectModalProvider = (0, react_1.memo)(({ appName, appUrl, appIcon, b
         tezosWcProvider,
         connected,
     }), [openModal, closeModal, step, evmProvider, tezosBeaconProvider, tezosWcProvider, connected]);
-    return ((0, jsx_runtime_1.jsxs)(exports.TConnectModalContext.Provider, { value: value, ...props, children: [children, showModal && ((0, jsx_runtime_1.jsx)(TConnectModal_1.TConnectModal, { appName: appName, appUrl: appUrl, appIcon: appIcon, bridgeUrl: bridgeUrl, apiKey: apiKey, networkFilter: networkFilter, evmNetwork: evmNetwork, tezosBeaconNetwork: tezosBeaconNetwork, tezosWcNetwork: tezosWcNetwork, step: step, onChangeStep: setStep, currentNetwork: currentNetwork, onChangeCurrentNetwork: setCurrentNetwork, currentWallet: currentWallet, onChangeCurrentWallet: setCurrentWallet, evmProvider: evmProvider, onChangeEvmProvider: handleEvmProvider, tezosBeaconProvider: tezosBeaconProvider, onChangeTezosBeaconProvider: handleTezosBeaconProvider, tezosWcProvider: tezosWcProvider, onChangeTezosWcProvider: handleTezosWcProvider, onDisconnect: handleDisconnect, onClose: closeModal }))] }));
+    return ((0, jsx_runtime_1.jsxs)(exports.TConnectModalContext.Provider, { value: value, ...props, children: [children, showModal && ((0, jsx_runtime_1.jsx)(TConnectModal_1.TConnectModal, { appName: appName, appUrl: appUrl, appIcon: appIcon, bridgeUrl: bridgeUrl, apiKey: apiKey, networkFilter: networkFilter, evmNetwork: evmNetwork, tezosBeaconNetwork: tezosBeaconNetwork, tezosWcNetwork: tezosWcNetwork, step: step, onChangeStep: setStep, currentNetwork: currentNetwork, onChangeCurrentNetwork: setCurrentNetwork, currentWallet: currentWallet, onChangeCurrentWallet: setCurrentWallet, evmProvider: evmProvider, onChangeEvmProvider: handleChangeEvmProvider, tezosBeaconProvider: tezosBeaconProvider, onChangeTezosBeaconProvider: handleChangeTezosBeaconProvider, tezosWcProvider: tezosWcProvider, onChangeTezosWcProvider: handleChangeTezosWcProvider, onDisconnect: handleDisconnect, onClose: closeModal }))] }));
 });
 exports.TConnectModalProvider.displayName = 'TConnectModalProvider';
 const useTConnectModal = () => (0, react_1.useContext)(exports.TConnectModalContext);

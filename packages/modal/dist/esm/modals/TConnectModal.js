@@ -1,5 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { ETHERLINK_CHAIN_ID } from '@tconnect.io/core';
+import { ETHERLINK_GHOSTNET_CHAIN_ID, ETHERLINK_MAINNET_CHAIN_ID } from '@tconnect.io/core';
 import { getOperatingSystem, openLink, randomUUID } from '@tconnect.io/dapp-utils';
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { TConnectTezosBeaconProvider } from '@tconnect.io/tezos-beacon-provider';
@@ -128,7 +128,8 @@ export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey
                         network: evmNetwork,
                     });
                     provider.once('connect', (info) => {
-                        if (BigInt(info.chainId) === ETHERLINK_CHAIN_ID) {
+                        if ((evmNetwork === 'mainnet' && BigInt(info.chainId) === ETHERLINK_MAINNET_CHAIN_ID) ||
+                            (evmNetwork === 'ghostnet' && BigInt(info.chainId) === ETHERLINK_GHOSTNET_CHAIN_ID)) {
                             onChangeStep('connected');
                         }
                         else {

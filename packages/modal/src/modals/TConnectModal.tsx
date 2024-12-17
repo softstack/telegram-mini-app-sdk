@@ -1,4 +1,4 @@
-import { ETHERLINK_CHAIN_ID } from '@tconnect.io/core';
+import { ETHERLINK_GHOSTNET_CHAIN_ID, ETHERLINK_MAINNET_CHAIN_ID } from '@tconnect.io/core';
 import { getOperatingSystem, openLink, randomUUID } from '@tconnect.io/dapp-utils';
 import { EvmNetwork } from '@tconnect.io/evm-api-types';
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
@@ -231,7 +231,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 							});
 
 							provider.once('connect', (info) => {
-								if (BigInt(info.chainId) === ETHERLINK_CHAIN_ID) {
+								if (
+									(evmNetwork === 'mainnet' && BigInt(info.chainId) === ETHERLINK_MAINNET_CHAIN_ID) ||
+									(evmNetwork === 'ghostnet' && BigInt(info.chainId) === ETHERLINK_GHOSTNET_CHAIN_ID)
+								) {
 									onChangeStep('connected');
 								} else {
 									onChangeStep('invalidChainId');
