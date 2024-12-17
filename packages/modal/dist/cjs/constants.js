@@ -93,5 +93,5 @@ exports.ETHERLINK_GHOSTNET_DETAILS = [
 ];
 exports.TOAST_CONTAINER_ID = 'qbpoorwpbcmnyejvnqad';
 exports.ADD_ETHERLINK_MAINNET_URL = 'https://add-etherlink-mainnet.tconnect.io';
-exports.ADD_ETHERLINK_GHOSTNET_URL = 'https://add-etherlink-ghostnet.tconnect.io';
+exports.ADD_ETHERLINK_GHOSTNET_URL = 'https://add-etherlink-testnet.tconnect.io';
 //# sourceMappingURL=constants.js.map

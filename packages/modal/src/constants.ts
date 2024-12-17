@@ -139,4 +139,4 @@ export const TOAST_CONTAINER_ID = 'qbpoorwpbcmnyejvnqad';
 
 export const ADD_ETHERLINK_MAINNET_URL = 'https://add-etherlink-mainnet.tconnect.io';
 
-export const ADD_ETHERLINK_GHOSTNET_URL = 'https://add-etherlink-ghostnet.tconnect.io';
+export const ADD_ETHERLINK_GHOSTNET_URL = 'https://add-etherlink-testnet.tconnect.io';
