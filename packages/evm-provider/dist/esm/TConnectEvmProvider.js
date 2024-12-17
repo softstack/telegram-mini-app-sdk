@@ -75,7 +75,7 @@ export class TConnectEvmProvider extends TypedEvent {
         return response.payload.connected;
     }
     async request(args) {
-        if (this.walletApp && this.walletApp !== 'bitget') {
+        if (this.walletApp) {
             switch (args.method) {
                 case 'eth_sendTransaction':
                 case 'eth_sign':

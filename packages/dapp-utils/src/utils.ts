@@ -91,7 +91,11 @@ export const randomUUID = (): string => {
 
 export const openLink = async (link: string, options?: { try_instant_view: boolean }): Promise<void> => {
 	if (typeof window !== 'undefined') {
-		const webApp = await import('@twa-dev/sdk');
-		webApp.default.openLink(link, options);
+		if (link.startsWith('https://')) {
+			const webApp = await import('@twa-dev/sdk');
+			webApp.default.openLink(link, options);
+		} else {
+			window.open(link);
+		}
 	}
 };

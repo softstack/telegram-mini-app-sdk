@@ -202,7 +202,7 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 
 	/**
 	 * Handles Ethereum JSON-RPC requests and sends them to the communication controller.
-	 * If the wallet application is set and is not 'bitget', it opens a universal link for certain methods.
+	 * If the wallet application is set, it opens a universal link for certain methods.
 	 *
 	 * @param {RequestArguments} args - The arguments for the JSON-RPC request.
 	 * @returns {Promise<unknown>} A promise that resolves with the response payload.
@@ -218,8 +218,7 @@ export class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> i
 	 * - 'personal_sign'
 	 */
 	async request(args: RequestArguments): Promise<unknown> {
-		// The universal link does not open the bitget app
-		if (this.walletApp && this.walletApp !== 'bitget') {
+		if (this.walletApp) {
 			switch (args.method) {
 				case 'eth_sendTransaction':
 				case 'eth_sign':
