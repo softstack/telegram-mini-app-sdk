@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/tezos-wc-provider",
-	"version": "0.0.15",
+	"version": "0.0.16",
 	"description": "",
 	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",
@@ -36,8 +36,8 @@
 		"prepublishOnly": "npm run build && npm test && npm run lint"
 	},
 	"dependencies": {
-		"@tconnect.io/core": "^0.0.8",
-		"@tconnect.io/dapp-communication": "^0.0.12",
+		"@tconnect.io/core": "^0.0.9",
+		"@tconnect.io/dapp-communication": "^0.0.13",
 		"@tconnect.io/dapp-utils": "^0.0.12",
 		"@tconnect.io/tezos-wc-api-types": "^0.0.8",
 		"joi": "^17.13.3"

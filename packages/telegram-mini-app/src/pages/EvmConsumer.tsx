@@ -17,6 +17,7 @@ export const EvmConsumer = memo<EvmConsumerProps>(({ provider }) => {
 	const [address, setAddress] = useState<string | undefined>();
 	const [balance, setBalance] = useState<string | undefined>();
 	const [signature, setSignature] = useState<string | undefined>();
+	const [transactionHash, setTransactionHash] = useState<string | undefined>();
 
 	const getChainId = useCallback(async () => {
 		const web3 = new Web3(provider);
@@ -61,6 +62,31 @@ export const EvmConsumer = memo<EvmConsumerProps>(({ provider }) => {
 		}
 	}, [provider, address]);
 
+	const transfer = useCallback(async () => {
+		try {
+			if (!provider || !address) {
+				return;
+			}
+			const web3 = new Web3(provider);
+			const nonce = await web3.eth.getTransactionCount(address);
+			const chainId = await web3.eth.getChainId();
+			const transactionReceipt = await web3.eth.sendTransaction({
+				from: address,
+				to: address,
+				value: '0x1',
+				nonce: '0x' + nonce.toString(16),
+				chainId: '0x' + chainId.toString(16),
+			});
+			setTransactionHash('0x' + Buffer.from(transactionReceipt.transactionHash).toString('hex'));
+		} catch (error) {
+			if (error instanceof Error) {
+				toast.error(error.message);
+			} else {
+				toast.error('An error occurred');
+			}
+		}
+	}, [provider, address]);
+
 	return (
 		<Col className="gap-y-row">
 			<Row className="px-pageFrame text-2xl">EVM</Row>
@@ -69,15 +95,17 @@ export const EvmConsumer = memo<EvmConsumerProps>(({ provider }) => {
 			<TextButton text="Get Address" onClick={getAddress} />
 			{address && (
 				<Fragment>
-					<TextButton text="Sign" onClick={sign} />
 					<TextButton text="Get Balance" onClick={getBalance} />
+					<TextButton text="Sign" onClick={sign} />
+					<TextButton text="Transfer" onClick={transfer} />
 				</Fragment>
 			)}
 			<Col className="gap-y-row px-pageFrame">
 				<Row className="break-all">Chain ID: {chainId}</Row>
 				<Row className="break-all">Address: {address}</Row>
-				<Row className="break-all">Balance: {balance}</Row>
+				<Row className="break-all">Balance: {balance && balance + ' XTZ'}</Row>
 				<Row className="break-all">Signature: {signature}</Row>
+				<Row className="break-all">Transaction Hash: {transactionHash}</Row>
 			</Col>
 		</Col>
 	);
