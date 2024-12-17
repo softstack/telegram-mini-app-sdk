@@ -13,6 +13,7 @@ export class TConnectEvmProvider extends TypedEvent {
         this.appIcon = options.appIcon;
         this.bridgeUrl = options.bridgeUrl;
         this.walletApp = options?.walletApp;
+        this.network = options.network;
         this._apiKey = options.apiKey;
         this._communicationController = new CommunicationController(this.bridgeUrl, SOCKET_IO_PATH, REQUEST_CHANNEL, EVENT_CHANNEL);
     }
@@ -53,7 +54,13 @@ export class TConnectEvmProvider extends TypedEvent {
         this._communicationController.on('event', this._createEvmEventHandler());
         const { payload: { sessionId }, } = await this._sendEvmRequest({
             type: 'connect',
-            payload: { apiKey: this._apiKey, appName: this.appName, appUrl: this.appUrl, appIcon: this.appIcon },
+            payload: {
+                apiKey: this._apiKey,
+                appName: this.appName,
+                appUrl: this.appUrl,
+                appIcon: this.appIcon,
+                network: this.network,
+            },
         });
         this._sessionId = sessionId;
     }
@@ -102,6 +109,7 @@ export class TConnectEvmProvider extends TypedEvent {
             appIcon: this.appIcon,
             bridgeUrl: this.bridgeUrl,
             walletApp: this.walletApp,
+            network: this.network,
             _apiKey: this._apiKey,
             _communicationController: this._communicationController.serialize(),
             _sessionId: this._getSessionId(),
@@ -117,6 +125,7 @@ export class TConnectEvmProvider extends TypedEvent {
             bridgeUrl: data.bridgeUrl,
             apiKey: data._apiKey,
             walletApp: data.walletApp,
+            network: data.network,
         });
         provider._communicationController = CommunicationController.deserialize(data._communicationController);
         provider._sessionId = data._sessionId;

@@ -1,6 +1,8 @@
+import { EvmNetwork } from '@tconnect.io/evm-api-types';
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { TConnectTezosBeaconProvider, Network as TezosBeaconNetwork } from '@tconnect.io/tezos-beacon-provider';
-import { TConnectTezosWcProvider, Network as TezosWcNetwork } from '@tconnect.io/tezos-wc-provider';
+import { TezosWcNetwork } from '@tconnect.io/tezos-wc-api-types';
+import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
 import { Network } from '../types';
 export type Step = 'connect' | 'connecting' | 'invalidChainId' | 'connected';
 export interface TConnectModalProps {
@@ -10,6 +12,7 @@ export interface TConnectModalProps {
     bridgeUrl: string;
     apiKey: string;
     networkFilter: Array<'etherlink' | 'tezos'> | undefined;
+    evmNetwork: EvmNetwork | undefined;
     tezosBeaconNetwork: TezosBeaconNetwork | undefined;
     tezosWcNetwork: TezosWcNetwork | undefined;
     step: Step;

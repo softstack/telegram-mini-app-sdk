@@ -46,7 +46,16 @@ export const isGetAccountsResult = (value) => validateType(value, Joi.array()
     address: Joi.string().required(),
     pubkey: Joi.string().required(),
     algo: Joi.string().required(),
-}).options({ allowUnknown: true })));
-export const isSignResult = (value) => validateType(value, Joi.object({ signature: Joi.string().required() }).options({ allowUnknown: true }));
-export const isSendResult = (value) => validateType(value, Joi.object({ operationHash: Joi.string().required() }).options({ allowUnknown: true }));
+}).options({ allowUnknown: true }))
+    .required());
+export const isSignResult = (value) => validateType(value, Joi.object({
+    signature: Joi.string().required(),
+})
+    .options({ allowUnknown: true })
+    .required());
+export const isSendResult = (value) => validateType(value, Joi.object({
+    operationHash: Joi.string().required(),
+})
+    .options({ allowUnknown: true })
+    .required());
 //# sourceMappingURL=validation.js.map

@@ -1,12 +1,12 @@
+import { TezosWcNetwork } from '@tconnect.io/tezos-wc-api-types';
 export type TezosWcWalletApp = 'kukai';
 export type SigningType = 'raw' | 'operation' | 'micheline';
-export type Network = 'mainnet' | 'ghostnet';
 export interface TConnectTezosWcProviderOptions {
     appName: string;
     appUrl: string;
     appIcon?: string;
     apiKey: string;
-    network: Network;
+    network: TezosWcNetwork;
     bridgeUrl: string;
     walletApp?: TezosWcWalletApp;
 }
@@ -15,7 +15,7 @@ export interface SerializedTConnectTezosWcProvider {
     appUrl: string;
     appIcon: string | undefined;
     walletApp: TezosWcWalletApp | undefined;
-    network: Network;
+    network: TezosWcNetwork;
     bridgeUrl: string;
     _apiKey: string;
     _communicationController: string;

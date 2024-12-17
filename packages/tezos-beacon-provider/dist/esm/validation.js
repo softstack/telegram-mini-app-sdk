@@ -30,14 +30,16 @@ export const validateTezosBeaconResponse = (value) => validateSchema(value, Joi.
     type: Joi.string().valid('disconnect').required(),
 }))
     .required());
-export const validateTezosBeaconEvent = (value) => validateSchema(value, Joi.alternatives().try(Joi.object({
+export const validateTezosBeaconEvent = (value) => validateSchema(value, Joi.alternatives()
+    .try(Joi.object({
     type: Joi.string().valid('message').required(),
     payload: Joi.object({
         message: Joi.string().required(),
     }),
 }), Joi.object({
     type: Joi.string().valid('disconnect').required(),
-})));
+}))
+    .required());
 export const isPairingResponse = (value) => validateType(value, Joi.object({
     type: Joi.string().valid('p2p-pairing-response').required(),
     id: Joi.string().required(),
@@ -47,7 +49,7 @@ export const isPairingResponse = (value) => validateType(value, Joi.object({
     relayServer: Joi.string().required(),
     appUrl: Joi.string().allow(''),
     icon: Joi.string().allow(''),
-}));
+}).required());
 export const isBaseMessage = (value) => validateType(value, Joi.object({
     type: Joi.string()
         .valid('permission_request', 'sign_payload_request', 'operation_request', 'broadcast_request', 'permission_response', 'sign_payload_response', 'operation_response', 'broadcast_response', 'disconnect', 'error', 'acknowledge')
@@ -55,7 +57,9 @@ export const isBaseMessage = (value) => validateType(value, Joi.object({
     version: Joi.string().required(),
     id: Joi.string().required(),
     senderId: Joi.string().required(),
-}).options({ allowUnknown: true }));
+})
+    .options({ allowUnknown: true })
+    .required());
 export const isPermissionResponse = (value) => validateType(value, Joi.object({
     type: Joi.string().valid('permission_response').required(),
     version: Joi.string().required(),
@@ -79,14 +83,14 @@ export const isPermissionResponse = (value) => validateType(value, Joi.object({
         name: Joi.string().required(),
         icon: Joi.string().allow(''),
     }),
-}));
+}).required());
 export const isOperationResponse = (value) => validateType(value, Joi.object({
     type: Joi.string().valid('operation_response').required(),
     version: Joi.string().required(),
     id: Joi.string().required(),
     senderId: Joi.string().required(),
     transactionHash: Joi.string().required(),
-}));
+}).required());
 export const isSignPayloadResponse = (value) => validateType(value, Joi.object({
     type: Joi.string().valid('sign_payload_response').required(),
     version: Joi.string().required(),
@@ -94,13 +98,13 @@ export const isSignPayloadResponse = (value) => validateType(value, Joi.object({
     senderId: Joi.string().required(),
     signature: Joi.string().required(),
     signingType: Joi.string(),
-}));
+}).required());
 export const isDisconnectMessage = (value) => validateType(value, Joi.object({
     type: Joi.string().valid('disconnect').required(),
     version: Joi.string().required(),
     id: Joi.string().required(),
     senderId: Joi.string().required(),
-}));
+}).required());
 export const isErrorResponse = (value) => validateType(value, Joi.object({
     type: Joi.string().valid('error').required(),
     version: Joi.string().required(),
@@ -109,5 +113,5 @@ export const isErrorResponse = (value) => validateType(value, Joi.object({
     errorType: Joi.string()
         .valid('BROADCAST_ERROR', 'NETWORK_NOT_SUPPORTED', 'NO_ADDRESS_ERROR', 'NO_PRIVATE_KEY_FOUND_ERROR', 'NOT_GRANTED_ERROR', 'PARAMETERS_INVALID_ERROR', 'TOO_MANY_OPERATIONS', 'TRANSACTION_INVALID_ERROR', 'ABORTED_ERROR', 'UNKNOWN_ERROR')
         .required(),
-}));
+}).required());
 //# sourceMappingURL=validation.js.map

@@ -11,7 +11,7 @@ export const TAILWIND_PREFIX = 'eotrzpirnbqlbfjhbqpo-';
  * This key is used to identify and retrieve the EVM provider data
  * from the storage.
  */
-export const EVM_PROVIDER_STORAGE_KEY = 'mfiqmlieehlcobqzqiav';
+export const EVM_PROVIDER_STORAGE_KEY = 'evvcswyjarnlkwvdlrfr';
 
 /**
  * A constant string key used for storing the Tezos Beacon provider information.
@@ -69,14 +69,6 @@ export const NETWORKS: Array<Network> = [
 				supportedOperatingSystems: ['android', 'ios'],
 			},
 			{
-				name: 'Rainbow',
-				icon: 'rainbow',
-				network: 'evm',
-				walletApp: 'rainbow',
-				addEtherlinkUrl: '',
-				supportedOperatingSystems: ['android', 'ios'],
-			},
-			{
 				name: 'SafePal',
 				icon: 'safePal',
 				network: 'evm',
@@ -127,11 +119,22 @@ export const NETWORKS: Array<Network> = [
 	},
 ];
 
-export const ETHERLINK_DETAILS = [
+export const ETHERLINK_MAINNET_DETAILS = [
 	{ label: 'Network Name', value: 'Etherlink Mainnet' },
 	{ label: 'Chain ID', value: '42793' },
 	{ label: 'RPC URL', value: 'https://node.mainnet.etherlink.com' },
 	{ label: 'Block Explorer URL', value: 'https://explorer.etherlink.com' },
 ];
 
+export const ETHERLINK_GHOSTNET_DETAILS = [
+	{ label: 'Network Name', value: 'Etherlink Testnet' },
+	{ label: 'Chain ID', value: '128123' },
+	{ label: 'RPC URL', value: 'https://node.ghostnet.etherlink.com' },
+	{ label: 'Block Explorer URL', value: '	https://testnet.explorer.etherlink.com' },
+];
+
 export const TOAST_CONTAINER_ID = 'qbpoorwpbcmnyejvnqad';
+
+export const ADD_ETHERLINK_MAINNET_URL = 'https://add-etherlink-mainnet.tconnect.io';
+
+export const ADD_ETHERLINK_GHOSTNET_URL = 'https://add-etherlink-ghostnet.tconnect.io';

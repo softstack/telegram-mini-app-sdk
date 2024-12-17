@@ -14,7 +14,6 @@ exports.Icon = (0, react_1.memo)(({ icon, ...props }) => {
             case 'etherlink':
             case 'kukai':
             case 'metaMask':
-            case 'rainbow':
             case 'safePal':
             case 'temple':
             case 'tezos':

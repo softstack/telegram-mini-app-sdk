@@ -11,7 +11,6 @@ export const Icon = memo(({ icon, ...props }) => {
             case 'etherlink':
             case 'kukai':
             case 'metaMask':
-            case 'rainbow':
             case 'safePal':
             case 'temple':
             case 'tezos':

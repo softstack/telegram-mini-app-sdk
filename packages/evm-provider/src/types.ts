@@ -1,17 +1,17 @@
+import { EvmNetwork } from '@tconnect.io/evm-api-types';
 import { ProviderRpcError } from './ProviderRpcError';
 
 /**
  * Represents the supported EVM wallet applications.
  *
- * @typedef {('bitget' | 'metaMask' | 'rainbow' | 'safePal' | 'trust')} EvmWalletApp
+ * @typedef {('bitget' | 'metaMask' | 'safePal' | 'trust')} EvmWalletApp
  *
  * @property {'bitget'} bitget - Bitget wallet application.
  * @property {'metaMask'} metaMask - MetaMask wallet application.
- * @property {'rainbow'} rainbow - Rainbow wallet application.
  * @property {'safePal'} safePal - SafePal wallet application.
  * @property {'trust'} trust - Trust wallet application.
  */
-export type EvmWalletApp = 'bitget' | 'metaMask' | 'rainbow' | 'safePal' | 'trust';
+export type EvmWalletApp = 'bitget' | 'metaMask' | 'safePal' | 'trust';
 
 /**
  * Represents the possible event names for EIP-1193 compliant providers.
@@ -155,6 +155,7 @@ export interface TConnectEvmProviderOptions {
 	appIcon?: string;
 	bridgeUrl: string;
 	apiKey: string;
+	network: EvmNetwork;
 	walletApp?: EvmWalletApp;
 }
 
@@ -183,6 +184,8 @@ export interface SerializedTConnectEvmProvider {
 	 * The wallet application used for EVM interactions.
 	 */
 	walletApp: EvmWalletApp | undefined;
+
+	network: EvmNetwork;
 
 	/**
 	 * The API key for authentication.

@@ -21,7 +21,7 @@ const App = () => {
 	return (
 		<TConnectModalProvider
 			appName="your_app_name"
-			appUrl="https:/.."
+			appUrl="https://.."
 			bridgeUrl="https://tconnect.io"
 			apiKey="your_api_key"
 		>

@@ -16,6 +16,7 @@ class TConnectEvmProvider extends core_1.TypedEvent {
         this.appIcon = options.appIcon;
         this.bridgeUrl = options.bridgeUrl;
         this.walletApp = options?.walletApp;
+        this.network = options.network;
         this._apiKey = options.apiKey;
         this._communicationController = new dapp_communication_1.CommunicationController(this.bridgeUrl, evm_api_types_1.SOCKET_IO_PATH, evm_api_types_1.REQUEST_CHANNEL, evm_api_types_1.EVENT_CHANNEL);
     }
@@ -56,7 +57,13 @@ class TConnectEvmProvider extends core_1.TypedEvent {
         this._communicationController.on('event', this._createEvmEventHandler());
         const { payload: { sessionId }, } = await this._sendEvmRequest({
             type: 'connect',
-            payload: { apiKey: this._apiKey, appName: this.appName, appUrl: this.appUrl, appIcon: this.appIcon },
+            payload: {
+                apiKey: this._apiKey,
+                appName: this.appName,
+                appUrl: this.appUrl,
+                appIcon: this.appIcon,
+                network: this.network,
+            },
         });
         this._sessionId = sessionId;
     }
@@ -105,6 +112,7 @@ class TConnectEvmProvider extends core_1.TypedEvent {
             appIcon: this.appIcon,
             bridgeUrl: this.bridgeUrl,
             walletApp: this.walletApp,
+            network: this.network,
             _apiKey: this._apiKey,
             _communicationController: this._communicationController.serialize(),
             _sessionId: this._getSessionId(),
@@ -120,6 +128,7 @@ class TConnectEvmProvider extends core_1.TypedEvent {
             bridgeUrl: data.bridgeUrl,
             apiKey: data._apiKey,
             walletApp: data.walletApp,
+            network: data.network,
         });
         provider._communicationController = dapp_communication_1.CommunicationController.deserialize(data._communicationController);
         provider._sessionId = data._sessionId;

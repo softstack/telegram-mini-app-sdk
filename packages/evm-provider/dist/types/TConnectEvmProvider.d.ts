@@ -1,4 +1,5 @@
 import { TypedEvent } from '@tconnect.io/core';
+import { EvmNetwork } from '@tconnect.io/evm-api-types';
 import { EIP1193Provider, EvmWalletApp, RequestArguments, TConnectEvmProviderEvents, TConnectEvmProviderOptions } from './types';
 export declare class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderEvents> implements EIP1193Provider {
     constructor(options: TConnectEvmProviderOptions);
@@ -7,6 +8,7 @@ export declare class TConnectEvmProvider extends TypedEvent<TConnectEvmProviderE
     readonly appIcon: string | undefined;
     readonly bridgeUrl: string;
     readonly walletApp: EvmWalletApp | undefined;
+    readonly network: EvmNetwork;
     private readonly _apiKey;
     private _communicationController;
     private _sessionId;

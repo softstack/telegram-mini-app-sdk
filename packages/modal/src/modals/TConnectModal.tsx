@@ -1,8 +1,10 @@
 import { ETHERLINK_CHAIN_ID } from '@tconnect.io/core';
 import { getOperatingSystem, openLink, randomUUID } from '@tconnect.io/dapp-utils';
+import { EvmNetwork } from '@tconnect.io/evm-api-types';
 import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
 import { TConnectTezosBeaconProvider, Network as TezosBeaconNetwork } from '@tconnect.io/tezos-beacon-provider';
-import { TConnectTezosWcProvider, Network as TezosWcNetwork } from '@tconnect.io/tezos-wc-provider';
+import { TezosWcNetwork } from '@tconnect.io/tezos-wc-api-types';
+import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
 import { clsx } from 'clsx';
 import { Fragment, memo, MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -11,14 +13,22 @@ import { BeatLoader } from 'react-spinners';
 import { Bounce, ToastContainer } from 'react-toastify';
 import { Accordion } from '../components/Accordion';
 import { BaseButton } from '../components/buttons/BaseButton';
+import { CopyButton } from '../components/buttons/CopyButton';
 import { GridButton } from '../components/buttons/GridButton';
 import { HorizontalIconTextButton } from '../components/buttons/HorizontalIconTextButton';
 import { TextButton } from '../components/buttons/TextButton';
-import { EtherlinkField } from '../components/EtherlinkField';
 import { Col } from '../components/flex/Col';
 import { Row } from '../components/flex/Row';
 import { Header } from '../components/Header';
-import { ETHERLINK_DETAILS, NETWORKS, TOAST_CONTAINER_ID } from '../constants';
+import { Labelled } from '../components/Labelled';
+import {
+	ADD_ETHERLINK_GHOSTNET_URL,
+	ADD_ETHERLINK_MAINNET_URL,
+	ETHERLINK_GHOSTNET_DETAILS,
+	ETHERLINK_MAINNET_DETAILS,
+	NETWORKS,
+	TOAST_CONTAINER_ID,
+} from '../constants';
 import { Network } from '../types';
 import { handleError, nextVersion, useDarkMode, useVersionedState } from '../utils';
 
@@ -31,6 +41,7 @@ export interface TConnectModalProps {
 	bridgeUrl: string;
 	apiKey: string;
 	networkFilter: Array<'etherlink' | 'tezos'> | undefined;
+	evmNetwork: EvmNetwork | undefined;
 	tezosBeaconNetwork: TezosBeaconNetwork | undefined;
 	tezosWcNetwork: TezosWcNetwork | undefined;
 	step: Step;
@@ -83,8 +94,9 @@ export const TConnectModal = memo<TConnectModalProps>(
 		bridgeUrl,
 		apiKey,
 		networkFilter,
-		tezosBeaconNetwork,
-		tezosWcNetwork,
+		evmNetwork = 'ghostnet',
+		tezosBeaconNetwork = { type: 'ghostnet' },
+		tezosWcNetwork = 'ghostnet',
 		step,
 		onChangeStep,
 		currentNetwork,
@@ -104,6 +116,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 		const backgroundElement = useRef(null);
 		const [showNetworks, setShowNetworks] = useState(true);
 		const [showWallets, setShowWallets] = useState(false);
+		const [isConnectingError, setIsConnectingError] = useState(false);
 		const [address, setAddress] = useVersionedState<string | undefined>(undefined);
 		const [shortAddress, setShortAddress] = useVersionedState<string | undefined>(undefined);
 		const [showShortAddress, setShowShortAddress] = useState(true);
@@ -204,6 +217,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 				try {
 					onChangeStep('connecting');
 					onChangeCurrentWallet(wallet);
+					setIsConnectingError(false);
 					switch (wallet.network) {
 						case 'evm': {
 							const provider = new TConnectEvmProvider({
@@ -213,6 +227,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 								bridgeUrl,
 								walletApp: wallet.walletApp,
 								apiKey,
+								network: evmNetwork,
 							});
 
 							provider.once('connect', (info) => {
@@ -238,7 +253,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 										walletApp: wallet.walletApp,
 										secretSeed: randomUUID(),
 										apiKey,
-										network: tezosBeaconNetwork ?? { type: 'mainnet' },
+										network: tezosBeaconNetwork,
 									});
 									await provider.permissionRequest();
 									onChangeTezosBeaconProvider(provider);
@@ -252,7 +267,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 										bridgeUrl,
 										walletApp: wallet.walletApp,
 										apiKey,
-										network: tezosWcNetwork ?? 'mainnet',
+										network: tezosWcNetwork,
 									});
 									await provider.permissionRequest();
 									onChangeTezosWcProvider(provider);
@@ -263,6 +278,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 						}
 					}
 				} catch (error) {
+					setIsConnectingError(true);
 					handleError(error);
 				}
 			},
@@ -274,6 +290,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 				appIcon,
 				bridgeUrl,
 				apiKey,
+				evmNetwork,
 				tezosBeaconNetwork,
 				tezosWcNetwork,
 				onChangeEvmProvider,
@@ -405,27 +422,44 @@ export const TConnectModal = memo<TConnectModalProps>(
 						<Fragment>
 							<Header title="Connecting" onClose={onClose} />
 							<Col className="items-center gap-y-pageFrame overflow-y-scroll p-pageFrame">
-								<BeatLoader size={8} color={darkMode ? '#fff' : '#000'} />
-								<Col className="items-center gap-y-2">
-									<Row>Connecting Wallet</Row>
-									{currentWallet && (
+								{isConnectingError ? (
+									currentWallet && (
 										<Fragment>
-											<Row className="text-sm">Please confirm in {currentWallet.name}</Row>
+											<TextButton text="Try again" onClick={() => handleChangeWallet(currentWallet)} />
 											{currentWallet.network === 'evm' && (
 												<Fragment>
 													<Row className="text-center text-red-500">
 														If you have issues, please make sure Etherlink has been added to {currentWallet.name}
 													</Row>
+													<Row>
+														You can either visit the link below via your wallet&rsquo;s browser or add Etherlink
+														manually
+													</Row>
+													<CopyButton
+														text={evmNetwork === 'mainnet' ? ADD_ETHERLINK_MAINNET_URL : ADD_ETHERLINK_GHOSTNET_URL}
+													/>
 													<Col className="gap-y-3 self-start pt-2">
-														{ETHERLINK_DETAILS.map(({ label, value }, index) => (
-															<EtherlinkField key={index} label={label} value={value} />
-														))}
+														{(evmNetwork === 'mainnet' ? ETHERLINK_MAINNET_DETAILS : ETHERLINK_GHOSTNET_DETAILS).map(
+															({ label, value }, index) => (
+																<Labelled key={index} label={label}>
+																	<CopyButton text={value} />
+																</Labelled>
+															),
+														)}
 													</Col>
 												</Fragment>
 											)}
 										</Fragment>
-									)}
-								</Col>
+									)
+								) : (
+									<Fragment>
+										<BeatLoader size={8} color={darkMode ? '#fff' : '#000'} />
+										<Col className="items-center gap-y-2">
+											<Row>Connecting Wallet</Row>
+											{currentWallet && <Row className="text-sm">Please confirm in {currentWallet.name}</Row>}
+										</Col>
+									</Fragment>
+								)}
 							</Col>
 						</Fragment>
 					) : step === 'invalidChainId' ? (

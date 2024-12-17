@@ -5,7 +5,7 @@ import {
 	CustomStringify,
 	TypedValue,
 } from '@softstack/typed-stringify';
-import Joi, { PartialSchemaMap, Schema } from 'joi';
+import { Schema } from 'joi';
 import { CustomStrigifyType } from './types';
 
 /**
@@ -56,12 +56,19 @@ export const validateGuardian = <T>(value: unknown, schema: Schema): value is T 
  * @returns A boolean indicating whether the value contains the specified keys.
  */
 export const validateKeys = <T>(value: unknown, keys: Array<keyof T>): value is T => {
-	const keyMap: PartialSchemaMap = {};
-	for (const key of keys) {
-		keyMap[key] = Joi.any().required();
+	if (typeof value !== 'object' || value === null) {
+		return false;
 	}
-	const schema = Joi.object().keys(keyMap);
-	return validateType(value, schema);
+	const valueKeys = Object.keys(value);
+	if (valueKeys.length !== keys.length) {
+		return false;
+	}
+	for (const key of keys) {
+		if (!valueKeys.includes(key.toString())) {
+			return false;
+		}
+	}
+	return true;
 };
 
 /**

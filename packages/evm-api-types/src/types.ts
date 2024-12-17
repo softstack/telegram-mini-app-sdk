@@ -10,6 +10,8 @@
  */
 export type EvmErrorType = 'generic' | 'invalidSessionId' | 'walletRequestFailed' | 'invalidApiKey';
 
+export type EvmNetwork = 'mainnet' | 'ghostnet';
+
 // Start requests and responses
 
 export interface EvmConnectRequest {
@@ -19,6 +21,7 @@ export interface EvmConnectRequest {
 		appName: string;
 		appUrl: string;
 		appIcon: string | undefined;
+		network: EvmNetwork;
 	};
 }
 

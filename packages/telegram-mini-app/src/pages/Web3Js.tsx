@@ -24,6 +24,7 @@ export const Web3Js = memo(() => {
 				bridgeUrl: BRIDGE_URL,
 				walletApp,
 				apiKey: 'a',
+				network: 'ghostnet',
 			});
 
 			provider

@@ -1,11 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parse = exports.stringify = exports.validateKeys = exports.validateGuardian = exports.validateType = exports.validateSchema = void 0;
 const typed_stringify_1 = require("@softstack/typed-stringify");
-const joi_1 = __importDefault(require("joi"));
 const validateSchema = (value, schema) => {
     const { error, value: validatedValue } = schema.validate(value);
     if (error) {
@@ -22,12 +18,19 @@ exports.validateType = validateType;
 const validateGuardian = (value, schema) => (0, exports.validateType)(value, schema);
 exports.validateGuardian = validateGuardian;
 const validateKeys = (value, keys) => {
-    const keyMap = {};
-    for (const key of keys) {
-        keyMap[key] = joi_1.default.any().required();
+    if (typeof value !== 'object' || value === null) {
+        return false;
     }
-    const schema = joi_1.default.object().keys(keyMap);
-    return (0, exports.validateType)(value, schema);
+    const valueKeys = Object.keys(value);
+    if (valueKeys.length !== keys.length) {
+        return false;
+    }
+    for (const key of keys) {
+        if (!valueKeys.includes(key.toString())) {
+            return false;
+        }
+    }
+    return true;
 };
 exports.validateKeys = validateKeys;
 const customStringify = (obj) => {
