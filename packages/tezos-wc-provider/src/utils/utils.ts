@@ -10,7 +10,7 @@ import { TezosWcWalletApp } from '../types';
 export const getUniversalLink = (walletApp: TezosWcWalletApp): string => {
 	switch (walletApp) {
 		case 'kukai': {
-			return `https://connect.kukai.app`;
+			return 'https://connect.kukai.app';
 		}
 	}
 };

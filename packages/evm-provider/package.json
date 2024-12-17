@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/evm-provider",
-	"version": "0.0.15",
+	"version": "0.0.16",
 	"description": "",
 	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",
@@ -37,8 +37,8 @@
 	},
 	"dependencies": {
 		"@tconnect.io/core": "^0.0.8",
-		"@tconnect.io/dapp-communication": "^0.0.11",
-		"@tconnect.io/dapp-utils": "^0.0.11",
+		"@tconnect.io/dapp-communication": "^0.0.12",
+		"@tconnect.io/dapp-utils": "^0.0.12",
 		"@tconnect.io/evm-api-types": "^0.0.10",
 		"joi": "^17.13.3"
 	}

@@ -2,7 +2,7 @@ import { isAndroid } from '@tconnect.io/dapp-utils';
 export const getUniversalLink = (walletApp) => {
     switch (walletApp) {
         case 'kukai': {
-            return `https://connect.kukai.app`;
+            return 'https://connect.kukai.app';
         }
     }
 };

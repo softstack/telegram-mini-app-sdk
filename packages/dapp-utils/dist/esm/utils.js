@@ -44,8 +44,13 @@ export const randomUUID = () => {
 };
 export const openLink = async (link, options) => {
     if (typeof window !== 'undefined') {
-        const webApp = await import('@twa-dev/sdk');
-        webApp.default.openLink(link, options);
+        if (link.startsWith('https://')) {
+            const webApp = await import('@twa-dev/sdk');
+            webApp.default.openLink(link, options);
+        }
+        else {
+            window.open(link);
+        }
     }
 };
 //# sourceMappingURL=utils.js.map

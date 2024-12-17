@@ -16,7 +16,7 @@ import { EvmWalletApp } from './types';
 export const getUniversalLink = (walletApp: EvmWalletApp): string => {
 	switch (walletApp) {
 		case 'bitget': {
-			return 'https://bkapp.vip';
+			return 'bitkeep://wc';
 		}
 		case 'metaMask': {
 			return 'https://metamask.app.link';
@@ -25,7 +25,7 @@ export const getUniversalLink = (walletApp: EvmWalletApp): string => {
 			return 'https://link.safepal.io';
 		}
 		case 'trust': {
-			return 'https://link.trustwallet.com';
+			return 'trust://wc';
 		}
 	}
 };
@@ -39,25 +39,25 @@ export const getUniversalLink = (walletApp: EvmWalletApp): string => {
  * @returns The universal link for the specified wallet application with the encoded WalletConnect URI.
  */
 export const getConnectionStringUniversalLink = (walletApp: EvmWalletApp, connectionString: string): string => {
-	let encodedUri = encodeURIComponent(connectionString);
+	let encodedConnectionString = encodeURIComponent(connectionString);
 
 	// Double encode for Android
 	if (isAndroid()) {
-		encodedUri = encodeURIComponent(encodedUri);
+		encodedConnectionString = encodeURIComponent(encodedConnectionString);
 	}
 
 	switch (walletApp) {
 		case 'bitget': {
-			return `https://bkapp.vip/wc?uri=${encodedUri}`;
+			return `https://bkapp.vip/wc?uri=${encodedConnectionString}`;
 		}
 		case 'metaMask': {
-			return `https://metamask.app.link/wc?uri=${encodedUri}`;
+			return `https://metamask.app.link/wc?uri=${encodedConnectionString}`;
 		}
 		case 'safePal': {
-			return `https://link.safepal.io/wc?uri=${encodedUri}`;
+			return `https://link.safepal.io/wc?uri=${encodedConnectionString}`;
 		}
 		case 'trust': {
-			return `https://link.trustwallet.com/wc?uri=${encodedUri}`;
+			return `trust://wc?uri=${encodedConnectionString}`;
 		}
 	}
 };

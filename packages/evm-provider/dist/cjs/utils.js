@@ -5,7 +5,7 @@ const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const getUniversalLink = (walletApp) => {
     switch (walletApp) {
         case 'bitget': {
-            return 'https://bkapp.vip';
+            return 'bitkeep://wc';
         }
         case 'metaMask': {
             return 'https://metamask.app.link';
@@ -14,28 +14,28 @@ const getUniversalLink = (walletApp) => {
             return 'https://link.safepal.io';
         }
         case 'trust': {
-            return 'https://link.trustwallet.com';
+            return 'trust://wc';
         }
     }
 };
 exports.getUniversalLink = getUniversalLink;
 const getConnectionStringUniversalLink = (walletApp, connectionString) => {
-    let encodedUri = encodeURIComponent(connectionString);
+    let encodedConnectionString = encodeURIComponent(connectionString);
     if ((0, dapp_utils_1.isAndroid)()) {
-        encodedUri = encodeURIComponent(encodedUri);
+        encodedConnectionString = encodeURIComponent(encodedConnectionString);
     }
     switch (walletApp) {
         case 'bitget': {
-            return `https://bkapp.vip/wc?uri=${encodedUri}`;
+            return `https://bkapp.vip/wc?uri=${encodedConnectionString}`;
         }
         case 'metaMask': {
-            return `https://metamask.app.link/wc?uri=${encodedUri}`;
+            return `https://metamask.app.link/wc?uri=${encodedConnectionString}`;
         }
         case 'safePal': {
-            return `https://link.safepal.io/wc?uri=${encodedUri}`;
+            return `https://link.safepal.io/wc?uri=${encodedConnectionString}`;
         }
         case 'trust': {
-            return `https://link.trustwallet.com/wc?uri=${encodedUri}`;
+            return `trust://wc?uri=${encodedConnectionString}`;
         }
     }
 };

@@ -85,8 +85,13 @@ const randomUUID = () => {
 exports.randomUUID = randomUUID;
 const openLink = async (link, options) => {
     if (typeof window !== 'undefined') {
-        const webApp = await Promise.resolve().then(() => __importStar(require('@twa-dev/sdk')));
-        webApp.default.openLink(link, options);
+        if (link.startsWith('https://')) {
+            const webApp = await Promise.resolve().then(() => __importStar(require('@twa-dev/sdk')));
+            webApp.default.openLink(link, options);
+        }
+        else {
+            window.open(link);
+        }
     }
 };
 exports.openLink = openLink;
