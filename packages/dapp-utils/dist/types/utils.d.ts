@@ -10,3 +10,5 @@ export declare const randomUUID: () => string;
 export declare const openLink: (link: string, options?: {
     try_instant_view: boolean;
 }) => Promise<void>;
+export declare const toIntegerString: (value: bigint | number | string) => string;
+export declare const formatTransactionAmount: (amount: number, mutez?: boolean) => string;

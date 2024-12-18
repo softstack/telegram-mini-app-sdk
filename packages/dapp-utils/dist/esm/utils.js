@@ -53,4 +53,11 @@ export const openLink = async (link, options) => {
         }
     }
 };
+export const toIntegerString = (value) => BigInt(value).toString();
+export const formatTransactionAmount = (amount, mutez = false) => {
+    if (mutez) {
+        return BigInt(amount).toString();
+    }
+    return (BigInt(amount) * 10n ** 6n).toString();
+};
 //# sourceMappingURL=utils.js.map

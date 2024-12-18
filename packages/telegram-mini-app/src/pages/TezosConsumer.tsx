@@ -1,4 +1,4 @@
-import { TezosToolkit } from '@taquito/taquito';
+import { TezosToolkit, TransferParams } from '@taquito/taquito';
 import { useTConnectModal } from '@tconnect.io/modal';
 import { TConnectTezosBeaconProvider } from '@tconnect.io/tezos-beacon-provider';
 import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
@@ -57,12 +57,23 @@ export const TezosConsumer = memo<TezosConsumerProps>(({ provider }) => {
 	}, [provider]);
 
 	const transfer = useCallback(async () => {
-		if (!tezos) {
+		if (!tezos || !provider) {
 			return;
 		}
-		const op = await tezos.wallet.transfer({ to: 'tz1h3rQ8wBxFd8L9B3d7Jhaawu6Z568XU3xY', amount: 1 }).send();
+		const transferParams: TransferParams = {
+			to: 'tz1h3rQ8wBxFd8L9B3d7Jhaawu6Z568XU3xY',
+			amount: 1,
+			mutez: true,
+		};
+		if (provider.walletApp === 'kukai') {
+			const estimation = await tezos.estimate.transfer(transferParams);
+			transferParams.fee = estimation.suggestedFeeMutez;
+			transferParams.gasLimit = estimation.gasLimit;
+			transferParams.storageLimit = estimation.storageLimit;
+		}
+		const op = await tezos.wallet.transfer(transferParams).send();
 		setTransactionHash(op.opHash);
-	}, [tezos]);
+	}, [tezos, provider]);
 
 	return (
 		<Col className="gap-y-row">

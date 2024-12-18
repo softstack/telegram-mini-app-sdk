@@ -11,7 +11,13 @@ import {
 } from '@taquito/taquito';
 import { parse, sleep, stringify, TypedEvent } from '@tconnect.io/core';
 import { CommunicationController } from '@tconnect.io/dapp-communication';
-import { getErrorMessage, isAndroid, openLink } from '@tconnect.io/dapp-utils';
+import {
+	formatTransactionAmount,
+	getErrorMessage,
+	isAndroid,
+	openLink,
+	toIntegerString,
+} from '@tconnect.io/dapp-utils';
 import {
 	EVENT_CHANNEL,
 	REQUEST_CHANNEL,
@@ -317,13 +323,23 @@ export class TConnectTezosWcProvider extends TypedEvent<TConnectTezosWcProviderE
 	async mapTransferParamsToWalletParams(params: () => Promise<WalletTransferParams>): Promise<any> {
 		const transferParameters = await params();
 		console.log('mapTransferParamsToWalletParams()', transferParameters);
+		const address = await this.getPKH();
 		return {
-			account: await this.getPKH(),
+			account: address,
 			operations: [
 				{
 					kind: 'transaction',
-					amount: transferParameters.amount,
+					source: address,
 					destination: transferParameters.to,
+					amount: formatTransactionAmount(transferParameters.amount, transferParameters.mutez),
+					parameters: transferParameters.parameter,
+					fee: transferParameters.fee === undefined ? undefined : toIntegerString(transferParameters.fee),
+					gas_limit:
+						transferParameters.gasLimit === undefined ? undefined : toIntegerString(transferParameters.gasLimit),
+					storage_limit:
+						transferParameters.storageLimit === undefined
+							? undefined
+							: toIntegerString(transferParameters.storageLimit),
 				},
 			],
 		};

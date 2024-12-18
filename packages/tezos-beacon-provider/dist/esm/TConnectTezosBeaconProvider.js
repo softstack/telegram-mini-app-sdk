@@ -3,10 +3,9 @@ import { generateKeyPairFromSeed, sign } from '@stablelib/ed25519';
 import { encode } from '@stablelib/utf8';
 import { CallbackController, parse, stringify, TypedEvent } from '@tconnect.io/core';
 import { CommunicationController } from '@tconnect.io/dapp-communication';
-import { getErrorMessage, openLink, randomUUID } from '@tconnect.io/dapp-utils';
+import { formatTransactionAmount, getErrorMessage, openLink, randomUUID, toIntegerString, } from '@tconnect.io/dapp-utils';
 import { EVENT_CHANNEL, REQUEST_CHANNEL, SOCKET_IO_PATH, TezosBeaconError, } from '@tconnect.io/tezos-beacon-api-types';
 import bs58check from 'bs58check';
-import { formatTransactionAmount, toIntegerString } from './utils/base';
 import { createCryptoBoxClient, createCryptoBoxServer, decryptCryptoboxPayload, encryptCryptoboxPayload, getAddressFromPublicKey, getConnectionStringUniversalLink, getSenderId, getUniversalLink, openCryptobox, toHex, } from './utils/utils';
 import { isDisconnectMessage, isErrorResponse, isOperationResponse, isPairingResponse, isPermissionResponse, isSignPayloadResponse, validateTezosBeaconEvent, validateTezosBeaconResponse, } from './validation';
 export class TConnectTezosBeaconProvider extends TypedEvent {
@@ -66,13 +65,13 @@ export class TConnectTezosBeaconProvider extends TypedEvent {
         const transferParameters = await params();
         console.log('mapTransferParamsToWalletParams()', transferParameters);
         return {
-            amount: formatTransactionAmount(transferParameters.amount, transferParameters.mutez),
+            kind: 'transaction',
+            source: this._publicKey === undefined ? undefined : getAddressFromPublicKey(this._publicKey),
             destination: transferParameters.to,
+            amount: formatTransactionAmount(transferParameters.amount, transferParameters.mutez),
+            parameters: transferParameters.parameter,
             fee: transferParameters.fee === undefined ? undefined : toIntegerString(transferParameters.fee),
             gas_limit: transferParameters.gasLimit === undefined ? undefined : toIntegerString(transferParameters.gasLimit),
-            kind: 'transaction',
-            parameters: transferParameters.parameter,
-            source: this._publicKey === undefined ? undefined : getAddressFromPublicKey(this._publicKey),
             storage_limit: transferParameters.storageLimit === undefined ? undefined : toIntegerString(transferParameters.storageLimit),
         };
     }
