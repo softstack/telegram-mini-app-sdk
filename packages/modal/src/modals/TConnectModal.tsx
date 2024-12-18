@@ -1,7 +1,7 @@
 import { ETHERLINK_GHOSTNET_CHAIN_ID, ETHERLINK_MAINNET_CHAIN_ID } from '@tconnect.io/core';
 import { getOperatingSystem, openLink, randomUUID } from '@tconnect.io/dapp-utils';
-import { EvmNetwork } from '@tconnect.io/evm-api-types';
-import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
+import { EtherlinkNetwork } from '@tconnect.io/etherlink-api-types';
+import { TConnectEtherlinkProvider } from '@tconnect.io/etherlink-provider';
 import { TConnectTezosBeaconProvider, Network as TezosBeaconNetwork } from '@tconnect.io/tezos-beacon-provider';
 import { TezosWcNetwork } from '@tconnect.io/tezos-wc-api-types';
 import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
@@ -41,7 +41,7 @@ export interface TConnectModalProps {
 	bridgeUrl: string;
 	apiKey: string;
 	networkFilter: Array<'etherlink' | 'tezos'> | undefined;
-	evmNetwork: EvmNetwork | undefined;
+	etherlinkNetwork: EtherlinkNetwork | undefined;
 	tezosBeaconNetwork: TezosBeaconNetwork | undefined;
 	tezosWcNetwork: TezosWcNetwork | undefined;
 	step: Step;
@@ -50,8 +50,8 @@ export interface TConnectModalProps {
 	onChangeCurrentNetwork: (network: Network) => void;
 	currentWallet: Network['wallets'][0] | undefined;
 	onChangeCurrentWallet: (wallet: Network['wallets'][0]) => void;
-	evmProvider: TConnectEvmProvider | undefined;
-	onChangeEvmProvider: (provider: TConnectEvmProvider, chainId: bigint) => void;
+	etherlinkProvider: TConnectEtherlinkProvider | undefined;
+	onChangeEtherlinkProvider: (provider: TConnectEtherlinkProvider, chainId: bigint) => void;
 	tezosBeaconProvider: TConnectTezosBeaconProvider | undefined;
 	onChangeTezosBeaconProvider: (provider: TConnectTezosBeaconProvider) => void;
 	tezosWcProvider: TConnectTezosWcProvider | undefined;
@@ -75,8 +75,8 @@ export interface TConnectModalProps {
  * @param {Function} onChangeCurrentNetwork - Callback to change the current network.
  * @param {Wallet} currentWallet - The currently selected wallet.
  * @param {Function} onChangeCurrentWallet - Callback to change the current wallet.
- * @param {Provider} evmProvider - The provider for EVM-based networks.
- * @param {Function} onChangeEvmProvider - Callback to change the EVM provider.
+ * @param {Provider} etherlinkProvider - The provider for Etherlink based networks.
+ * @param {Function} onChangeEtherlinkProvider - Callback to change the Etherlink provider.
  * @param {Provider} tezosBeaconProvider - The provider for Tezos Beacon.
  * @param {Function} onChangeTezosBeaconProvider - Callback to change the Tezos Beacon provider.
  * @param {Provider} tezosWcProvider - The provider for Tezos WalletConnect.
@@ -94,7 +94,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 		bridgeUrl,
 		apiKey,
 		networkFilter,
-		evmNetwork = 'ghostnet',
+		etherlinkNetwork = 'ghostnet',
 		tezosBeaconNetwork = { type: 'ghostnet' },
 		tezosWcNetwork = 'ghostnet',
 		step,
@@ -103,8 +103,8 @@ export const TConnectModal = memo<TConnectModalProps>(
 		onChangeCurrentNetwork,
 		currentWallet,
 		onChangeCurrentWallet,
-		evmProvider,
-		onChangeEvmProvider,
+		etherlinkProvider,
+		onChangeEtherlinkProvider,
 		tezosBeaconProvider,
 		onChangeTezosBeaconProvider,
 		tezosWcProvider,
@@ -125,9 +125,9 @@ export const TConnectModal = memo<TConnectModalProps>(
 		useEffect(() => {
 			(async (): Promise<void> => {
 				try {
-					if (evmProvider) {
+					if (etherlinkProvider) {
 						const version = nextVersion();
-						const response = (await evmProvider.request({ method: 'eth_accounts' })) as Array<string>;
+						const response = (await etherlinkProvider.request({ method: 'eth_accounts' })) as Array<string>;
 						if (response.length > 0) {
 							setAddress(version, response[0]);
 							setShortAddress(version, `${response[0].slice(0, 12)}...${response[0].slice(-10)}`);
@@ -147,7 +147,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 					handleError(error);
 				}
 			})();
-		}, [evmProvider, tezosBeaconProvider, tezosWcProvider, setAddress, setShortAddress]);
+		}, [etherlinkProvider, tezosBeaconProvider, tezosWcProvider, setAddress, setShortAddress]);
 
 		const handleBackground = useCallback(
 			(event: MouseEvent<HTMLDivElement>) => {
@@ -177,7 +177,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 		const filteredNetworks = useMemo(() => {
 			try {
 				return NETWORKS.filter(
-					(network) => !networkFilter || networkFilter.includes(network.type === 'evm' ? 'etherlink' : 'tezos'),
+					(network) => !networkFilter || networkFilter.includes(network.type === 'etherlink' ? 'etherlink' : 'tezos'),
 				);
 			} catch (error) {
 				handleError(error);
@@ -195,7 +195,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 			try {
 				const operatingSystem = getOperatingSystem();
 				switch (currentNetwork?.type) {
-					case 'evm': {
+					case 'etherlink': {
 						return currentNetwork.wallets.filter(
 							(wallet) => !operatingSystem || wallet.supportedOperatingSystems.includes(operatingSystem),
 						);
@@ -219,27 +219,27 @@ export const TConnectModal = memo<TConnectModalProps>(
 					onChangeCurrentWallet(wallet);
 					setIsConnectingError(false);
 					switch (wallet.network) {
-						case 'evm': {
-							const provider = new TConnectEvmProvider({
+						case 'etherlink': {
+							const provider = new TConnectEtherlinkProvider({
 								appName,
 								appUrl,
 								appIcon,
 								bridgeUrl,
 								walletApp: wallet.walletApp,
 								apiKey,
-								network: evmNetwork,
+								network: etherlinkNetwork,
 							});
 
 							provider.once('connect', (info) => {
 								if (
-									(evmNetwork === 'mainnet' && BigInt(info.chainId) === ETHERLINK_MAINNET_CHAIN_ID) ||
-									(evmNetwork === 'ghostnet' && BigInt(info.chainId) === ETHERLINK_GHOSTNET_CHAIN_ID)
+									(etherlinkNetwork === 'mainnet' && BigInt(info.chainId) === ETHERLINK_MAINNET_CHAIN_ID) ||
+									(etherlinkNetwork === 'ghostnet' && BigInt(info.chainId) === ETHERLINK_GHOSTNET_CHAIN_ID)
 								) {
 									onChangeStep('connected');
 								} else {
 									onChangeStep('invalidChainId');
 								}
-								onChangeEvmProvider(provider, BigInt(info.chainId));
+								onChangeEtherlinkProvider(provider, BigInt(info.chainId));
 							});
 
 							await provider.connect();
@@ -293,10 +293,10 @@ export const TConnectModal = memo<TConnectModalProps>(
 				appIcon,
 				bridgeUrl,
 				apiKey,
-				evmNetwork,
+				etherlinkNetwork,
 				tezosBeaconNetwork,
 				tezosWcNetwork,
-				onChangeEvmProvider,
+				onChangeEtherlinkProvider,
 				onChangeTezosBeaconProvider,
 				onChangeTezosWcProvider,
 			],
@@ -304,8 +304,8 @@ export const TConnectModal = memo<TConnectModalProps>(
 
 		// const handleAddEtherlink = useCallback(async () => {
 		// 	try {
-		// 		if (evmProvider) {
-		// 			await evmProvider.request({
+		// 		if (etherlinkProvider) {
+		// 			await etherlinkProvider.request({
 		// 				method: 'wallet_addEthereumChain',
 		// 				params: [
 		// 					{
@@ -326,7 +326,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 		// 	} catch (error) {
 		// 		handleError(error);
 		// 	}
-		// }, [evmProvider]);
+		// }, [etherlinkProvider]);
 
 		const toggleShowShortAddress = useCallback(() => {
 			try {
@@ -354,7 +354,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 			try {
 				if (currentWallet) {
 					switch (currentWallet.network) {
-						case 'evm': {
+						case 'etherlink': {
 							openLink(`https://explorer.etherlink.com/address/${address}`);
 							break;
 						}
@@ -429,7 +429,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 									currentWallet && (
 										<Fragment>
 											<TextButton text="Try again" onClick={() => handleChangeWallet(currentWallet)} />
-											{currentWallet.network === 'evm' && (
+											{currentWallet.network === 'etherlink' && (
 												<Fragment>
 													<Row className="text-center text-red-500">
 														If you have issues, please make sure Etherlink has been added to {currentWallet.name}
@@ -439,16 +439,19 @@ export const TConnectModal = memo<TConnectModalProps>(
 														manually
 													</Row>
 													<CopyButton
-														text={evmNetwork === 'mainnet' ? ADD_ETHERLINK_MAINNET_URL : ADD_ETHERLINK_GHOSTNET_URL}
+														text={
+															etherlinkNetwork === 'mainnet' ? ADD_ETHERLINK_MAINNET_URL : ADD_ETHERLINK_GHOSTNET_URL
+														}
 													/>
 													<Col className="gap-y-3 self-start pt-2">
-														{(evmNetwork === 'mainnet' ? ETHERLINK_MAINNET_DETAILS : ETHERLINK_GHOSTNET_DETAILS).map(
-															({ label, value }, index) => (
-																<Labelled key={index} label={label}>
-																	<CopyButton text={value} />
-																</Labelled>
-															),
-														)}
+														{(etherlinkNetwork === 'mainnet'
+															? ETHERLINK_MAINNET_DETAILS
+															: ETHERLINK_GHOSTNET_DETAILS
+														).map(({ label, value }, index) => (
+															<Labelled key={index} label={label}>
+																<CopyButton text={value} />
+															</Labelled>
+														))}
 													</Col>
 												</Fragment>
 											)}

@@ -1,24 +1,24 @@
-import { EvmWalletApp, TConnectEvmProvider } from '@tconnect.io/evm-provider';
+import { EtherlinkWalletApp, TConnectEtherlinkProvider } from '@tconnect.io/etherlink-provider';
 import { ethers } from 'ethers';
 import { memo, useCallback, useState } from 'react';
-import { Evm, Step } from '../components/Evm';
+import { Etherlink, Step } from '../components/Etherlink';
 import { APP_NAME } from '../constants/constants';
 import { APP_URL, BRIDGE_URL } from '../constants/environment';
 
 export const Ethers = memo(() => {
 	const [step, setStep] = useState<Step>('start');
-	const [eipProvider, setEipProvider] = useState<TConnectEvmProvider | undefined>();
+	const [eipProvider, setEipProvider] = useState<TConnectEtherlinkProvider | undefined>();
 	const [connectionString, setConnectionString] = useState<string | undefined>();
 	const [chainId, setChainId] = useState<string | undefined>();
 	const [address, setAddress] = useState<string | undefined>();
 	const [balance, setBalance] = useState<string | undefined>();
 	const [signature, setSignature] = useState<string | undefined>();
 
-	const connect = useCallback(async (walletApp?: EvmWalletApp) => {
+	const connect = useCallback(async (walletApp?: EtherlinkWalletApp) => {
 		try {
 			setStep('connecting');
 
-			const provider = new TConnectEvmProvider({
+			const provider = new TConnectEtherlinkProvider({
 				appName: APP_NAME,
 				appUrl: APP_URL,
 				bridgeUrl: BRIDGE_URL,
@@ -99,7 +99,7 @@ export const Ethers = memo(() => {
 	}, [eipProvider]);
 
 	return (
-		<Evm
+		<Etherlink
 			step={step}
 			connect={connect}
 			connectionString={connectionString}

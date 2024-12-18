@@ -1,5 +1,5 @@
-import { EvmNetwork } from '@tconnect.io/evm-api-types';
-import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
+import { EtherlinkNetwork } from '@tconnect.io/etherlink-api-types';
+import { TConnectEtherlinkProvider } from '@tconnect.io/etherlink-provider';
 import { TConnectTezosBeaconProvider, Network as TezosBeaconNetwork } from '@tconnect.io/tezos-beacon-provider';
 import { TezosWcNetwork } from '@tconnect.io/tezos-wc-api-types';
 import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
@@ -12,7 +12,7 @@ export interface TConnectModalProps {
     bridgeUrl: string;
     apiKey: string;
     networkFilter: Array<'etherlink' | 'tezos'> | undefined;
-    evmNetwork: EvmNetwork | undefined;
+    etherlinkNetwork: EtherlinkNetwork | undefined;
     tezosBeaconNetwork: TezosBeaconNetwork | undefined;
     tezosWcNetwork: TezosWcNetwork | undefined;
     step: Step;
@@ -21,8 +21,8 @@ export interface TConnectModalProps {
     onChangeCurrentNetwork: (network: Network) => void;
     currentWallet: Network['wallets'][0] | undefined;
     onChangeCurrentWallet: (wallet: Network['wallets'][0]) => void;
-    evmProvider: TConnectEvmProvider | undefined;
-    onChangeEvmProvider: (provider: TConnectEvmProvider, chainId: bigint) => void;
+    etherlinkProvider: TConnectEtherlinkProvider | undefined;
+    onChangeEtherlinkProvider: (provider: TConnectEtherlinkProvider, chainId: bigint) => void;
     tezosBeaconProvider: TConnectTezosBeaconProvider | undefined;
     onChangeTezosBeaconProvider: (provider: TConnectTezosBeaconProvider) => void;
     tezosWcProvider: TConnectTezosWcProvider | undefined;

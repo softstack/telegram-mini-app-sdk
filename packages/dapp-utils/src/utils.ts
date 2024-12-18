@@ -1,5 +1,5 @@
 import { randomBytes } from '@stablelib/random';
-import { EvmErrorType } from '@tconnect.io/evm-api-types';
+import { EtherlinkErrorType } from '@tconnect.io/etherlink-api-types';
 import { TezosBeaconErrorType } from '@tconnect.io/tezos-beacon-api-types';
 import { TezosWcErrorType } from '@tconnect.io/tezos-wc-api-types';
 import { UAParser } from 'ua-parser-js';
@@ -61,7 +61,7 @@ export const getOperatingSystem = (): OperatingSystem | undefined => {
  * ```
  */
 export const getErrorMessage = (
-	errorType: Exclude<EvmErrorType | TezosBeaconErrorType | TezosWcErrorType, 'generic'>,
+	errorType: Exclude<EtherlinkErrorType | TezosBeaconErrorType | TezosWcErrorType, 'generic'>,
 	message: string,
 ): string => {
 	if (message) {

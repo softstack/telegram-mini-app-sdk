@@ -1,6 +1,7 @@
 {
+	"deprecated": true,
 	"name": "@tconnect.io/evm-provider",
-	"version": "0.0.19",
+	"version": "0.0.20",
 	"description": "",
 	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",

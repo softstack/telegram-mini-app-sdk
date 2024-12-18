@@ -1,17 +1,17 @@
 export const TAILWIND_PREFIX = 'eotrzpirnbqlbfjhbqpo-';
-export const EVM_PROVIDER_STORAGE_KEY = 'evvcswyjarnlkwvdlrfr';
+export const ETHERLINK_PROVIDER_STORAGE_KEY = 'ksacuemelbykuqyutopv';
 export const TEZOS_BEACON_PROVIDER_STORAGE_KEY = 'jkdkvddgajorkvmywwub';
 export const TEZOS_WC_PROVIDER_STORAGE_KEY = 'nxmhhphkvgwzhmifdyus';
 export const NETWORKS = [
     {
-        type: 'evm',
+        type: 'etherlink',
         name: 'Etherlink',
         icon: 'etherlink',
         wallets: [
             {
                 name: 'Bitget',
                 icon: 'bitget',
-                network: 'evm',
+                network: 'etherlink',
                 walletApp: 'bitget',
                 addEtherlinkUrl: '',
                 supportedOperatingSystems: ['android', 'ios'],
@@ -19,7 +19,7 @@ export const NETWORKS = [
             {
                 name: 'MetaMask',
                 icon: 'metaMask',
-                network: 'evm',
+                network: 'etherlink',
                 walletApp: 'metaMask',
                 addEtherlinkUrl: '',
                 supportedOperatingSystems: ['android', 'ios'],
@@ -27,7 +27,7 @@ export const NETWORKS = [
             {
                 name: 'SafePal',
                 icon: 'safePal',
-                network: 'evm',
+                network: 'etherlink',
                 walletApp: 'safePal',
                 addEtherlinkUrl: '',
                 supportedOperatingSystems: ['android', 'ios'],
@@ -35,7 +35,7 @@ export const NETWORKS = [
             {
                 name: 'Trust',
                 icon: 'trust',
-                network: 'evm',
+                network: 'etherlink',
                 walletApp: 'trust',
                 addEtherlinkUrl: '',
                 supportedOperatingSystems: ['android', 'ios'],

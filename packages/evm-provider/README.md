@@ -1,3 +1,7 @@
+# DEPRECATED
+
+Use [@tconnect.io/etherlink-provider](https://www.npmjs.com/package/@tconnect.io/etherlink-provider)
+
 # @tconnect.io/evm-provider
 
 EIP-1193 provider package for Telegram Mini App interaction with [Etherlink](https://www.etherlink.com) blockchain using the WalletConnect protocol.

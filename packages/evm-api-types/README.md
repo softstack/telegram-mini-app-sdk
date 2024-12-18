@@ -1,3 +1,7 @@
+# DEPRECATED
+
+Use [@tconnect.io/etherlink-api-types](https://www.npmjs.com/package/@tconnect.io/etherlink-api-types)
+
 # @tconnect.io/evm-api-types
 
 API definitions for Telegram Mini App interaction with [Etherlink](https://www.etherlink.com) blockchain.

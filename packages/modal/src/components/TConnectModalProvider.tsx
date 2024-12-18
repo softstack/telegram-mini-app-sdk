@@ -1,18 +1,18 @@
 import { ETHERLINK_GHOSTNET_CHAIN_ID, ETHERLINK_MAINNET_CHAIN_ID } from '@tconnect.io/core';
-import { EvmNetwork as EvmNetworkType } from '@tconnect.io/evm-api-types';
-import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
+import { EtherlinkNetwork as EtherlinkNetworkType } from '@tconnect.io/etherlink-api-types';
+import { TConnectEtherlinkProvider } from '@tconnect.io/etherlink-provider';
 import { TConnectTezosBeaconProvider, Network as TezosBeaconNetwork } from '@tconnect.io/tezos-beacon-provider';
 import { TezosWcNetwork } from '@tconnect.io/tezos-wc-api-types';
 import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
 import { createContext, memo, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
-	EVM_PROVIDER_STORAGE_KEY,
+	ETHERLINK_PROVIDER_STORAGE_KEY,
 	NETWORKS,
 	TEZOS_BEACON_PROVIDER_STORAGE_KEY,
 	TEZOS_WC_PROVIDER_STORAGE_KEY,
 } from '../constants';
 import { Step, TConnectModal } from '../modals/TConnectModal';
-import { EvmNetwork, Network, TConnectModalContextValue, TezosNetwork } from '../types';
+import { EtherlinkNetwork, Network, TConnectModalContextValue, TezosNetwork } from '../types';
 import { handleError, nextVersion, useVersionedState } from '../utils';
 
 /**
@@ -21,7 +21,7 @@ import { handleError, nextVersion, useVersionedState } from '../utils';
  * @typedef {Object} TConnectModalContextValue
  * @property {Function} openModal - Function to open the modal.
  * @property {Function} closeModal - Function to close the modal.
- * @property {any} evmProvider - Ethereum provider, if available.
+ * @property {any} etherlinkProvider - Ethereum provider, if available.
  * @property {any} tezosBeaconProvider - Tezos Beacon provider, if available.
  * @property {any} tezosWcProvider - Tezos WalletConnect provider, if available.
  * @property {boolean} connected - Boolean indicating if a connection is established.
@@ -29,7 +29,7 @@ import { handleError, nextVersion, useVersionedState } from '../utils';
 export const TConnectModalContext = createContext<TConnectModalContextValue>({
 	openModal: () => undefined,
 	closeModal: () => undefined,
-	evmProvider: undefined,
+	etherlinkProvider: undefined,
 	tezosBeaconProvider: undefined,
 	tezosWcProvider: undefined,
 	connected: false,
@@ -42,7 +42,7 @@ export interface TConnectModalProviderProps {
 	bridgeUrl: string;
 	apiKey: string;
 	networkFilter?: Array<'etherlink' | 'tezos'>;
-	evmNetwork?: EvmNetworkType;
+	etherlinkNetwork?: EtherlinkNetworkType;
 	tezosBeaconNetwork?: TezosBeaconNetwork;
 	tezosWcNetwork?: TezosWcNetwork;
 	children?: ReactNode | undefined;
@@ -50,7 +50,7 @@ export interface TConnectModalProviderProps {
 
 /**
  * `TConnectModalProvider` is a React component that provides context and state management for connecting to various blockchain networks and wallets.
- * It handles the connection logic for EVM, Tezos Beacon, and Tezos WalletConnect providers, and manages the state of the connection modal.
+ * It handles the connection logic for Etherlink, Tezos Beacon, and Tezos WalletConnect providers, and manages the state of the connection modal.
  *
  * @param {TConnectModalProviderProps} props - The properties for the `TConnectModalProvider` component.
  * @param {string} props.bridgeUrl - The URL of the bridge server.
@@ -81,7 +81,7 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 		bridgeUrl,
 		apiKey,
 		networkFilter,
-		evmNetwork,
+		etherlinkNetwork,
 		tezosBeaconNetwork,
 		tezosWcNetwork,
 		children,
@@ -91,7 +91,9 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 		const [step, setStep] = useState<Step>('connect');
 		const [currentNetwork, setCurrentNetwork] = useState<Network | undefined>(undefined);
 		const [currentWallet, setCurrentWallet] = useState<Network['wallets'][0] | undefined>(undefined);
-		const [evmProvider, setEvmProvider] = useVersionedState<TConnectEvmProvider | undefined>(undefined);
+		const [etherlinkProvider, setEtherlinkProvider] = useVersionedState<TConnectEtherlinkProvider | undefined>(
+			undefined,
+		);
 		const [tezosBeaconProvider, setTezosBeaconProvider] = useVersionedState<TConnectTezosBeaconProvider | undefined>(
 			undefined,
 		);
@@ -101,29 +103,29 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 		useEffect(() => {
 			(async (): Promise<void> => {
 				try {
-					const item = sessionStorage.getItem(EVM_PROVIDER_STORAGE_KEY);
+					const item = sessionStorage.getItem(ETHERLINK_PROVIDER_STORAGE_KEY);
 					if (item) {
 						const version = nextVersion();
-						const provider = await TConnectEvmProvider.deserialize(item);
-						setEvmProvider(version, provider);
+						const provider = await TConnectEtherlinkProvider.deserialize(item);
+						setEtherlinkProvider(version, provider);
 					}
 				} catch (error) {
 					handleError(error);
 				}
 			})();
-		}, [setEvmProvider]);
+		}, [setEtherlinkProvider]);
 
 		useEffect(() => {
 			try {
-				if (evmProvider) {
-					sessionStorage.setItem(EVM_PROVIDER_STORAGE_KEY, evmProvider.serialize());
+				if (etherlinkProvider) {
+					sessionStorage.setItem(ETHERLINK_PROVIDER_STORAGE_KEY, etherlinkProvider.serialize());
 				} else {
-					sessionStorage.removeItem(EVM_PROVIDER_STORAGE_KEY);
+					sessionStorage.removeItem(ETHERLINK_PROVIDER_STORAGE_KEY);
 				}
 			} catch (error) {
 				handleError(error);
 			}
-		}, [evmProvider]);
+		}, [etherlinkProvider]);
 
 		useEffect(() => {
 			(async (): Promise<void> => {
@@ -181,10 +183,12 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 
 		const openModal = useCallback(() => {
 			try {
-				if (evmProvider) {
-					const network = NETWORKS.find((network) => network.type === 'evm');
+				if (etherlinkProvider) {
+					const network = NETWORKS.find((network) => network.type === 'etherlink');
 					if (network) {
-						const wallet = (network as EvmNetwork).wallets.find((wallet) => wallet.walletApp === evmProvider.walletApp);
+						const wallet = (network as EtherlinkNetwork).wallets.find(
+							(wallet) => wallet.walletApp === etherlinkProvider.walletApp,
+						);
 						if (wallet) {
 							setStep('connected');
 							setCurrentNetwork(network);
@@ -224,7 +228,7 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 			} catch (error) {
 				handleError(error);
 			}
-		}, [evmProvider, tezosBeaconProvider, tezosWcProvider]);
+		}, [etherlinkProvider, tezosBeaconProvider, tezosWcProvider]);
 
 		const closeModal = useCallback(async () => {
 			try {
@@ -235,18 +239,20 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 			}
 		}, []);
 
-		const handleChangeEvmProvider = useCallback(
-			async (provider: TConnectEvmProvider, chainId: bigint) => {
+		const handleChangeEtherlinkProvider = useCallback(
+			async (provider: TConnectEtherlinkProvider, chainId: bigint) => {
 				try {
-					if (evmProvider) {
-						await evmProvider.disconnect();
+					if (etherlinkProvider) {
+						await etherlinkProvider.disconnect();
 					}
 
 					provider.on('disconnect', () => {
-						setEvmProvider(nextVersion(), (prevProvider) => (prevProvider === provider ? undefined : prevProvider));
+						setEtherlinkProvider(nextVersion(), (prevProvider) =>
+							prevProvider === provider ? undefined : prevProvider,
+						);
 					});
 
-					setEvmProvider(nextVersion(), provider);
+					setEtherlinkProvider(nextVersion(), provider);
 					if (chainId === ETHERLINK_MAINNET_CHAIN_ID || chainId === ETHERLINK_GHOSTNET_CHAIN_ID) {
 						closeModal();
 					}
@@ -254,7 +260,7 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 					handleError(error);
 				}
 			},
-			[evmProvider, setEvmProvider, closeModal],
+			[etherlinkProvider, setEtherlinkProvider, closeModal],
 		);
 
 		const handleChangeTezosBeaconProvider = useCallback(
@@ -304,23 +310,24 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 				try {
 					const version = nextVersion();
 					const tmpConnected =
-						((step !== 'invalidChainId' && (await evmProvider?.connected())) || tezosBeaconProvider?.connected()) ??
+						((step !== 'invalidChainId' && (await etherlinkProvider?.connected())) ||
+							tezosBeaconProvider?.connected()) ??
 						false;
 					setConnected(version, tmpConnected);
 				} catch (error) {
 					handleError(error);
 				}
 			})();
-		}, [step, evmProvider, tezosBeaconProvider, setConnected]);
+		}, [step, etherlinkProvider, tezosBeaconProvider, setConnected]);
 
 		const handleDisconnect = useCallback(async () => {
 			try {
 				await Promise.all([
-					evmProvider?.disconnect(),
+					etherlinkProvider?.disconnect(),
 					tezosBeaconProvider?.disconnect(),
 					tezosWcProvider?.disconnect(),
 				]);
-				setEvmProvider(nextVersion(), undefined);
+				setEtherlinkProvider(nextVersion(), undefined);
 				setTezosBeaconProvider(nextVersion(), undefined);
 				setTezosWcProvider(nextVersion(), undefined);
 				closeModal();
@@ -328,10 +335,10 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 				handleError(error);
 			}
 		}, [
-			evmProvider,
+			etherlinkProvider,
 			tezosBeaconProvider,
 			tezosWcProvider,
-			setEvmProvider,
+			setEtherlinkProvider,
 			setTezosBeaconProvider,
 			setTezosWcProvider,
 			closeModal,
@@ -341,12 +348,12 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 			() => ({
 				openModal,
 				closeModal,
-				evmProvider: step === 'invalidChainId' ? undefined : evmProvider,
+				etherlinkProvider: step === 'invalidChainId' ? undefined : etherlinkProvider,
 				tezosBeaconProvider,
 				tezosWcProvider,
 				connected,
 			}),
-			[openModal, closeModal, step, evmProvider, tezosBeaconProvider, tezosWcProvider, connected],
+			[openModal, closeModal, step, etherlinkProvider, tezosBeaconProvider, tezosWcProvider, connected],
 		);
 
 		return (
@@ -360,7 +367,7 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 						bridgeUrl={bridgeUrl}
 						apiKey={apiKey}
 						networkFilter={networkFilter}
-						evmNetwork={evmNetwork}
+						etherlinkNetwork={etherlinkNetwork}
 						tezosBeaconNetwork={tezosBeaconNetwork}
 						tezosWcNetwork={tezosWcNetwork}
 						step={step}
@@ -369,8 +376,8 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 						onChangeCurrentNetwork={setCurrentNetwork}
 						currentWallet={currentWallet}
 						onChangeCurrentWallet={setCurrentWallet}
-						evmProvider={evmProvider}
-						onChangeEvmProvider={handleChangeEvmProvider}
+						etherlinkProvider={etherlinkProvider}
+						onChangeEtherlinkProvider={handleChangeEtherlinkProvider}
 						tezosBeaconProvider={tezosBeaconProvider}
 						onChangeTezosBeaconProvider={handleChangeTezosBeaconProvider}
 						tezosWcProvider={tezosWcProvider}

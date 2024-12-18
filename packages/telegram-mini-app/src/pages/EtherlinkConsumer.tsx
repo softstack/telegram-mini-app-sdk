@@ -1,4 +1,4 @@
-import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
+import { TConnectEtherlinkProvider } from '@tconnect.io/etherlink-provider';
 import { useTConnectModal } from '@tconnect.io/modal';
 import { Fragment, memo, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -7,11 +7,11 @@ import { TextButton } from '../components/buttons/TextButton';
 import { Col } from '../components/flex/Col';
 import { Row } from '../components/flex/Row';
 
-export interface EvmConsumerProps {
-	provider: TConnectEvmProvider;
+export interface EtherlinkConsumerProps {
+	provider: TConnectEtherlinkProvider;
 }
 
-export const EvmConsumer = memo<EvmConsumerProps>(({ provider }) => {
+export const EtherlinkConsumer = memo<EtherlinkConsumerProps>(({ provider }) => {
 	const tConnect = useTConnectModal();
 	const [chainId, setChainId] = useState<string | undefined>();
 	const [address, setAddress] = useState<string | undefined>();
@@ -89,7 +89,7 @@ export const EvmConsumer = memo<EvmConsumerProps>(({ provider }) => {
 
 	return (
 		<Col className="gap-y-row">
-			<Row className="px-pageFrame text-2xl">EVM</Row>
+			<Row className="px-pageFrame text-2xl">Etherlink</Row>
 			<TextButton text="Disconnect" onClick={tConnect.openModal} />
 			<TextButton text="Get Chain ID" onClick={getChainId} />
 			<TextButton text="Get Address" onClick={getAddress} />
@@ -111,4 +111,4 @@ export const EvmConsumer = memo<EvmConsumerProps>(({ provider }) => {
 	);
 });
 
-EvmConsumer.displayName = 'EvmConsumer';
+EtherlinkConsumer.displayName = 'EtherlinkConsumer';

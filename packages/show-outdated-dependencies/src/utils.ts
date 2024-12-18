@@ -36,7 +36,7 @@ export const isValidVersionBump = (packagePack: PackagePack, packageView: Packag
 export const getOutdatedDependentPackages = (packages: Array<Package>): Array<OutdatedDependentPackage> => {
 	const outdatedDependentPackages = new Array<OutdatedDependentPackage>();
 	for (const { packageJson: dependent } of packages) {
-		if (dependent.dependencies) {
+		if (!dependent.deprecated && dependent.dependencies) {
 			const outdatedDependentPackage: OutdatedDependentPackage = {
 				dependentName: dependent.name,
 				dependencies: [],

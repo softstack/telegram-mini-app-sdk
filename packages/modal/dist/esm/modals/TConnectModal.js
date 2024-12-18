@@ -1,7 +1,7 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { ETHERLINK_GHOSTNET_CHAIN_ID, ETHERLINK_MAINNET_CHAIN_ID } from '@tconnect.io/core';
 import { getOperatingSystem, openLink, randomUUID } from '@tconnect.io/dapp-utils';
-import { TConnectEvmProvider } from '@tconnect.io/evm-provider';
+import { TConnectEtherlinkProvider } from '@tconnect.io/etherlink-provider';
 import { TConnectTezosBeaconProvider } from '@tconnect.io/tezos-beacon-provider';
 import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
 import { clsx } from 'clsx';
@@ -22,7 +22,7 @@ import { Header } from '../components/Header';
 import { Labelled } from '../components/Labelled';
 import { ADD_ETHERLINK_GHOSTNET_URL, ADD_ETHERLINK_MAINNET_URL, ETHERLINK_GHOSTNET_DETAILS, ETHERLINK_MAINNET_DETAILS, NETWORKS, TOAST_CONTAINER_ID, } from '../constants';
 import { handleError, nextVersion, useDarkMode, useVersionedState } from '../utils';
-export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey, networkFilter, evmNetwork = 'ghostnet', tezosBeaconNetwork = { type: 'ghostnet' }, tezosWcNetwork = 'ghostnet', step, onChangeStep, currentNetwork, onChangeCurrentNetwork, currentWallet, onChangeCurrentWallet, evmProvider, onChangeEvmProvider, tezosBeaconProvider, onChangeTezosBeaconProvider, tezosWcProvider, onChangeTezosWcProvider, onDisconnect, onClose, }) => {
+export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey, networkFilter, etherlinkNetwork = 'ghostnet', tezosBeaconNetwork = { type: 'ghostnet' }, tezosWcNetwork = 'ghostnet', step, onChangeStep, currentNetwork, onChangeCurrentNetwork, currentWallet, onChangeCurrentWallet, etherlinkProvider, onChangeEtherlinkProvider, tezosBeaconProvider, onChangeTezosBeaconProvider, tezosWcProvider, onChangeTezosWcProvider, onDisconnect, onClose, }) => {
     const darkMode = useDarkMode();
     const backgroundElement = useRef(null);
     const [showNetworks, setShowNetworks] = useState(true);
@@ -35,9 +35,9 @@ export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey
     useEffect(() => {
         (async () => {
             try {
-                if (evmProvider) {
+                if (etherlinkProvider) {
                     const version = nextVersion();
-                    const response = (await evmProvider.request({ method: 'eth_accounts' }));
+                    const response = (await etherlinkProvider.request({ method: 'eth_accounts' }));
                     if (response.length > 0) {
                         setAddress(version, response[0]);
                         setShortAddress(version, `${response[0].slice(0, 12)}...${response[0].slice(-10)}`);
@@ -60,7 +60,7 @@ export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey
                 handleError(error);
             }
         })();
-    }, [evmProvider, tezosBeaconProvider, tezosWcProvider, setAddress, setShortAddress]);
+    }, [etherlinkProvider, tezosBeaconProvider, tezosWcProvider, setAddress, setShortAddress]);
     const handleBackground = useCallback((event) => {
         try {
             if (event.target === backgroundElement.current) {
@@ -82,7 +82,7 @@ export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey
     }, [onChangeCurrentNetwork]);
     const filteredNetworks = useMemo(() => {
         try {
-            return NETWORKS.filter((network) => !networkFilter || networkFilter.includes(network.type === 'evm' ? 'etherlink' : 'tezos'));
+            return NETWORKS.filter((network) => !networkFilter || networkFilter.includes(network.type === 'etherlink' ? 'etherlink' : 'tezos'));
         }
         catch (error) {
             handleError(error);
@@ -98,7 +98,7 @@ export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey
         try {
             const operatingSystem = getOperatingSystem();
             switch (currentNetwork?.type) {
-                case 'evm': {
+                case 'etherlink': {
                     return currentNetwork.wallets.filter((wallet) => !operatingSystem || wallet.supportedOperatingSystems.includes(operatingSystem));
                 }
                 case 'tezos': {
@@ -117,25 +117,25 @@ export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey
             onChangeCurrentWallet(wallet);
             setIsConnectingError(false);
             switch (wallet.network) {
-                case 'evm': {
-                    const provider = new TConnectEvmProvider({
+                case 'etherlink': {
+                    const provider = new TConnectEtherlinkProvider({
                         appName,
                         appUrl,
                         appIcon,
                         bridgeUrl,
                         walletApp: wallet.walletApp,
                         apiKey,
-                        network: evmNetwork,
+                        network: etherlinkNetwork,
                     });
                     provider.once('connect', (info) => {
-                        if ((evmNetwork === 'mainnet' && BigInt(info.chainId) === ETHERLINK_MAINNET_CHAIN_ID) ||
-                            (evmNetwork === 'ghostnet' && BigInt(info.chainId) === ETHERLINK_GHOSTNET_CHAIN_ID)) {
+                        if ((etherlinkNetwork === 'mainnet' && BigInt(info.chainId) === ETHERLINK_MAINNET_CHAIN_ID) ||
+                            (etherlinkNetwork === 'ghostnet' && BigInt(info.chainId) === ETHERLINK_GHOSTNET_CHAIN_ID)) {
                             onChangeStep('connected');
                         }
                         else {
                             onChangeStep('invalidChainId');
                         }
-                        onChangeEvmProvider(provider, BigInt(info.chainId));
+                        onChangeEtherlinkProvider(provider, BigInt(info.chainId));
                     });
                     await provider.connect();
                     break;
@@ -188,10 +188,10 @@ export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey
         appIcon,
         bridgeUrl,
         apiKey,
-        evmNetwork,
+        etherlinkNetwork,
         tezosBeaconNetwork,
         tezosWcNetwork,
-        onChangeEvmProvider,
+        onChangeEtherlinkProvider,
         onChangeTezosBeaconProvider,
         onChangeTezosWcProvider,
     ]);
@@ -221,7 +221,7 @@ export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey
         try {
             if (currentWallet) {
                 switch (currentWallet.network) {
-                    case 'evm': {
+                    case 'etherlink': {
                         openLink(`https://explorer.etherlink.com/address/${address}`);
                         break;
                     }
@@ -242,7 +242,9 @@ export const TConnectModal = memo(({ appName, appUrl, appIcon, bridgeUrl, apiKey
                                         }) })), _jsx(Accordion, { title: "Select Wallet", open: showWallets, onChangeOpen: setShowWallets, children: wallets.map((wallet) => {
                                             const { name, icon } = wallet;
                                             return (_jsx(GridButton, { icon: icon, text: name, selected: false, onClick: () => handleChangeWallet(wallet) }, name));
-                                        }) })] })) })] })) : step === 'connecting' ? (_jsxs(Fragment, { children: [_jsx(Header, { title: "Connecting", onClose: onClose }), _jsx(Col, { className: "items-center gap-y-pageFrame overflow-y-scroll p-pageFrame", children: isConnectingError ? (currentWallet && (_jsxs(Fragment, { children: [_jsx(TextButton, { text: "Try again", onClick: () => handleChangeWallet(currentWallet) }), currentWallet.network === 'evm' && (_jsxs(Fragment, { children: [_jsxs(Row, { className: "text-center text-red-500", children: ["If you have issues, please make sure Etherlink has been added to ", currentWallet.name] }), _jsx(Row, { children: "You can either visit the link below via your wallet\u2019s browser or add Etherlink manually" }), _jsx(CopyButton, { text: evmNetwork === 'mainnet' ? ADD_ETHERLINK_MAINNET_URL : ADD_ETHERLINK_GHOSTNET_URL }), _jsx(Col, { className: "gap-y-3 self-start pt-2", children: (evmNetwork === 'mainnet' ? ETHERLINK_MAINNET_DETAILS : ETHERLINK_GHOSTNET_DETAILS).map(({ label, value }, index) => (_jsx(Labelled, { label: label, children: _jsx(CopyButton, { text: value }) }, index))) })] }))] }))) : (_jsxs(Fragment, { children: [_jsx(BeatLoader, { size: 8, color: darkMode ? '#fff' : '#000' }), _jsxs(Col, { className: "items-center gap-y-2", children: [_jsx(Row, { children: "Connecting Wallet" }), currentWallet && _jsxs(Row, { className: "text-sm", children: ["Please confirm in ", currentWallet.name] })] })] })) })] })) : step === 'invalidChainId' ? (_jsxs(Fragment, { children: [_jsx(Header, { title: "Unsupported Network", onClose: onClose }), _jsxs(Col, { className: "gap-y-pageFrame overflow-y-scroll p-pageFrame", children: [_jsxs(Row, { children: ["Please select Etherlink in ", currentWallet?.name] }), _jsxs(Row, { children: ["If Etherlink has not been added to ", currentWallet?.name, " yet, you can find a how-to here"] }), _jsx(TextButton, { text: "I have selected Etherlink", onClick: onClose })] })] })) : step === 'connected' ? (_jsxs(Fragment, { children: [_jsx(Header, { title: "Account Details", onClose: onClose }), _jsxs(Col, { className: "gap-y-pageFrame overflow-y-scroll p-pageFrame", children: [_jsxs(Col, { className: "gap-y-pageFrame rounded-lg border border-solid border-lineGrey p-3", children: [_jsxs(BaseButton, { className: "min-h-6 flex-row items-center gap-x-1.5", onClick: toggleShowShortAddress, children: [_jsx(Row, { className: "min-w[24px]", children: address && _jsx(Jazzicon, { diameter: 24, seed: jsNumberForAddress(address) }) }), _jsx(Row, { className: "break-all", children: showShortAddress ? shortAddress : address })] }), _jsxs(Row, { className: "justify-between", children: [_jsx(HorizontalIconTextButton, { icon: copiedAddress ? 'checkSolid' : 'copyRegular', iconColorSuccess: copiedAddress, text: "Copy address", onClick: handleCopyAddress }), _jsx(HorizontalIconTextButton, { icon: "fileLinesRegular", text: "View on explorer", onClick: handleShowExplorer })] })] }), _jsxs(Row, { className: "items-center justify-between", children: [_jsxs(Row, { className: "text-xs font-medium", children: ["Connected with ", currentWallet?.name] }), _jsx(BaseButton, { className: "items-center justify-center rounded-lg border border-solid border-[#ff8989] bg-[#ffe1e1] p-4 text-primaryText", onClick: onDisconnect, children: "Disconnect" })] })] })] })) : undefined }), _jsx(ToastContainer, { containerId: TOAST_CONTAINER_ID, position: "top-center", autoClose: 5000, hideProgressBar: false, newestOnTop: false, closeOnClick: true, rtl: false, pauseOnFocusLoss: true, draggable: true, pauseOnHover: true, theme: "colored", transition: Bounce })] }), document.body);
+                                        }) })] })) })] })) : step === 'connecting' ? (_jsxs(Fragment, { children: [_jsx(Header, { title: "Connecting", onClose: onClose }), _jsx(Col, { className: "items-center gap-y-pageFrame overflow-y-scroll p-pageFrame", children: isConnectingError ? (currentWallet && (_jsxs(Fragment, { children: [_jsx(TextButton, { text: "Try again", onClick: () => handleChangeWallet(currentWallet) }), currentWallet.network === 'etherlink' && (_jsxs(Fragment, { children: [_jsxs(Row, { className: "text-center text-red-500", children: ["If you have issues, please make sure Etherlink has been added to ", currentWallet.name] }), _jsx(Row, { children: "You can either visit the link below via your wallet\u2019s browser or add Etherlink manually" }), _jsx(CopyButton, { text: etherlinkNetwork === 'mainnet' ? ADD_ETHERLINK_MAINNET_URL : ADD_ETHERLINK_GHOSTNET_URL }), _jsx(Col, { className: "gap-y-3 self-start pt-2", children: (etherlinkNetwork === 'mainnet'
+                                                    ? ETHERLINK_MAINNET_DETAILS
+                                                    : ETHERLINK_GHOSTNET_DETAILS).map(({ label, value }, index) => (_jsx(Labelled, { label: label, children: _jsx(CopyButton, { text: value }) }, index))) })] }))] }))) : (_jsxs(Fragment, { children: [_jsx(BeatLoader, { size: 8, color: darkMode ? '#fff' : '#000' }), _jsxs(Col, { className: "items-center gap-y-2", children: [_jsx(Row, { children: "Connecting Wallet" }), currentWallet && _jsxs(Row, { className: "text-sm", children: ["Please confirm in ", currentWallet.name] })] })] })) })] })) : step === 'invalidChainId' ? (_jsxs(Fragment, { children: [_jsx(Header, { title: "Unsupported Network", onClose: onClose }), _jsxs(Col, { className: "gap-y-pageFrame overflow-y-scroll p-pageFrame", children: [_jsxs(Row, { children: ["Please select Etherlink in ", currentWallet?.name] }), _jsxs(Row, { children: ["If Etherlink has not been added to ", currentWallet?.name, " yet, you can find a how-to here"] }), _jsx(TextButton, { text: "I have selected Etherlink", onClick: onClose })] })] })) : step === 'connected' ? (_jsxs(Fragment, { children: [_jsx(Header, { title: "Account Details", onClose: onClose }), _jsxs(Col, { className: "gap-y-pageFrame overflow-y-scroll p-pageFrame", children: [_jsxs(Col, { className: "gap-y-pageFrame rounded-lg border border-solid border-lineGrey p-3", children: [_jsxs(BaseButton, { className: "min-h-6 flex-row items-center gap-x-1.5", onClick: toggleShowShortAddress, children: [_jsx(Row, { className: "min-w[24px]", children: address && _jsx(Jazzicon, { diameter: 24, seed: jsNumberForAddress(address) }) }), _jsx(Row, { className: "break-all", children: showShortAddress ? shortAddress : address })] }), _jsxs(Row, { className: "justify-between", children: [_jsx(HorizontalIconTextButton, { icon: copiedAddress ? 'checkSolid' : 'copyRegular', iconColorSuccess: copiedAddress, text: "Copy address", onClick: handleCopyAddress }), _jsx(HorizontalIconTextButton, { icon: "fileLinesRegular", text: "View on explorer", onClick: handleShowExplorer })] })] }), _jsxs(Row, { className: "items-center justify-between", children: [_jsxs(Row, { className: "text-xs font-medium", children: ["Connected with ", currentWallet?.name] }), _jsx(BaseButton, { className: "items-center justify-center rounded-lg border border-solid border-[#ff8989] bg-[#ffe1e1] p-4 text-primaryText", onClick: onDisconnect, children: "Disconnect" })] })] })] })) : undefined }), _jsx(ToastContainer, { containerId: TOAST_CONTAINER_ID, position: "top-center", autoClose: 5000, hideProgressBar: false, newestOnTop: false, closeOnClick: true, rtl: false, pauseOnFocusLoss: true, draggable: true, pauseOnHover: true, theme: "colored", transition: Bounce })] }), document.body);
 });
 TConnectModal.displayName = 'TConnectModal';
 //# sourceMappingURL=TConnectModal.js.map

@@ -9,7 +9,11 @@ dotenv.config();
 const showPackages = (packages: Array<Package>): void => {
 	const outputLines = new Array<string>();
 	for (const { packageJson } of packages) {
-		outputLines.push(`${packageJson.name} ${packageJson.version}` + (packageJson.private ? ' (private)' : ''));
+		outputLines.push(
+			`${packageJson.name} ${packageJson.version}` +
+				(packageJson.private ? ' (private)' : '') +
+				(packageJson.deprecated ? ' (deprecated)' : ''),
+		);
 	}
 	if (outputLines.length === 0) {
 		console.log('No packages found.');
@@ -155,7 +159,16 @@ const main = async (): Promise<void> => {
 							packageView: undefined,
 						};
 					} else {
-						const packageView = JSON.parse(await execute(`npm view --json ${packageJson.name}`)) as PackageView;
+						let packageView: PackageView | undefined;
+						try {
+							packageView = JSON.parse(await execute(`npm view --json ${packageJson.name}`)) as PackageView;
+						} catch (error) {
+							if (error instanceof Error && error.message.includes('npm error code E404')) {
+								console.error(error.message);
+							} else {
+								throw error;
+							}
+						}
 						const packagePack = JSON.parse(
 							await execute(`npm pack --json --dry-run --workspace ${packageJson.name}`),
 						)[0] as PackagePack;

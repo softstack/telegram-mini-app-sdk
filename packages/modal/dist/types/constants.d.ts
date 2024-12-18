@@ -1,6 +1,6 @@
 import { Network } from './types';
 export declare const TAILWIND_PREFIX = "eotrzpirnbqlbfjhbqpo-";
-export declare const EVM_PROVIDER_STORAGE_KEY = "evvcswyjarnlkwvdlrfr";
+export declare const ETHERLINK_PROVIDER_STORAGE_KEY = "ksacuemelbykuqyutopv";
 export declare const TEZOS_BEACON_PROVIDER_STORAGE_KEY = "jkdkvddgajorkvmywwub";
 export declare const TEZOS_WC_PROVIDER_STORAGE_KEY = "nxmhhphkvgwzhmifdyus";
 export declare const NETWORKS: Array<Network>;
