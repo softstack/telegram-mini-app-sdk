@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/modal",
-	"version": "0.0.22",
+	"version": "0.0.23",
 	"description": "",
 	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",
@@ -39,25 +39,25 @@
 	},
 	"dependencies": {
 		"@tconnect.io/dapp-utils": "^0.0.13",
-		"@tconnect.io/evm-provider": "^0.0.18",
-		"@tconnect.io/tezos-beacon-provider": "^0.0.19",
-		"@tconnect.io/tezos-wc-provider": "^0.0.17",
+		"@tconnect.io/evm-provider": "^0.0.19",
+		"@tconnect.io/tezos-beacon-provider": "^0.0.20",
+		"@tconnect.io/tezos-wc-provider": "^0.0.18",
 		"clsx": "^2.1.1",
 		"react-inlinesvg": "^4.1.3",
 		"react-jazzicon": "^1.0.4",
-		"react-spinners": "^0.14.1",
-		"react-toastify": "^10.0.6",
-		"tailwind-merge": "^2.5.4"
+		"react-spinners": "^0.15.0",
+		"react-toastify": "^11.0.0",
+		"tailwind-merge": "^2.5.5"
 	},
 	"peerDependencies": {
 		"react": "*",
 		"react-dom": "*"
 	},
 	"devDependencies": {
-		"@types/react": "^18.3.1",
-		"@types/react-dom": "^18.3.1",
+		"@types/react": "^18.3.17",
+		"@types/react-dom": "^18.3.5",
 		"postcss-cli": "^11.0.0",
 		"postcss-prefix-selector": "^2.1.0",
-		"tailwindcss": "^3.4.13"
+		"tailwindcss": "^3.4.17"
 	}
 }

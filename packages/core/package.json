@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/core",
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"description": "",
 	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",
@@ -36,7 +36,7 @@
 		"prepublishOnly": "npm run build && npm test && npm run lint"
 	},
 	"dependencies": {
-		"@softstack/typed-stringify": "^3.0.0-alpha.2",
+		"@softstack/typed-stringify": "^3.0.0",
 		"joi": "^17.13.3"
 	}
 }

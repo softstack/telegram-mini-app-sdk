@@ -2,7 +2,6 @@ import { TConnectModalProvider } from '@tconnect.io/modal';
 import { Fragment, useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Bounce, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { Col } from './components/flex/Col';
 import { APP_NAME } from './constants/constants';
 import { API_KEY, APP_ICON, APP_URL, BRIDGE_URL } from './constants/environment';
