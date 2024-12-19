@@ -34,8 +34,8 @@ export interface EtherlinkNetwork {
 		name: string;
 		icon: IconType;
 		network: 'etherlink';
+		bridge: 'etherlink';
 		walletApp: EtherlinkWalletApp;
-		addEtherlinkUrl: string;
 		supportedOperatingSystems: Array<OperatingSystem>;
 	}>;
 }

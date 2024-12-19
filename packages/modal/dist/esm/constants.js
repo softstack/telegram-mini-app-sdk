@@ -12,33 +12,33 @@ export const NETWORKS = [
                 name: 'Bitget',
                 icon: 'bitget',
                 network: 'etherlink',
+                bridge: 'etherlink',
                 walletApp: 'bitget',
-                addEtherlinkUrl: '',
                 supportedOperatingSystems: ['android', 'ios'],
             },
             {
                 name: 'MetaMask',
                 icon: 'metaMask',
                 network: 'etherlink',
+                bridge: 'etherlink',
                 walletApp: 'metaMask',
-                addEtherlinkUrl: '',
                 supportedOperatingSystems: ['android', 'ios'],
             },
             {
                 name: 'SafePal',
                 icon: 'safePal',
                 network: 'etherlink',
+                bridge: 'etherlink',
                 walletApp: 'safePal',
-                addEtherlinkUrl: '',
                 supportedOperatingSystems: ['android', 'ios'],
             },
             {
                 name: 'Trust',
                 icon: 'trust',
                 network: 'etherlink',
+                bridge: 'etherlink',
                 walletApp: 'trust',
-                addEtherlinkUrl: '',
-                supportedOperatingSystems: ['android', 'ios'],
+                supportedOperatingSystems: ['android'],
             },
         ],
     },
@@ -74,19 +74,23 @@ export const NETWORKS = [
         ],
     },
 ];
+export const ETHERLINK_MAINNET_EXPLORER_URL = 'https://explorer.etherlink.com';
+export const ETHERLINK_GHOSTNET_EXPLORER_URL = 'https://testnet.explorer.etherlink.com';
+export const TEZOS_MAINNET_EXPLORER_URL = 'https://tzkt.io';
+export const TEZOS_GHOSTNET_EXPLORER_URL = 'https://ghostnet.tzkt.io';
 export const ETHERLINK_MAINNET_DETAILS = [
     { label: 'Network Name', value: 'Etherlink Mainnet' },
     { label: 'Chain ID', value: '42793' },
     { label: 'Symbol', value: 'XTZ' },
     { label: 'RPC URL', value: 'https://node.mainnet.etherlink.com' },
-    { label: 'Block Explorer URL', value: 'https://explorer.etherlink.com' },
+    { label: 'Block Explorer URL', value: ETHERLINK_MAINNET_EXPLORER_URL },
 ];
 export const ETHERLINK_GHOSTNET_DETAILS = [
     { label: 'Network Name', value: 'Etherlink Testnet' },
     { label: 'Chain ID', value: '128123' },
     { label: 'Symbol', value: 'XTZ' },
     { label: 'RPC URL', value: 'https://node.ghostnet.etherlink.com' },
-    { label: 'Block Explorer URL', value: '	https://testnet.explorer.etherlink.com' },
+    { label: 'Block Explorer URL', value: ETHERLINK_GHOSTNET_EXPLORER_URL },
 ];
 export const TOAST_CONTAINER_ID = 'qbpoorwpbcmnyejvnqad';
 export const ADD_ETHERLINK_MAINNET_URL = 'https://add-etherlink-mainnet.tconnect.io';

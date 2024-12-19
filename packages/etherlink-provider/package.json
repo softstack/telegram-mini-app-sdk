@@ -1,6 +1,6 @@
 {
 	"name": "@tconnect.io/etherlink-provider",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "",
 	"author": "Softstack GmbH <hello@softstack.io> (https://softstack.io)",
 	"license": "MIT",
@@ -37,8 +37,8 @@
 	},
 	"dependencies": {
 		"@tconnect.io/core": "^0.0.10",
-		"@tconnect.io/dapp-communication": "^0.0.16",
-		"@tconnect.io/dapp-utils": "^0.0.14",
+		"@tconnect.io/dapp-communication": "^0.0.17",
+		"@tconnect.io/dapp-utils": "^0.0.15",
 		"@tconnect.io/etherlink-api-types": "^0.0.1",
 		"joi": "^17.13.3"
 	}

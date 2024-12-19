@@ -25,7 +25,11 @@ export const getUniversalLink = (walletApp: EtherlinkWalletApp): string => {
 			return 'https://link.safepal.io';
 		}
 		case 'trust': {
-			return 'trust://wc';
+			if (isAndroid()) {
+				return 'trust://wc';
+			} else {
+				return 'https://link.trustwallet.com';
+			}
 		}
 	}
 };
@@ -57,7 +61,11 @@ export const getConnectionStringUniversalLink = (walletApp: EtherlinkWalletApp, 
 			return `https://link.safepal.io/wc?uri=${encodedConnectionString}`;
 		}
 		case 'trust': {
-			return `trust://wc?uri=${encodedConnectionString}`;
+			if (isAndroid()) {
+				return `trust://wc?uri=${encodedConnectionString}`;
+			} else {
+				return `https://link.trustwallet.com/wc?uri=${encodedConnectionString}`;
+			}
 		}
 	}
 };
