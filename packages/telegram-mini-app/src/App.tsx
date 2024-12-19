@@ -31,13 +31,13 @@ export const App = (): JSX.Element => {
 			}
 		};
 
-		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', listener);
-		if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+		globalThis.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', listener);
+		if (globalThis.matchMedia('(prefers-color-scheme: dark)').matches) {
 			document.body.classList.add('dark-mode');
 		}
 
 		return (): void => {
-			window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', listener);
+			globalThis.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', listener);
 		};
 	}, []);
 

@@ -460,7 +460,7 @@ export type MichelsonPrimitives =
 
 export type MichelineMichelsonV1Expression =
 	| { int: string }
-	| { string: string } // eslint-disable-line id-blacklist
+	| { string: string }
 	| { bytes: string }
 	| MichelineMichelsonV1Expression[]
 	| {

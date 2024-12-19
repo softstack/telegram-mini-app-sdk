@@ -4,6 +4,10 @@ export declare const ETHERLINK_PROVIDER_STORAGE_KEY = "ksacuemelbykuqyutopv";
 export declare const TEZOS_BEACON_PROVIDER_STORAGE_KEY = "jkdkvddgajorkvmywwub";
 export declare const TEZOS_WC_PROVIDER_STORAGE_KEY = "nxmhhphkvgwzhmifdyus";
 export declare const NETWORKS: Array<Network>;
+export declare const ETHERLINK_MAINNET_EXPLORER_URL = "https://explorer.etherlink.com";
+export declare const ETHERLINK_GHOSTNET_EXPLORER_URL = "https://testnet.explorer.etherlink.com";
+export declare const TEZOS_MAINNET_EXPLORER_URL = "https://tzkt.io";
+export declare const TEZOS_GHOSTNET_EXPLORER_URL = "https://ghostnet.tzkt.io";
 export declare const ETHERLINK_MAINNET_DETAILS: {
     label: string;
     value: string;

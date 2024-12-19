@@ -1,4 +1,4 @@
-import { ETHERLINK_GHOSTNET_CHAIN_ID, ETHERLINK_MAINNET_CHAIN_ID } from '@tconnect.io/core';
+import { ETHERLINK_GHOSTNET_CHAIN_ID, ETHERLINK_MAINNET_CHAIN_ID, joinUrl } from '@tconnect.io/core';
 import { getOperatingSystem, openLink, randomUUID } from '@tconnect.io/dapp-utils';
 import { EtherlinkNetwork } from '@tconnect.io/etherlink-api-types';
 import { TConnectEtherlinkProvider } from '@tconnect.io/etherlink-provider';
@@ -25,8 +25,12 @@ import {
 	ADD_ETHERLINK_GHOSTNET_URL,
 	ADD_ETHERLINK_MAINNET_URL,
 	ETHERLINK_GHOSTNET_DETAILS,
+	ETHERLINK_GHOSTNET_EXPLORER_URL,
 	ETHERLINK_MAINNET_DETAILS,
+	ETHERLINK_MAINNET_EXPLORER_URL,
 	NETWORKS,
+	TEZOS_GHOSTNET_EXPLORER_URL,
+	TEZOS_MAINNET_EXPLORER_URL,
 	TOAST_CONTAINER_ID,
 } from '../constants';
 import { Network } from '../types';
@@ -352,22 +356,27 @@ export const TConnectModal = memo<TConnectModalProps>(
 
 		const handleShowExplorer = useCallback(() => {
 			try {
-				if (currentWallet) {
-					switch (currentWallet.network) {
-						case 'etherlink': {
-							openLink(`https://explorer.etherlink.com/address/${address}`);
-							break;
-						}
-						case 'tezos': {
-							openLink(`https://tzkt.io/${address}`);
-							break;
-						}
+				if (currentWallet?.bridge === 'etherlink' && etherlinkProvider) {
+					const url =
+						etherlinkProvider?.network === 'ghostnet'
+							? ETHERLINK_GHOSTNET_EXPLORER_URL
+							: ETHERLINK_MAINNET_EXPLORER_URL;
+					if (address) {
+						openLink(joinUrl(url, 'address', address));
+					} else {
+						openLink(joinUrl(url));
+					}
+				} else if (tezosBeaconProvider || tezosWcProvider) {
+					if (tezosBeaconProvider?.network.type === 'ghostnet' || tezosWcProvider?.network === 'ghostnet') {
+						openLink(joinUrl(TEZOS_GHOSTNET_EXPLORER_URL, address ?? ''));
+					} else {
+						openLink(joinUrl(TEZOS_MAINNET_EXPLORER_URL, address ?? ''));
 					}
 				}
 			} catch (error) {
 				handleError(error);
 			}
-		}, [currentWallet, address]);
+		}, [currentWallet, address, etherlinkProvider, tezosBeaconProvider, tezosWcProvider]);
 
 		return createPortal(
 			<Col
@@ -426,37 +435,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 							<Header title="Connecting" onClose={onClose} />
 							<Col className="items-center gap-y-pageFrame overflow-y-scroll p-pageFrame">
 								{isConnectingError ? (
-									currentWallet && (
-										<Fragment>
-											<TextButton text="Try again" onClick={() => handleChangeWallet(currentWallet)} />
-											{currentWallet.network === 'etherlink' && (
-												<Fragment>
-													<Row className="text-center text-red-500">
-														If you have issues, please make sure Etherlink has been added to {currentWallet.name}
-													</Row>
-													<Row>
-														You can either visit the link below via your wallet&rsquo;s browser or add Etherlink
-														manually
-													</Row>
-													<CopyButton
-														text={
-															etherlinkNetwork === 'mainnet' ? ADD_ETHERLINK_MAINNET_URL : ADD_ETHERLINK_GHOSTNET_URL
-														}
-													/>
-													<Col className="gap-y-3 self-start pt-2">
-														{(etherlinkNetwork === 'mainnet'
-															? ETHERLINK_MAINNET_DETAILS
-															: ETHERLINK_GHOSTNET_DETAILS
-														).map(({ label, value }, index) => (
-															<Labelled key={index} label={label}>
-																<CopyButton text={value} />
-															</Labelled>
-														))}
-													</Col>
-												</Fragment>
-											)}
-										</Fragment>
-									)
+									currentWallet && <TextButton text="Try again" onClick={() => handleChangeWallet(currentWallet)} />
 								) : (
 									<Fragment>
 										<BeatLoader size={8} color={darkMode ? '#fff' : '#000'} />
@@ -466,6 +445,30 @@ export const TConnectModal = memo<TConnectModalProps>(
 										</Col>
 									</Fragment>
 								)}
+								<Fragment>
+									{currentWallet?.network === 'etherlink' && (
+										<Fragment>
+											<Row className="text-center text-red-500">
+												If you have issues, please make sure Etherlink has been added to {currentWallet.name}
+											</Row>
+											<Row>
+												You can either visit the link below via your wallet&rsquo;s browser or add Etherlink manually
+											</Row>
+											<CopyButton
+												text={etherlinkNetwork === 'mainnet' ? ADD_ETHERLINK_MAINNET_URL : ADD_ETHERLINK_GHOSTNET_URL}
+											/>
+											<Col className="gap-y-3 self-start pt-2">
+												{(etherlinkNetwork === 'mainnet' ? ETHERLINK_MAINNET_DETAILS : ETHERLINK_GHOSTNET_DETAILS).map(
+													({ label, value }, index) => (
+														<Labelled key={index} label={label}>
+															<CopyButton text={value} />
+														</Labelled>
+													),
+												)}
+											</Col>
+										</Fragment>
+									)}
+								</Fragment>
 							</Col>
 						</Fragment>
 					) : step === 'invalidChainId' ? (

@@ -90,6 +90,7 @@ export const randomUUID = (): string => {
 };
 
 export const openLink = async (link: string, options?: { try_instant_view: boolean }): Promise<void> => {
+	// eslint-disable-next-line unicorn/prefer-global-this
 	if (typeof window !== 'undefined') {
 		if (link.startsWith('https://')) {
 			const webApp = await import('@twa-dev/sdk');

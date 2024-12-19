@@ -110,7 +110,7 @@ const showUncommitedFiles = async (): Promise<void> => {
 	}
 };
 
-const showPackgaesToPublish = (packages: Array<Package>): void => {
+const showPackagesToPublish = (packages: Array<Package>): void => {
 	const outputLines = new Array<string>();
 	let fixOutput = '';
 	for (const { packagePack, packageView } of packages) {
@@ -193,7 +193,7 @@ const main = async (): Promise<void> => {
 		console.log('');
 		await showUncommitedFiles();
 		console.log('');
-		showPackgaesToPublish(packages);
+		showPackagesToPublish(packages);
 	} catch (error) {
 		if (error instanceof Error) {
 			console.error(error.message);
