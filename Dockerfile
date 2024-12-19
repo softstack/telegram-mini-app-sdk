@@ -21,13 +21,13 @@ ENV REACT_APP_API_KEY=${REACT_APP_API_KEY}
 ENV REACT_APP_BRIDGE_URL=${REACT_APP_BRIDGE_URL}
 
 # Build the packages in correct order
-RUN npm run build --workspace=@tconnect.io/evm-api-types
+RUN npm run build --workspace=@tconnect.io/etherlink-api-types
 RUN npm run build --workspace=@tconnect.io/tezos-beacon-api-types
 RUN npm run build --workspace=@tconnect.io/tezos-wc-api-types
 RUN npm run build --workspace=@tconnect.io/dapp-utils
 RUN npm run build --workspace=@tconnect.io/core
 RUN npm run build --workspace=@tconnect.io/dapp-communication
-RUN npm run build --workspace=@tconnect.io/evm-provider
+RUN npm run build --workspace=@tconnect.io/etherlink-provider
 RUN npm run build --workspace=@tconnect.io/tezos-beacon-provider
 RUN npm run build --workspace=@tconnect.io/tezos-wc-provider
 RUN npm run build --workspace=@tconnect.io/modal
