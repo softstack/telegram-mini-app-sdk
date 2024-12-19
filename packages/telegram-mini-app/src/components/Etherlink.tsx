@@ -1,13 +1,13 @@
-import { EvmWalletApp } from '@tconnect.io/evm-provider';
+import { EtherlinkWalletApp } from '@tconnect.io/etherlink-provider';
 import { QRCodeCanvas } from 'qrcode.react';
 import { memo, useMemo } from 'react';
 import { UAParser } from 'ua-parser-js';
 
 export type Step = 'start' | 'connecting' | 'connected';
 
-export interface EvmProps {
+export interface EtherlinkProps {
 	step: Step;
-	connect: (walletApp?: EvmWalletApp) => void;
+	connect: (walletApp?: EtherlinkWalletApp) => void;
 	connectionString: string | undefined;
 	chainId: string | undefined;
 	disconnect: () => void;
@@ -19,7 +19,7 @@ export interface EvmProps {
 	balance: string | undefined;
 }
 
-export const Evm = memo<EvmProps>(
+export const Etherlink = memo<EtherlinkProps>(
 	({
 		step,
 		connect,
@@ -75,4 +75,4 @@ export const Evm = memo<EvmProps>(
 	},
 );
 
-Evm.displayName = 'Evm';
+Etherlink.displayName = 'Etherlink';

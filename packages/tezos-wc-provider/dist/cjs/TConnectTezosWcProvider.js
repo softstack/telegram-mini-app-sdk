@@ -132,13 +132,21 @@ class TConnectTezosWcProvider extends core_1.TypedEvent {
     async mapTransferParamsToWalletParams(params) {
         const transferParameters = await params();
         console.log('mapTransferParamsToWalletParams()', transferParameters);
+        const address = await this.getPKH();
         return {
-            account: await this.getPKH(),
+            account: address,
             operations: [
                 {
                     kind: 'transaction',
-                    amount: transferParameters.amount,
+                    source: address,
                     destination: transferParameters.to,
+                    amount: (0, dapp_utils_1.formatTransactionAmount)(transferParameters.amount, transferParameters.mutez),
+                    parameters: transferParameters.parameter,
+                    fee: transferParameters.fee === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(transferParameters.fee),
+                    gas_limit: transferParameters.gasLimit === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(transferParameters.gasLimit),
+                    storage_limit: transferParameters.storageLimit === undefined
+                        ? undefined
+                        : (0, dapp_utils_1.toIntegerString)(transferParameters.storageLimit),
                 },
             ],
         };

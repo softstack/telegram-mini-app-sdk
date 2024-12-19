@@ -14,7 +14,13 @@ import {
 } from '@taquito/taquito';
 import { CallbackController, parse, stringify, TypedEvent } from '@tconnect.io/core';
 import { CommunicationController } from '@tconnect.io/dapp-communication';
-import { getErrorMessage, openLink, randomUUID } from '@tconnect.io/dapp-utils';
+import {
+	formatTransactionAmount,
+	getErrorMessage,
+	openLink,
+	randomUUID,
+	toIntegerString,
+} from '@tconnect.io/dapp-utils';
 import {
 	EVENT_CHANNEL,
 	REQUEST_CHANNEL,
@@ -56,7 +62,6 @@ import {
 	TConnectTezosBeaconProviderOptions,
 	TezosBeaconWalletApp,
 } from './types';
-import { formatTransactionAmount, toIntegerString } from './utils/base';
 import {
 	createCryptoBoxClient,
 	createCryptoBoxServer,
@@ -262,13 +267,13 @@ export class TConnectTezosBeaconProvider
 		const transferParameters = await params();
 		console.log('mapTransferParamsToWalletParams()', transferParameters);
 		return {
-			amount: formatTransactionAmount(transferParameters.amount, transferParameters.mutez),
+			kind: 'transaction',
+			source: this._publicKey === undefined ? undefined : getAddressFromPublicKey(this._publicKey),
 			destination: transferParameters.to,
+			amount: formatTransactionAmount(transferParameters.amount, transferParameters.mutez),
+			parameters: transferParameters.parameter as PartialTezosTransactionOperation['parameters'],
 			fee: transferParameters.fee === undefined ? undefined : toIntegerString(transferParameters.fee),
 			gas_limit: transferParameters.gasLimit === undefined ? undefined : toIntegerString(transferParameters.gasLimit),
-			kind: 'transaction',
-			parameters: transferParameters.parameter as PartialTezosTransactionOperation['parameters'],
-			source: this._publicKey === undefined ? undefined : getAddressFromPublicKey(this._publicKey),
 			storage_limit:
 				transferParameters.storageLimit === undefined ? undefined : toIntegerString(transferParameters.storageLimit),
 		};

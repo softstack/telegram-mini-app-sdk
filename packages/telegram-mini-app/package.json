@@ -25,8 +25,8 @@
 		]
 	},
 	"dependencies": {
-		"@taquito/taquito": "^20.0.1",
-		"@tconnect.io/modal": "^0.0.20",
+		"@taquito/taquito": "^20.1.2",
+		"@tconnect.io/modal": "^0.0.24",
 		"@testing-library/jest-dom": "^5.17.0",
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^13.5.0",
@@ -47,13 +47,13 @@
 		"react-dom": "^18.3.1",
 		"react-router-dom": "^6.26.2",
 		"react-scripts": "^5.0.1",
-		"react-toastify": "^10.0.6",
+		"react-toastify": "^11.0.0",
 		"stream-browserify": "^3.0.0",
 		"tailwind-merge": "^2.5.4",
 		"typescript": "^4.9.5",
 		"ua-parser-js": "^2.0.0",
 		"web-vitals": "^2.1.4",
-		"web3": "^4.11.1"
+		"web3": "^4.16.0"
 	},
 	"devDependencies": {
 		"@craco/craco": "^7.1.0",

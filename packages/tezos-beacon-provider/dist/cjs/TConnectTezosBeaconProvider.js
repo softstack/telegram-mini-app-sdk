@@ -12,7 +12,6 @@ const dapp_communication_1 = require("@tconnect.io/dapp-communication");
 const dapp_utils_1 = require("@tconnect.io/dapp-utils");
 const tezos_beacon_api_types_1 = require("@tconnect.io/tezos-beacon-api-types");
 const bs58check_1 = __importDefault(require("bs58check"));
-const base_1 = require("./utils/base");
 const utils_1 = require("./utils/utils");
 const validation_1 = require("./validation");
 class TConnectTezosBeaconProvider extends core_1.TypedEvent {
@@ -72,14 +71,14 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         const transferParameters = await params();
         console.log('mapTransferParamsToWalletParams()', transferParameters);
         return {
-            amount: (0, base_1.formatTransactionAmount)(transferParameters.amount, transferParameters.mutez),
-            destination: transferParameters.to,
-            fee: transferParameters.fee === undefined ? undefined : (0, base_1.toIntegerString)(transferParameters.fee),
-            gas_limit: transferParameters.gasLimit === undefined ? undefined : (0, base_1.toIntegerString)(transferParameters.gasLimit),
             kind: 'transaction',
-            parameters: transferParameters.parameter,
             source: this._publicKey === undefined ? undefined : (0, utils_1.getAddressFromPublicKey)(this._publicKey),
-            storage_limit: transferParameters.storageLimit === undefined ? undefined : (0, base_1.toIntegerString)(transferParameters.storageLimit),
+            destination: transferParameters.to,
+            amount: (0, dapp_utils_1.formatTransactionAmount)(transferParameters.amount, transferParameters.mutez),
+            parameters: transferParameters.parameter,
+            fee: transferParameters.fee === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(transferParameters.fee),
+            gas_limit: transferParameters.gasLimit === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(transferParameters.gasLimit),
+            storage_limit: transferParameters.storageLimit === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(transferParameters.storageLimit),
         };
     }
     async mapTransferTicketParamsToWalletParams(params) {
@@ -91,28 +90,28 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         const stakeParameters = await params();
         console.log('mapStakeParamsToWalletParams()', stakeParameters);
         return {
-            amount: (0, base_1.formatTransactionAmount)(stakeParameters.amount, stakeParameters.mutez),
+            amount: (0, dapp_utils_1.formatTransactionAmount)(stakeParameters.amount, stakeParameters.mutez),
             destination: stakeParameters.to ?? (0, utils_1.getAddressFromPublicKey)(this._getPublicKey()),
-            fee: stakeParameters.fee === undefined ? undefined : (0, base_1.toIntegerString)(stakeParameters.fee),
-            gas_limit: stakeParameters.gasLimit === undefined ? undefined : (0, base_1.toIntegerString)(stakeParameters.gasLimit),
+            fee: stakeParameters.fee === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(stakeParameters.fee),
+            gas_limit: stakeParameters.gasLimit === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(stakeParameters.gasLimit),
             kind: 'transaction',
             parameters: stakeParameters.parameter,
             source: this._publicKey === undefined ? undefined : (0, utils_1.getAddressFromPublicKey)(this._publicKey),
-            storage_limit: stakeParameters.storageLimit === undefined ? undefined : (0, base_1.toIntegerString)(stakeParameters.storageLimit),
+            storage_limit: stakeParameters.storageLimit === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(stakeParameters.storageLimit),
         };
     }
     async mapUnstakeParamsToWalletParams(params) {
         const unstakeParameters = await params();
         console.log('mapUnstakeParamsToWalletParams()', unstakeParameters);
         return {
-            amount: (0, base_1.formatTransactionAmount)(unstakeParameters.amount, unstakeParameters.mutez),
+            amount: (0, dapp_utils_1.formatTransactionAmount)(unstakeParameters.amount, unstakeParameters.mutez),
             destination: unstakeParameters.to ?? (0, utils_1.getAddressFromPublicKey)(this._getPublicKey()),
-            fee: unstakeParameters.fee === undefined ? undefined : (0, base_1.toIntegerString)(unstakeParameters.fee),
-            gas_limit: unstakeParameters.gasLimit === undefined ? undefined : (0, base_1.toIntegerString)(unstakeParameters.gasLimit),
+            fee: unstakeParameters.fee === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(unstakeParameters.fee),
+            gas_limit: unstakeParameters.gasLimit === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(unstakeParameters.gasLimit),
             kind: 'transaction',
             parameters: unstakeParameters.parameter,
             source: this._publicKey === undefined ? undefined : (0, utils_1.getAddressFromPublicKey)(this._publicKey),
-            storage_limit: unstakeParameters.storageLimit === undefined ? undefined : (0, base_1.toIntegerString)(unstakeParameters.storageLimit),
+            storage_limit: unstakeParameters.storageLimit === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(unstakeParameters.storageLimit),
         };
     }
     async mapFinalizeUnstakeParamsToWalletParams(params) {
@@ -122,18 +121,18 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
             throw new Error('Amount is required');
         }
         return {
-            amount: (0, base_1.formatTransactionAmount)(finalizeUnstakeParameters.amount, finalizeUnstakeParameters.mutez),
+            amount: (0, dapp_utils_1.formatTransactionAmount)(finalizeUnstakeParameters.amount, finalizeUnstakeParameters.mutez),
             destination: finalizeUnstakeParameters.to ?? (0, utils_1.getAddressFromPublicKey)(this._getPublicKey()),
-            fee: finalizeUnstakeParameters.fee === undefined ? undefined : (0, base_1.toIntegerString)(finalizeUnstakeParameters.fee),
+            fee: finalizeUnstakeParameters.fee === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(finalizeUnstakeParameters.fee),
             gas_limit: finalizeUnstakeParameters.gasLimit === undefined
                 ? undefined
-                : (0, base_1.toIntegerString)(finalizeUnstakeParameters.gasLimit),
+                : (0, dapp_utils_1.toIntegerString)(finalizeUnstakeParameters.gasLimit),
             kind: 'transaction',
             parameters: finalizeUnstakeParameters.parameter,
             source: this._publicKey === undefined ? undefined : (0, utils_1.getAddressFromPublicKey)(this._publicKey),
             storage_limit: finalizeUnstakeParameters.storageLimit === undefined
                 ? undefined
-                : (0, base_1.toIntegerString)(finalizeUnstakeParameters.storageLimit),
+                : (0, dapp_utils_1.toIntegerString)(finalizeUnstakeParameters.storageLimit),
         };
     }
     async mapOriginateParamsToWalletParams(params) {
@@ -146,28 +145,28 @@ class TConnectTezosBeaconProvider extends core_1.TypedEvent {
         console.log('mapDelegateParamsToWalletParams()', delegateParameters);
         return {
             delegate: delegateParameters.delegate,
-            fee: delegateParameters.fee === undefined ? undefined : (0, base_1.toIntegerString)(delegateParameters.fee),
-            gas_limit: delegateParameters.gasLimit === undefined ? undefined : (0, base_1.toIntegerString)(delegateParameters.gasLimit),
+            fee: delegateParameters.fee === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(delegateParameters.fee),
+            gas_limit: delegateParameters.gasLimit === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(delegateParameters.gasLimit),
             kind: 'delegation',
-            storage_limit: delegateParameters.storageLimit === undefined ? undefined : (0, base_1.toIntegerString)(delegateParameters.storageLimit),
+            storage_limit: delegateParameters.storageLimit === undefined ? undefined : (0, dapp_utils_1.toIntegerString)(delegateParameters.storageLimit),
         };
     }
     async mapIncreasePaidStorageWalletParams(params) {
         const increasePaidStorageParameters = await params();
         console.log('mapIncreasePaidStorageWalletParams()', increasePaidStorageParameters);
         return {
-            amount: (0, base_1.formatTransactionAmount)(increasePaidStorageParameters.amount, true),
+            amount: (0, dapp_utils_1.formatTransactionAmount)(increasePaidStorageParameters.amount, true),
             destination: increasePaidStorageParameters.destination,
             fee: increasePaidStorageParameters.fee === undefined
                 ? undefined
-                : (0, base_1.toIntegerString)(increasePaidStorageParameters.fee),
+                : (0, dapp_utils_1.toIntegerString)(increasePaidStorageParameters.fee),
             gas_limit: increasePaidStorageParameters.gasLimit === undefined
                 ? undefined
-                : (0, base_1.toIntegerString)(increasePaidStorageParameters.gasLimit),
+                : (0, dapp_utils_1.toIntegerString)(increasePaidStorageParameters.gasLimit),
             kind: 'increase_paid_storage',
             storage_limit: increasePaidStorageParameters.storageLimit === undefined
                 ? undefined
-                : (0, base_1.toIntegerString)(increasePaidStorageParameters.storageLimit),
+                : (0, dapp_utils_1.toIntegerString)(increasePaidStorageParameters.storageLimit),
         };
     }
     async sendOperations(params) {

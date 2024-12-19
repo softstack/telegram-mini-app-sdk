@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.openLink = exports.randomUUID = exports.getErrorMessage = exports.getOperatingSystem = exports.isMobileSafari = exports.isAndroid = void 0;
+exports.formatTransactionAmount = exports.toIntegerString = exports.openLink = exports.randomUUID = exports.getErrorMessage = exports.getOperatingSystem = exports.isMobileSafari = exports.isAndroid = void 0;
 const random_1 = require("@stablelib/random");
 const ua_parser_js_1 = require("ua-parser-js");
 const isAndroid = () => {
@@ -95,4 +95,13 @@ const openLink = async (link, options) => {
     }
 };
 exports.openLink = openLink;
+const toIntegerString = (value) => BigInt(value).toString();
+exports.toIntegerString = toIntegerString;
+const formatTransactionAmount = (amount, mutez = false) => {
+    if (mutez) {
+        return BigInt(amount).toString();
+    }
+    return (BigInt(amount) * 10n ** 6n).toString();
+};
+exports.formatTransactionAmount = formatTransactionAmount;
 //# sourceMappingURL=utils.js.map

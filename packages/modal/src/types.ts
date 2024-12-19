@@ -1,5 +1,5 @@
 import { OperatingSystem } from '@tconnect.io/dapp-utils';
-import { EvmWalletApp, TConnectEvmProvider } from '@tconnect.io/evm-provider';
+import { EtherlinkWalletApp, TConnectEtherlinkProvider } from '@tconnect.io/etherlink-provider';
 import { TConnectTezosBeaconProvider, TezosBeaconWalletApp } from '@tconnect.io/tezos-beacon-provider';
 import { TConnectTezosWcProvider, TezosWcWalletApp } from '@tconnect.io/tezos-wc-provider';
 
@@ -26,15 +26,15 @@ export type SvgIconType =
 
 export type IconType = PngIconType | SvgIconType;
 
-export interface EvmNetwork {
-	type: 'evm';
+export interface EtherlinkNetwork {
+	type: 'etherlink';
 	name: string;
 	icon: IconType;
 	wallets: Array<{
 		name: string;
 		icon: IconType;
-		network: 'evm';
-		walletApp: EvmWalletApp;
+		network: 'etherlink';
+		walletApp: EtherlinkWalletApp;
 		addEtherlinkUrl: string;
 		supportedOperatingSystems: Array<OperatingSystem>;
 	}>;
@@ -65,14 +65,14 @@ export interface TezosNetwork {
 	wallets: Array<TezosBeaconWallet | TezosWcWallet>;
 }
 
-export type Network = EvmNetwork | TezosNetwork;
+export type Network = EtherlinkNetwork | TezosNetwork;
 
 export type NetworkType = Network['type'];
 
 export interface TConnectModalContextValue {
 	openModal: () => void;
 	closeModal: () => void;
-	evmProvider: TConnectEvmProvider | undefined;
+	etherlinkProvider: TConnectEtherlinkProvider | undefined;
 	tezosBeaconProvider: TConnectTezosBeaconProvider | undefined;
 	tezosWcProvider: TConnectTezosWcProvider | undefined;
 	connected: boolean;

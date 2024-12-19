@@ -1,4 +1,4 @@
-import { EvmNetwork as EvmNetworkType } from '@tconnect.io/evm-api-types';
+import { EtherlinkNetwork as EtherlinkNetworkType } from '@tconnect.io/etherlink-api-types';
 import { Network as TezosBeaconNetwork } from '@tconnect.io/tezos-beacon-provider';
 import { TezosWcNetwork } from '@tconnect.io/tezos-wc-api-types';
 import { ReactNode } from 'react';
@@ -11,7 +11,7 @@ export interface TConnectModalProviderProps {
     bridgeUrl: string;
     apiKey: string;
     networkFilter?: Array<'etherlink' | 'tezos'>;
-    evmNetwork?: EvmNetworkType;
+    etherlinkNetwork?: EtherlinkNetworkType;
     tezosBeaconNetwork?: TezosBeaconNetwork;
     tezosWcNetwork?: TezosWcNetwork;
     children?: ReactNode | undefined;

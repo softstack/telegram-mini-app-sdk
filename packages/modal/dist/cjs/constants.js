@@ -1,20 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ADD_ETHERLINK_GHOSTNET_URL = exports.ADD_ETHERLINK_MAINNET_URL = exports.TOAST_CONTAINER_ID = exports.ETHERLINK_GHOSTNET_DETAILS = exports.ETHERLINK_MAINNET_DETAILS = exports.NETWORKS = exports.TEZOS_WC_PROVIDER_STORAGE_KEY = exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = exports.EVM_PROVIDER_STORAGE_KEY = exports.TAILWIND_PREFIX = void 0;
+exports.ADD_ETHERLINK_GHOSTNET_URL = exports.ADD_ETHERLINK_MAINNET_URL = exports.TOAST_CONTAINER_ID = exports.ETHERLINK_GHOSTNET_DETAILS = exports.ETHERLINK_MAINNET_DETAILS = exports.NETWORKS = exports.TEZOS_WC_PROVIDER_STORAGE_KEY = exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = exports.ETHERLINK_PROVIDER_STORAGE_KEY = exports.TAILWIND_PREFIX = void 0;
 exports.TAILWIND_PREFIX = 'eotrzpirnbqlbfjhbqpo-';
-exports.EVM_PROVIDER_STORAGE_KEY = 'evvcswyjarnlkwvdlrfr';
+exports.ETHERLINK_PROVIDER_STORAGE_KEY = 'ksacuemelbykuqyutopv';
 exports.TEZOS_BEACON_PROVIDER_STORAGE_KEY = 'jkdkvddgajorkvmywwub';
 exports.TEZOS_WC_PROVIDER_STORAGE_KEY = 'nxmhhphkvgwzhmifdyus';
 exports.NETWORKS = [
     {
-        type: 'evm',
+        type: 'etherlink',
         name: 'Etherlink',
         icon: 'etherlink',
         wallets: [
             {
                 name: 'Bitget',
                 icon: 'bitget',
-                network: 'evm',
+                network: 'etherlink',
                 walletApp: 'bitget',
                 addEtherlinkUrl: '',
                 supportedOperatingSystems: ['android', 'ios'],
@@ -22,7 +22,7 @@ exports.NETWORKS = [
             {
                 name: 'MetaMask',
                 icon: 'metaMask',
-                network: 'evm',
+                network: 'etherlink',
                 walletApp: 'metaMask',
                 addEtherlinkUrl: '',
                 supportedOperatingSystems: ['android', 'ios'],
@@ -30,7 +30,7 @@ exports.NETWORKS = [
             {
                 name: 'SafePal',
                 icon: 'safePal',
-                network: 'evm',
+                network: 'etherlink',
                 walletApp: 'safePal',
                 addEtherlinkUrl: '',
                 supportedOperatingSystems: ['android', 'ios'],
@@ -38,7 +38,7 @@ exports.NETWORKS = [
             {
                 name: 'Trust',
                 icon: 'trust',
-                network: 'evm',
+                network: 'etherlink',
                 walletApp: 'trust',
                 addEtherlinkUrl: '',
                 supportedOperatingSystems: ['android', 'ios'],
@@ -93,5 +93,5 @@ exports.ETHERLINK_GHOSTNET_DETAILS = [
 ];
 exports.TOAST_CONTAINER_ID = 'qbpoorwpbcmnyejvnqad';
 exports.ADD_ETHERLINK_MAINNET_URL = 'https://add-etherlink-mainnet.tconnect.io';
-exports.ADD_ETHERLINK_GHOSTNET_URL = 'https://add-etherlink-ghostnet.tconnect.io';
+exports.ADD_ETHERLINK_GHOSTNET_URL = 'https://add-etherlink-testnet.tconnect.io';
 //# sourceMappingURL=constants.js.map

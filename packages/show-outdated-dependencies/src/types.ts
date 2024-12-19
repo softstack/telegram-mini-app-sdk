@@ -5,6 +5,7 @@ export interface PackageJson {
 	dependencies?: {
 		[key: string]: string;
 	};
+	deprecated?: boolean;
 }
 
 export interface PackageView {

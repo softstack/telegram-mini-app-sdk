@@ -33,6 +33,8 @@
 			"@tconnect.io/dapp-utils": ["dapp-utils/src/index.ts"],
 			"@tconnect.io/core": ["core/src/index.ts"],
 			"@tconnect.io/dapp-communication": ["dapp-communication/src/index.ts"],
+			"@tconnect.io/etherlink-api-types": ["etherlink-api-types/src/index.ts"],
+			"@tconnect.io/etherlink-provider": ["etherlink-provider/src/index.ts"],
 			"@tconnect.io/evm-api-types": ["evm-api-types/src/index.ts"],
 			"@tconnect.io/evm-provider": ["evm-provider/src/index.ts"],
 			"@tconnect.io/tezos-beacon-api-types": ["tezos-beacon-api-types/src/index.ts"],

@@ -7,11 +7,11 @@ import { Network } from './types';
 export const TAILWIND_PREFIX = 'eotrzpirnbqlbfjhbqpo-';
 
 /**
- * A constant key used for storing the EVM provider information.
- * This key is used to identify and retrieve the EVM provider data
+ * A constant key used for storing the Etherlink provider information.
+ * This key is used to identify and retrieve the Etherlink provider data
  * from the storage.
  */
-export const EVM_PROVIDER_STORAGE_KEY = 'evvcswyjarnlkwvdlrfr';
+export const ETHERLINK_PROVIDER_STORAGE_KEY = 'ksacuemelbykuqyutopv';
 
 /**
  * A constant string key used for storing the Tezos Beacon provider information.
@@ -33,7 +33,7 @@ export const TEZOS_WC_PROVIDER_STORAGE_KEY = 'nxmhhphkvgwzhmifdyus';
  * @constant
  * @type {Array<Network>}
  *
- * @property {string} type - The type of the network (e.g., 'evm', 'tezos').
+ * @property {string} type - The type of the network (e.g., 'etherlink', 'tezos').
  * @property {string} name - The name of the network.
  * @property {string} icon - The icon identifier for the network.
  * @property {Array<Object>} wallets - An array of wallet configurations associated with the network.
@@ -42,20 +42,20 @@ export const TEZOS_WC_PROVIDER_STORAGE_KEY = 'nxmhhphkvgwzhmifdyus';
  * @property {string} wallets[].icon - The icon identifier for the wallet.
  * @property {string} wallets[].network - The network type the wallet supports.
  * @property {string} [wallets[].walletApp] - The application identifier for the wallet.
- * @property {string} [wallets[].addEtherlinkUrl] - The URL to add the Etherlink (specific to 'evm' type wallets).
+ * @property {string} [wallets[].addEtherlinkUrl] - The URL to add the Etherlink (specific to 'etherlink' type wallets).
  * @property {Array<string>} wallets[].supportedOperatingSystems - The operating systems supported by the wallet (e.g., 'android', 'ios').
  * @property {string} [wallets[].bridge] - The bridge type used by the wallet (specific to 'tezos' type wallets).
  */
 export const NETWORKS: Array<Network> = [
 	{
-		type: 'evm',
+		type: 'etherlink',
 		name: 'Etherlink',
 		icon: 'etherlink',
 		wallets: [
 			{
 				name: 'Bitget',
 				icon: 'bitget',
-				network: 'evm',
+				network: 'etherlink',
 				walletApp: 'bitget',
 				addEtherlinkUrl: '',
 				supportedOperatingSystems: ['android', 'ios'],
@@ -63,7 +63,7 @@ export const NETWORKS: Array<Network> = [
 			{
 				name: 'MetaMask',
 				icon: 'metaMask',
-				network: 'evm',
+				network: 'etherlink',
 				walletApp: 'metaMask',
 				addEtherlinkUrl: '',
 				supportedOperatingSystems: ['android', 'ios'],
@@ -71,7 +71,7 @@ export const NETWORKS: Array<Network> = [
 			{
 				name: 'SafePal',
 				icon: 'safePal',
-				network: 'evm',
+				network: 'etherlink',
 				walletApp: 'safePal',
 				addEtherlinkUrl: '',
 				supportedOperatingSystems: ['android', 'ios'],
@@ -79,7 +79,7 @@ export const NETWORKS: Array<Network> = [
 			{
 				name: 'Trust',
 				icon: 'trust',
-				network: 'evm',
+				network: 'etherlink',
 				walletApp: 'trust',
 				addEtherlinkUrl: '',
 				supportedOperatingSystems: ['android', 'ios'],
@@ -139,4 +139,4 @@ export const TOAST_CONTAINER_ID = 'qbpoorwpbcmnyejvnqad';
 
 export const ADD_ETHERLINK_MAINNET_URL = 'https://add-etherlink-mainnet.tconnect.io';
 
-export const ADD_ETHERLINK_GHOSTNET_URL = 'https://add-etherlink-ghostnet.tconnect.io';
+export const ADD_ETHERLINK_GHOSTNET_URL = 'https://add-etherlink-testnet.tconnect.io';
