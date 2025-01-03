@@ -19,6 +19,7 @@ export type PngIconType =
 export type SvgIconType =
 	| 'checkSolid'
 	| 'chevronDownSolid'
+	| 'chevronLeftSolid'
 	| 'chevronUpSolid'
 	| 'copyRegular'
 	| 'fileLinesRegular'

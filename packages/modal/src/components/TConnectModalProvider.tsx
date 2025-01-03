@@ -232,7 +232,6 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 
 		const closeModal = useCallback(async () => {
 			try {
-				setStep((prevStep) => (prevStep === 'invalidChainId' ? 'connected' : prevStep));
 				setShowModal(false);
 			} catch (error) {
 				handleError(error);
@@ -309,10 +308,7 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 			(async (): Promise<void> => {
 				try {
 					const version = nextVersion();
-					const tmpConnected =
-						((step !== 'invalidChainId' && (await etherlinkProvider?.connected())) ||
-							tezosBeaconProvider?.connected()) ??
-						false;
+					const tmpConnected = ((await etherlinkProvider?.connected()) || tezosBeaconProvider?.connected()) ?? false;
 					setConnected(version, tmpConnected);
 				} catch (error) {
 					handleError(error);
@@ -348,7 +344,7 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 			() => ({
 				openModal,
 				closeModal,
-				etherlinkProvider: step === 'invalidChainId' ? undefined : etherlinkProvider,
+				etherlinkProvider,
 				tezosBeaconProvider,
 				tezosWcProvider,
 				connected,

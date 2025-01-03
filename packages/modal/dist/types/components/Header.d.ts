@@ -1,5 +1,6 @@
 import { RowProps } from './flex/Row';
 export interface HeaderProps extends RowProps {
+    onBack?: () => void;
     title: string;
     onClose: () => void;
 }

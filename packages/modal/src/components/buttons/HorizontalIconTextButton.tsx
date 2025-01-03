@@ -23,10 +23,7 @@ export interface HorizontalIconTextButtonProps extends BaseButtonProps {
  */
 export const HorizontalIconTextButton = memo<HorizontalIconTextButtonProps>(
 	({ icon, iconColorSuccess, text, className, ...props }) => (
-		<BaseButton
-			className={clsx('h-5 flex-row items-center justify-center gap-x-1.5 text-lineGrey', className)}
-			{...props}
-		>
+		<BaseButton className={clsx('h-5 flex-row items-center justify-center gap-x-1.5 text-line', className)} {...props}>
 			<Row className="h-[20px] w-[20px]">
 				<Icon className={clsx(iconColorSuccess && 'text-success')} icon={icon} height={20} width={20} />
 			</Row>

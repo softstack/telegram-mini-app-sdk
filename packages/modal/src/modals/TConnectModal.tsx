@@ -20,6 +20,7 @@ import { TextButton } from '../components/buttons/TextButton';
 import { Col } from '../components/flex/Col';
 import { Row } from '../components/flex/Row';
 import { Header } from '../components/Header';
+import { Icon } from '../components/icons/Icon';
 import { Labelled } from '../components/Labelled';
 import {
 	ADD_ETHERLINK_GHOSTNET_URL,
@@ -36,7 +37,7 @@ import {
 import { Network } from '../types';
 import { handleError, nextVersion, useDarkMode, useVersionedState } from '../utils';
 
-export type Step = 'connect' | 'connecting' | 'invalidChainId' | 'connected';
+export type Step = 'connect' | 'connecting' | 'connected';
 
 export interface TConnectModalProps {
 	appName: string;
@@ -120,7 +121,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 		const backgroundElement = useRef(null);
 		const [showNetworks, setShowNetworks] = useState(true);
 		const [showWallets, setShowWallets] = useState(false);
-		const [isConnectingError, setIsConnectingError] = useState(false);
+		const [connectingTab, setConnectingTab] = useState<'connect' | 'addEtherlink'>('connect');
 		const [address, setAddress] = useVersionedState<string | undefined>(undefined);
 		const [shortAddress, setShortAddress] = useVersionedState<string | undefined>(undefined);
 		const [showShortAddress, setShowShortAddress] = useState(true);
@@ -219,9 +220,9 @@ export const TConnectModal = memo<TConnectModalProps>(
 		const handleChangeWallet = useCallback(
 			async (wallet: Network['wallets'][0]) => {
 				try {
-					onChangeStep('connecting');
 					onChangeCurrentWallet(wallet);
-					setIsConnectingError(false);
+					setConnectingTab('connect');
+					onChangeStep('connecting');
 					switch (wallet.network) {
 						case 'etherlink': {
 							const provider = new TConnectEtherlinkProvider({
@@ -235,14 +236,6 @@ export const TConnectModal = memo<TConnectModalProps>(
 							});
 
 							provider.once('connect', (info) => {
-								if (
-									(etherlinkNetwork === 'mainnet' && BigInt(info.chainId) === ETHERLINK_MAINNET_CHAIN_ID) ||
-									(etherlinkNetwork === 'ghostnet' && BigInt(info.chainId) === ETHERLINK_GHOSTNET_CHAIN_ID)
-								) {
-									onChangeStep('connected');
-								} else {
-									onChangeStep('invalidChainId');
-								}
 								onChangeEtherlinkProvider(provider, BigInt(info.chainId));
 							});
 
@@ -285,7 +278,6 @@ export const TConnectModal = memo<TConnectModalProps>(
 						}
 					}
 				} catch (error) {
-					setIsConnectingError(true);
 					handleError(error);
 				}
 			},
@@ -387,7 +379,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 				<Col
 					className={clsx(
 						step === 'connected' ? 'max-h-3/4' : 'h-3/4',
-						'rounded-t-3xl bg-white font-sans text-primaryText dark:bg-dark dark:text-primaryTextDark',
+						'rounded-t-3xl bg-light font-sans text-primaryText dark:bg-dark dark:text-primaryTextDark',
 					)}
 				>
 					{step === 'connect' ? (
@@ -430,62 +422,91 @@ export const TConnectModal = memo<TConnectModalProps>(
 								)}
 							</Col>
 						</Fragment>
-					) : step === 'connecting' ? (
+					) : step === 'connecting' && currentWallet ? (
 						<Fragment>
-							<Header title="Connecting" onClose={onClose} />
-							<Col className="items-center gap-y-pageFrame overflow-y-scroll p-pageFrame">
-								{isConnectingError ? (
-									currentWallet && <TextButton text="Try again" onClick={() => handleChangeWallet(currentWallet)} />
-								) : (
-									<Fragment>
-										<BeatLoader size={8} color={darkMode ? '#fff' : '#000'} />
-										<Col className="items-center gap-y-2">
-											<Row>Connecting Wallet</Row>
-											{currentWallet && <Row className="text-sm">Please confirm in {currentWallet.name}</Row>}
-										</Col>
-									</Fragment>
+							<Header onBack={() => onChangeStep('connect')} title={currentWallet.name} onClose={onClose} />
+							<Col className="flex-1 items-center gap-y-pageFrame overflow-y-scroll p-pageFrame">
+								{currentWallet.network === 'etherlink' && (
+									<Row className="gap-x-10 self-stretch">
+										<Row className="flex-1 justify-end">
+											<BaseButton
+												className={clsx(connectingTab !== 'connect' && 'text-notActive')}
+												onClick={() => setConnectingTab('connect')}
+											>
+												Connect
+											</BaseButton>
+										</Row>
+										<Row className="flex-1">
+											<BaseButton
+												className={clsx(connectingTab !== 'addEtherlink' && 'text-notActive')}
+												onClick={() => setConnectingTab('addEtherlink')}
+											>
+												Add Etherlink
+											</BaseButton>
+										</Row>
+									</Row>
 								)}
-								<Fragment>
-									{currentWallet?.network === 'etherlink' && (
-										<Fragment>
-											<Row className="text-center text-red-500">
-												If you have issues, please make sure Etherlink has been added to {currentWallet.name}
-											</Row>
-											<Row>
-												You can either visit the link below via your wallet&rsquo;s browser or add Etherlink manually
-											</Row>
-											<CopyButton
-												text={etherlinkNetwork === 'mainnet' ? ADD_ETHERLINK_MAINNET_URL : ADD_ETHERLINK_GHOSTNET_URL}
-											/>
-											<Col className="gap-y-3 self-start pt-2">
-												{(etherlinkNetwork === 'mainnet' ? ETHERLINK_MAINNET_DETAILS : ETHERLINK_GHOSTNET_DETAILS).map(
-													({ label, value }, index) => (
-														<Labelled key={index} label={label}>
-															<CopyButton text={value} />
-														</Labelled>
-													),
+								{connectingTab === 'connect' ? (
+									<Fragment>
+										<Col className="flex-1 items-center justify-between gap-y-pageFrame">
+											<Col className="items-center gap-y-pageFrame">
+												<Icon
+													icon={currentWallet.icon}
+													className="rounded-[0.5rem] object-contain"
+													height={48}
+													width={48}
+												/>
+												<Row className="text-lg font-medium">Please confirm in {currentWallet.name}</Row>
+												{currentWallet.network === 'etherlink' && (
+													<Row className="text-center">
+														If you have issues, please make sure Etherlink has been added to {currentWallet.name}
+													</Row>
 												)}
 											</Col>
-										</Fragment>
-									)}
-								</Fragment>
-							</Col>
-						</Fragment>
-					) : step === 'invalidChainId' ? (
-						<Fragment>
-							<Header title="Unsupported Network" onClose={onClose} />
-							<Col className="gap-y-pageFrame overflow-y-scroll p-pageFrame">
-								<Row>Please select Etherlink in {currentWallet?.name}</Row>
-								<Row>If Etherlink has not been added to {currentWallet?.name} yet, you can find a how-to here</Row>
-								<TextButton text="I have selected Etherlink" onClick={onClose} />
-								{/* <TextButton text="Add Etherlink" onClick={handleAddEtherlink} /> */}
+											<Row className="items-center justify-between self-stretch">
+												<Row>Connection didn&rsquo;t work?</Row>
+												<TextButton text="Try again" onClick={() => handleChangeWallet(currentWallet)} />
+											</Row>
+										</Col>
+									</Fragment>
+								) : (
+									<Fragment>
+										{currentWallet?.network === 'etherlink' && (
+											<Fragment>
+												{/* <Row>
+													You can either visit the link below via your wallet&rsquo;s browser or add Etherlink manually
+												</Row>
+												<CopyButton
+													text={etherlinkNetwork === 'mainnet' ? ADD_ETHERLINK_MAINNET_URL : ADD_ETHERLINK_GHOSTNET_URL}
+													value={
+														etherlinkNetwork === 'mainnet' ? ADD_ETHERLINK_MAINNET_URL : ADD_ETHERLINK_GHOSTNET_URL
+													}
+												/> */}
+												<Col className="gap-y-3 self-start pt-2">
+													{(etherlinkNetwork === 'mainnet'
+														? ETHERLINK_MAINNET_DETAILS
+														: ETHERLINK_GHOSTNET_DETAILS
+													).map(({ label, value }, index) => (
+														<Labelled key={index} label={label}>
+															<CopyButton text={value} value={value} />
+														</Labelled>
+													))}
+												</Col>
+												<Row className="items-center justify-between self-stretch">
+													<Row>Has Etherlink been added?</Row>
+													<TextButton text="Try again" onClick={() => handleChangeWallet(currentWallet)} />
+												</Row>
+											</Fragment>
+										)}
+									</Fragment>
+								)}
 							</Col>
 						</Fragment>
 					) : step === 'connected' ? (
 						<Fragment>
 							<Header title="Account Details" onClose={onClose} />
 							<Col className="gap-y-pageFrame overflow-y-scroll p-pageFrame">
-								<Col className="gap-y-pageFrame rounded-lg border border-solid border-lineGrey p-3">
+								<Col className="gap-y-pageFrame rounded-lg border border-solid border-line p-3">
 									<BaseButton className="min-h-6 flex-row items-center gap-x-1.5" onClick={toggleShowShortAddress}>
 										<Row className="min-w[24px]">
 											{address && <Jazzicon diameter={24} seed={jsNumberForAddress(address)} />}
@@ -493,12 +514,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 										<Row className="break-all">{showShortAddress ? shortAddress : address}</Row>
 									</BaseButton>
 									<Row className="justify-between">
-										<HorizontalIconTextButton
-											icon={copiedAddress ? 'checkSolid' : 'copyRegular'}
-											iconColorSuccess={copiedAddress}
-											text="Copy address"
-											onClick={handleCopyAddress}
-										/>
+										<CopyButton text="Copy address" value={address} />
 										<HorizontalIconTextButton
 											icon="fileLinesRegular"
 											text="View on explorer"

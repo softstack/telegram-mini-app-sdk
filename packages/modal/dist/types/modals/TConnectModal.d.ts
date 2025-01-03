@@ -4,7 +4,7 @@ import { TConnectTezosBeaconProvider, Network as TezosBeaconNetwork } from '@tco
 import { TezosWcNetwork } from '@tconnect.io/tezos-wc-api-types';
 import { TConnectTezosWcProvider } from '@tconnect.io/tezos-wc-provider';
 import { Network } from '../types';
-export type Step = 'connect' | 'connecting' | 'invalidChainId' | 'connected';
+export type Step = 'connect' | 'connecting' | 'connected';
 export interface TConnectModalProps {
     appName: string;
     appUrl: string;

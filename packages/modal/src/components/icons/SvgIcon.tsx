@@ -2,6 +2,7 @@ import { FC, memo, SVGProps, useCallback, useEffect, useState } from 'react';
 import Svg, { Props } from 'react-inlinesvg';
 import checkSolid from '../../assets/icons/check-solid.svg';
 import chevronDownSolid from '../../assets/icons/chevron-down-solid.svg';
+import chevronLeftSolid from '../../assets/icons/chevron-left-solid.svg';
 import chevronUpSolid from '../../assets/icons/chevron-up-solid.svg';
 import copyRegular from '../../assets/icons/copy-regular.svg';
 import fileLinesRegular from '../../assets/icons/file-lines-regular.svg';
@@ -18,6 +19,9 @@ const getSrc = (icon: SvgIconType): string => {
 		}
 		case 'chevronDownSolid': {
 			return chevronDownSolid;
+		}
+		case 'chevronLeftSolid': {
+			return chevronLeftSolid;
 		}
 		case 'chevronUpSolid': {
 			return chevronUpSolid;

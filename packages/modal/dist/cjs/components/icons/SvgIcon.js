@@ -9,6 +9,7 @@ const react_1 = require("react");
 const react_inlinesvg_1 = __importDefault(require("react-inlinesvg"));
 const check_solid_svg_1 = __importDefault(require("../../assets/icons/check-solid.svg"));
 const chevron_down_solid_svg_1 = __importDefault(require("../../assets/icons/chevron-down-solid.svg"));
+const chevron_left_solid_svg_1 = __importDefault(require("../../assets/icons/chevron-left-solid.svg"));
 const chevron_up_solid_svg_1 = __importDefault(require("../../assets/icons/chevron-up-solid.svg"));
 const copy_regular_svg_1 = __importDefault(require("../../assets/icons/copy-regular.svg"));
 const file_lines_regular_svg_1 = __importDefault(require("../../assets/icons/file-lines-regular.svg"));
@@ -22,6 +23,9 @@ const getSrc = (icon) => {
         }
         case 'chevronDownSolid': {
             return chevron_down_solid_svg_1.default;
+        }
+        case 'chevronLeftSolid': {
+            return chevron_left_solid_svg_1.default;
         }
         case 'chevronUpSolid': {
             return chevron_up_solid_svg_1.default;

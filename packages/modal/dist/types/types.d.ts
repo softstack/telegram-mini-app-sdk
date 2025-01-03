@@ -3,7 +3,7 @@ import { EtherlinkWalletApp, TConnectEtherlinkProvider } from '@tconnect.io/ethe
 import { TConnectTezosBeaconProvider, TezosBeaconWalletApp } from '@tconnect.io/tezos-beacon-provider';
 import { TConnectTezosWcProvider, TezosWcWalletApp } from '@tconnect.io/tezos-wc-provider';
 export type PngIconType = 'airGap' | 'altme' | 'bitget' | 'etherlink' | 'kukai' | 'metaMask' | 'safePal' | 'temple' | 'tezos' | 'transparent' | 'trust';
-export type SvgIconType = 'checkSolid' | 'chevronDownSolid' | 'chevronUpSolid' | 'copyRegular' | 'fileLinesRegular' | 'xmarkSolid';
+export type SvgIconType = 'checkSolid' | 'chevronDownSolid' | 'chevronLeftSolid' | 'chevronUpSolid' | 'copyRegular' | 'fileLinesRegular' | 'xmarkSolid';
 export type IconType = PngIconType | SvgIconType;
 export interface EtherlinkNetwork {
     type: 'etherlink';
