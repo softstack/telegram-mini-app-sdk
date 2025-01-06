@@ -21,7 +21,7 @@ export interface HorizontalIconTextButtonProps extends BaseButtonProps {
  * @returns {JSX.Element} The rendered horizontal icon text button component.
  */
 export const HorizontalIconTextButton = memo<HorizontalIconTextButtonProps>(({ icon, text, className, ...props }) => (
-	<BaseButton className={clsx('h-5 flex-row items-center justify-center gap-x-1.5', className)} {...props}>
+	<BaseButton className={clsx('flex-row items-center gap-x-1.5 py-1', className)} {...props}>
 		<Row className="h-[16px] w-[20px]">
 			<Icon icon={icon} height={16} width={20} />
 		</Row>
