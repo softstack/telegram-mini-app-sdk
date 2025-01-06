@@ -434,7 +434,14 @@ export const TConnectModal = memo<TConnectModalProps>(
 									<Fragment>
 										<Col className="flex-1 items-center gap-y-pageFrame">
 											<Col className="flex-1 items-center justify-center gap-y-pageFrame">
-												<div className={tw(connecting && 'spinner before:bg-tezos before:content-[""]')}>
+												<div
+													className={tw(
+														connecting &&
+															`spinner before:content-[""] ${
+																currentWallet.network === 'tezos' ? 'before:bg-tezos' : 'before:bg-etherlink'
+															}`,
+													)}
+												>
 													<div
 														className={tw(
 															connecting

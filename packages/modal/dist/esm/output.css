@@ -591,6 +591,12 @@
   transform-origin: top center;
 }
 
+.before\:eotrzpirnbqlbfjhbqpo-bg-etherlink::before {
+  content: var(--tw-content);
+  --tw-bg-opacity: 1;
+  background-color: rgb(56 255 156 / var(--tw-bg-opacity, 1));
+}
+
 .before\:eotrzpirnbqlbfjhbqpo-bg-tezos::before {
   content: var(--tw-content);
   --tw-bg-opacity: 1;

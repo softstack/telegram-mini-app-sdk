@@ -23,6 +23,7 @@ export default {
 				inactive: '#919191',
 				inactiveDark: '#717171',
 				tezos: '#0063ff',
+				etherlink: '#38ff9c',
 			},
 			spacing: {
 				pageFrame: '1.5rem',
