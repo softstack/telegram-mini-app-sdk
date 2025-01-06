@@ -1,4 +1,4 @@
-import { ETHERLINK_GHOSTNET_CHAIN_ID, ETHERLINK_MAINNET_CHAIN_ID, joinUrl } from '@tconnect.io/core';
+import { joinUrl } from '@tconnect.io/core';
 import { getOperatingSystem, openLink, randomUUID } from '@tconnect.io/dapp-utils';
 import { EtherlinkNetwork } from '@tconnect.io/etherlink-api-types';
 import { TConnectEtherlinkProvider } from '@tconnect.io/etherlink-provider';
@@ -9,7 +9,6 @@ import { clsx } from 'clsx';
 import { Fragment, memo, MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
-import { BeatLoader } from 'react-spinners';
 import { Bounce, ToastContainer } from 'react-toastify';
 import { Accordion } from '../components/Accordion';
 import { BaseButton } from '../components/buttons/BaseButton';
@@ -23,8 +22,6 @@ import { Header } from '../components/Header';
 import { Icon } from '../components/icons/Icon';
 import { Labelled } from '../components/Labelled';
 import {
-	ADD_ETHERLINK_GHOSTNET_URL,
-	ADD_ETHERLINK_MAINNET_URL,
 	ETHERLINK_GHOSTNET_DETAILS,
 	ETHERLINK_GHOSTNET_EXPLORER_URL,
 	ETHERLINK_MAINNET_DETAILS,
@@ -35,7 +32,7 @@ import {
 	TOAST_CONTAINER_ID,
 } from '../constants';
 import { Network } from '../types';
-import { handleError, nextVersion, useDarkMode, useVersionedState } from '../utils';
+import { handleError, nextVersion, useVersionedState } from '../utils';
 
 export type Step = 'connect' | 'connecting' | 'connected';
 
@@ -117,7 +114,6 @@ export const TConnectModal = memo<TConnectModalProps>(
 		onDisconnect,
 		onClose,
 	}) => {
-		const darkMode = useDarkMode();
 		const backgroundElement = useRef(null);
 		const [showNetworks, setShowNetworks] = useState(true);
 		const [showWallets, setShowWallets] = useState(false);
@@ -125,7 +121,6 @@ export const TConnectModal = memo<TConnectModalProps>(
 		const [address, setAddress] = useVersionedState<string | undefined>(undefined);
 		const [shortAddress, setShortAddress] = useVersionedState<string | undefined>(undefined);
 		const [showShortAddress, setShowShortAddress] = useState(true);
-		const [copiedAddress, setCopiedAddress] = useState(false);
 
 		useEffect(() => {
 			(async (): Promise<void> => {
@@ -332,20 +327,6 @@ export const TConnectModal = memo<TConnectModalProps>(
 			}
 		}, []);
 
-		const handleCopyAddress = useCallback(() => {
-			try {
-				if (address) {
-					navigator.clipboard.writeText(address);
-					setCopiedAddress(true);
-					setTimeout(() => {
-						setCopiedAddress(false);
-					}, 1500);
-				}
-			} catch (error) {
-				handleError(error);
-			}
-		}, [address]);
-
 		const handleShowExplorer = useCallback(() => {
 			try {
 				if (currentWallet?.bridge === 'etherlink' && etherlinkProvider) {
@@ -429,20 +410,20 @@ export const TConnectModal = memo<TConnectModalProps>(
 								{currentWallet.network === 'etherlink' && (
 									<Row className="gap-x-10 self-stretch">
 										<Row className="flex-1 justify-end">
-											<BaseButton
-												className={clsx(connectingTab !== 'connect' && 'text-notActive')}
+											<HorizontalIconTextButton
+												className={clsx(connectingTab !== 'connect' && 'text-inactive dark:text-inactiveDark')}
+												icon="linkSolid"
+												text="Connect"
 												onClick={() => setConnectingTab('connect')}
-											>
-												Connect
-											</BaseButton>
+											/>
 										</Row>
 										<Row className="flex-1">
-											<BaseButton
-												className={clsx(connectingTab !== 'addEtherlink' && 'text-notActive')}
+											<HorizontalIconTextButton
+												className={clsx(connectingTab !== 'addEtherlink' && 'text-inactive dark:text-inactiveDark')}
+												icon="plusSolid"
+												text="Add Etherlink"
 												onClick={() => setConnectingTab('addEtherlink')}
-											>
-												Add Etherlink
-											</BaseButton>
+											/>
 										</Row>
 									</Row>
 								)}

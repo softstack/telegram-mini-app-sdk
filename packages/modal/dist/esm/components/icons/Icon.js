@@ -14,7 +14,6 @@ export const Icon = memo(({ icon, ...props }) => {
             case 'safePal':
             case 'temple':
             case 'tezos':
-            case 'transparent':
             case 'trust': {
                 return true;
             }

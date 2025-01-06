@@ -33,23 +33,26 @@ export const CopyButton = memo<CopyButtonProps>(({ text, value, className, ...pr
 
 	const copyIcon = useMemo<IconType>(() => {
 		switch (copied) {
-			case 'error':
+			case 'error': {
 				return 'xmarkSolid';
-			case 'success':
+			}
+			case 'success': {
 				return 'checkSolid';
-			default:
+			}
+			default: {
 				return 'copyRegular';
+			}
 		}
 	}, [copied]);
 
 	return (
 		<BaseButton className={clsx('flex-row items-center gap-x-1.5 py-1', className)} onClick={handleCopy} {...props}>
-			<Row className="h-[20px] w-[20px]">
+			<Row className="h-[16px] w-[16px]">
 				<Icon
 					icon={copyIcon}
 					className={clsx(copied === 'error' ? 'text-error' : copied === 'success' ? 'text-success' : undefined)}
-					height={20}
-					width={20}
+					height={16}
+					width={16}
 				/>
 			</Row>
 			<Row className="break-all">{text}</Row>

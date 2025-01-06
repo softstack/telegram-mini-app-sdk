@@ -20,7 +20,8 @@ export default {
 				lineDark: '#fff',
 				icon: '#717171',
 				iconDark: '#fff',
-				notActive: '#717171',
+				inactive: '#919191',
+				inactiveDark: '#717171',
 			},
 			spacing: {
 				pageFrame: '1.5rem',

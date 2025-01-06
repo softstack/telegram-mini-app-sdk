@@ -31,15 +31,18 @@ exports.CopyButton = (0, react_1.memo)(({ text, value, className, ...props }) =>
     }, [value]);
     const copyIcon = (0, react_1.useMemo)(() => {
         switch (copied) {
-            case 'error':
+            case 'error': {
                 return 'xmarkSolid';
-            case 'success':
+            }
+            case 'success': {
                 return 'checkSolid';
-            default:
+            }
+            default: {
                 return 'copyRegular';
+            }
         }
     }, [copied]);
-    return ((0, jsx_runtime_1.jsxs)(BaseButton_1.BaseButton, { className: (0, clsx_1.clsx)('flex-row items-center gap-x-1.5 py-1', className), onClick: handleCopy, ...props, children: [(0, jsx_runtime_1.jsx)(Row_1.Row, { className: "h-[20px] w-[20px]", children: (0, jsx_runtime_1.jsx)(Icon_1.Icon, { icon: copyIcon, className: (0, clsx_1.clsx)(copied === 'error' ? 'text-error' : copied === 'success' ? 'text-success' : undefined), height: 20, width: 20 }) }), (0, jsx_runtime_1.jsx)(Row_1.Row, { className: "break-all", children: text })] }));
+    return ((0, jsx_runtime_1.jsxs)(BaseButton_1.BaseButton, { className: (0, clsx_1.clsx)('flex-row items-center gap-x-1.5 py-1', className), onClick: handleCopy, ...props, children: [(0, jsx_runtime_1.jsx)(Row_1.Row, { className: "h-[16px] w-[16px]", children: (0, jsx_runtime_1.jsx)(Icon_1.Icon, { icon: copyIcon, className: (0, clsx_1.clsx)(copied === 'error' ? 'text-error' : copied === 'success' ? 'text-success' : undefined), height: 16, width: 16 }) }), (0, jsx_runtime_1.jsx)(Row_1.Row, { className: "break-all", children: text })] }));
 });
 exports.CopyButton.displayName = 'CopyButton';
 //# sourceMappingURL=CopyButton.js.map

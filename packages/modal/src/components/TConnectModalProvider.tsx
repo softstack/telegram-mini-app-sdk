@@ -349,7 +349,7 @@ export const TConnectModalProvider = memo<TConnectModalProviderProps>(
 				tezosWcProvider,
 				connected,
 			}),
-			[openModal, closeModal, step, etherlinkProvider, tezosBeaconProvider, tezosWcProvider, connected],
+			[openModal, closeModal, etherlinkProvider, tezosBeaconProvider, tezosWcProvider, connected],
 		);
 
 		return (

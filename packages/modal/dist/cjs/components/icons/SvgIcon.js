@@ -7,17 +7,23 @@ exports.SvgIcon = void 0;
 const jsx_runtime_1 = require("react/jsx-runtime");
 const react_1 = require("react");
 const react_inlinesvg_1 = __importDefault(require("react-inlinesvg"));
+const arrow_rotate_right_solid_svg_1 = __importDefault(require("../../assets/icons/arrow-rotate-right-solid.svg"));
 const check_solid_svg_1 = __importDefault(require("../../assets/icons/check-solid.svg"));
 const chevron_down_solid_svg_1 = __importDefault(require("../../assets/icons/chevron-down-solid.svg"));
 const chevron_left_solid_svg_1 = __importDefault(require("../../assets/icons/chevron-left-solid.svg"));
 const chevron_up_solid_svg_1 = __importDefault(require("../../assets/icons/chevron-up-solid.svg"));
 const copy_regular_svg_1 = __importDefault(require("../../assets/icons/copy-regular.svg"));
 const file_lines_regular_svg_1 = __importDefault(require("../../assets/icons/file-lines-regular.svg"));
+const link_solid_svg_1 = __importDefault(require("../../assets/icons/link-solid.svg"));
+const plus_solid_svg_1 = __importDefault(require("../../assets/icons/plus-solid.svg"));
 const xmark_solid_svg_1 = __importDefault(require("../../assets/icons/xmark-solid.svg"));
 const utils_1 = require("../../utils");
 const SvgComponent = react_inlinesvg_1.default;
 const getSrc = (icon) => {
     switch (icon) {
+        case 'arrowRotateRightSolid': {
+            return arrow_rotate_right_solid_svg_1.default;
+        }
         case 'checkSolid': {
             return check_solid_svg_1.default;
         }
@@ -35,6 +41,12 @@ const getSrc = (icon) => {
         }
         case 'fileLinesRegular': {
             return file_lines_regular_svg_1.default;
+        }
+        case 'linkSolid': {
+            return link_solid_svg_1.default;
+        }
+        case 'plusSolid': {
+            return plus_solid_svg_1.default;
         }
         case 'xmarkSolid': {
             return xmark_solid_svg_1.default;

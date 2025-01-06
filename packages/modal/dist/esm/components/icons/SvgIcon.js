@@ -1,17 +1,23 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 import { memo, useCallback, useEffect, useState } from 'react';
 import Svg from 'react-inlinesvg';
+import arrowRotateRightSolid from '../../assets/icons/arrow-rotate-right-solid.svg';
 import checkSolid from '../../assets/icons/check-solid.svg';
 import chevronDownSolid from '../../assets/icons/chevron-down-solid.svg';
 import chevronLeftSolid from '../../assets/icons/chevron-left-solid.svg';
 import chevronUpSolid from '../../assets/icons/chevron-up-solid.svg';
 import copyRegular from '../../assets/icons/copy-regular.svg';
 import fileLinesRegular from '../../assets/icons/file-lines-regular.svg';
+import linkSolid from '../../assets/icons/link-solid.svg';
+import plusSolid from '../../assets/icons/plus-solid.svg';
 import xmarkSolid from '../../assets/icons/xmark-solid.svg';
 import { tw } from '../../utils';
 const SvgComponent = Svg;
 const getSrc = (icon) => {
     switch (icon) {
+        case 'arrowRotateRightSolid': {
+            return arrowRotateRightSolid;
+        }
         case 'checkSolid': {
             return checkSolid;
         }
@@ -29,6 +35,12 @@ const getSrc = (icon) => {
         }
         case 'fileLinesRegular': {
             return fileLinesRegular;
+        }
+        case 'linkSolid': {
+            return linkSolid;
+        }
+        case 'plusSolid': {
+            return plusSolid;
         }
         case 'xmarkSolid': {
             return xmarkSolid;

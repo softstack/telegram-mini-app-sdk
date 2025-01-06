@@ -7,7 +7,6 @@ import { BaseButton, BaseButtonProps } from './BaseButton';
 
 export interface HorizontalIconTextButtonProps extends BaseButtonProps {
 	icon: IconType;
-	iconColorSuccess?: boolean;
 	text: string;
 }
 
@@ -21,15 +20,13 @@ export interface HorizontalIconTextButtonProps extends BaseButtonProps {
  * @param {string} [props.className] - Additional class names to style the button.
  * @returns {JSX.Element} The rendered horizontal icon text button component.
  */
-export const HorizontalIconTextButton = memo<HorizontalIconTextButtonProps>(
-	({ icon, iconColorSuccess, text, className, ...props }) => (
-		<BaseButton className={clsx('h-5 flex-row items-center justify-center gap-x-1.5 text-line', className)} {...props}>
-			<Row className="h-[20px] w-[20px]">
-				<Icon className={clsx(iconColorSuccess && 'text-success')} icon={icon} height={20} width={20} />
-			</Row>
-			<Row className="text-xs text-primaryText dark:text-primaryTextDark">{text}</Row>
-		</BaseButton>
-	),
-);
+export const HorizontalIconTextButton = memo<HorizontalIconTextButtonProps>(({ icon, text, className, ...props }) => (
+	<BaseButton className={clsx('h-5 flex-row items-center justify-center gap-x-1.5', className)} {...props}>
+		<Row className="h-[16px] w-[20px]">
+			<Icon icon={icon} height={16} width={20} />
+		</Row>
+		<Row>{text}</Row>
+	</BaseButton>
+));
 
 HorizontalIconTextButton.displayName = 'HorizontalIconTextButton';

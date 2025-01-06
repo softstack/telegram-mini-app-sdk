@@ -28,15 +28,18 @@ export const CopyButton = memo(({ text, value, className, ...props }) => {
     }, [value]);
     const copyIcon = useMemo(() => {
         switch (copied) {
-            case 'error':
+            case 'error': {
                 return 'xmarkSolid';
-            case 'success':
+            }
+            case 'success': {
                 return 'checkSolid';
-            default:
+            }
+            default: {
                 return 'copyRegular';
+            }
         }
     }, [copied]);
-    return (_jsxs(BaseButton, { className: clsx('flex-row items-center gap-x-1.5 py-1', className), onClick: handleCopy, ...props, children: [_jsx(Row, { className: "h-[20px] w-[20px]", children: _jsx(Icon, { icon: copyIcon, className: clsx(copied === 'error' ? 'text-error' : copied === 'success' ? 'text-success' : undefined), height: 20, width: 20 }) }), _jsx(Row, { className: "break-all", children: text })] }));
+    return (_jsxs(BaseButton, { className: clsx('flex-row items-center gap-x-1.5 py-1', className), onClick: handleCopy, ...props, children: [_jsx(Row, { className: "h-[16px] w-[16px]", children: _jsx(Icon, { icon: copyIcon, className: clsx(copied === 'error' ? 'text-error' : copied === 'success' ? 'text-success' : undefined), height: 16, width: 16 }) }), _jsx(Row, { className: "break-all", children: text })] }));
 });
 CopyButton.displayName = 'CopyButton';
 //# sourceMappingURL=CopyButton.js.map

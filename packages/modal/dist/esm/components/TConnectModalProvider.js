@@ -252,7 +252,7 @@ export const TConnectModalProvider = memo(({ appName, appUrl, appIcon, bridgeUrl
         tezosBeaconProvider,
         tezosWcProvider,
         connected,
-    }), [openModal, closeModal, step, etherlinkProvider, tezosBeaconProvider, tezosWcProvider, connected]);
+    }), [openModal, closeModal, etherlinkProvider, tezosBeaconProvider, tezosWcProvider, connected]);
     return (_jsxs(TConnectModalContext.Provider, { value: value, ...props, children: [children, showModal && (_jsx(TConnectModal, { appName: appName, appUrl: appUrl, appIcon: appIcon, bridgeUrl: bridgeUrl, apiKey: apiKey, networkFilter: networkFilter, etherlinkNetwork: etherlinkNetwork, tezosBeaconNetwork: tezosBeaconNetwork, tezosWcNetwork: tezosWcNetwork, step: step, onChangeStep: setStep, currentNetwork: currentNetwork, onChangeCurrentNetwork: setCurrentNetwork, currentWallet: currentWallet, onChangeCurrentWallet: setCurrentWallet, etherlinkProvider: etherlinkProvider, onChangeEtherlinkProvider: handleChangeEtherlinkProvider, tezosBeaconProvider: tezosBeaconProvider, onChangeTezosBeaconProvider: handleChangeTezosBeaconProvider, tezosWcProvider: tezosWcProvider, onChangeTezosWcProvider: handleChangeTezosWcProvider, onDisconnect: handleDisconnect, onClose: closeModal }))] }));
 });
 TConnectModalProvider.displayName = 'TConnectModalProvider';
