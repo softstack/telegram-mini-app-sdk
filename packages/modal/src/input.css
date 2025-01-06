@@ -32,3 +32,45 @@
 .no-tap-highlight {
 	-webkit-tap-highlight-color: transparent;
 }
+
+.spinner {
+	box-sizing: border-box;
+	border-radius: 0.5rem;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.spinner .inner {
+	box-sizing: border-box;
+	border-radius: 0.5rem;
+	position: relative;
+	z-index: 1;
+	margin: 2px;
+	height: 48px;
+}
+
+@keyframes rotate {
+	from {
+		transform: rotate(0);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.spinner::before {
+	content: '';
+	display: block;
+	height: 100px;
+	width: 30px;
+	transform: translate(0);
+	position: absolute;
+	animation: rotate 1s linear forwards infinite;
+	z-index: 0;
+	top: 50%;
+	transform-origin: top center;
+}

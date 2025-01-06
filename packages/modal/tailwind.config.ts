@@ -22,6 +22,7 @@ export default {
 				iconDark: '#fff',
 				inactive: '#919191',
 				inactiveDark: '#717171',
+				tezos: '#0063ff',
 			},
 			spacing: {
 				pageFrame: '1.5rem',

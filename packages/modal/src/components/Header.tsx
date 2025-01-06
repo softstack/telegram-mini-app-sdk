@@ -28,14 +28,14 @@ export const Header = memo<HeaderProps>(({ onBack, title, onClose, className }) 
 		)}
 	>
 		{onBack ? (
-			<BaseButton className="size-6 items-center justify-center" onClick={onBack}>
+			<BaseButton className="h-11 w-6 items-center justify-center" onClick={onBack}>
 				<Icon icon="chevronLeftSolid" className="text-icon dark:text-iconDark" height={14} width={14} />
 			</BaseButton>
 		) : (
-			<Row className="size-6" />
+			<Row className="w-6" />
 		)}
 		<Row className="text-[1.25rem] font-bold">{title}</Row>
-		<BaseButton className="size-6 items-center justify-center" onClick={onClose}>
+		<BaseButton className="h-11 w-6 items-center justify-center" onClick={onClose}>
 			<Icon icon="xmarkSolid" className="text-icon dark:text-iconDark" height={14} width={14} />
 		</BaseButton>
 	</Row>

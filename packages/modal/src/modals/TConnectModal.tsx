@@ -32,7 +32,7 @@ import {
 	TOAST_CONTAINER_ID,
 } from '../constants';
 import { Network } from '../types';
-import { handleError, nextVersion, useVersionedState } from '../utils';
+import { handleError, nextVersion, tw, useVersionedState } from '../utils';
 
 export type Step = 'connect' | 'connecting' | 'connected';
 
@@ -117,6 +117,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 		const backgroundElement = useRef(null);
 		const [showNetworks, setShowNetworks] = useState(true);
 		const [showWallets, setShowWallets] = useState(false);
+		const [connecting, setConnecting] = useState(false);
 		const [connectingTab, setConnectingTab] = useState<'connect' | 'addEtherlink'>('connect');
 		const [address, setAddress] = useVersionedState<string | undefined>(undefined);
 		const [shortAddress, setShortAddress] = useVersionedState<string | undefined>(undefined);
@@ -216,6 +217,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 			async (wallet: Network['wallets'][0]) => {
 				try {
 					onChangeCurrentWallet(wallet);
+					setConnecting(true);
 					setConnectingTab('connect');
 					onChangeStep('connecting');
 					switch (wallet.network) {
@@ -274,6 +276,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 					}
 				} catch (error) {
 					handleError(error);
+					setConnecting(false);
 				}
 			},
 			[
@@ -406,9 +409,9 @@ export const TConnectModal = memo<TConnectModalProps>(
 					) : step === 'connecting' && currentWallet ? (
 						<Fragment>
 							<Header onBack={() => onChangeStep('connect')} title={currentWallet.name} onClose={onClose} />
-							<Col className="flex-1 items-center gap-y-pageFrame overflow-y-scroll p-pageFrame">
+							<Col className="flex-1 items-stretch gap-y-pageFrame overflow-y-scroll p-pageFrame">
 								{currentWallet.network === 'etherlink' && (
-									<Row className="gap-x-10 self-stretch">
+									<Row className="gap-x-10">
 										<Row className="flex-1 justify-end">
 											<HorizontalIconTextButton
 												className={clsx(connectingTab !== 'connect' && 'text-inactive dark:text-inactiveDark')}
@@ -429,14 +432,24 @@ export const TConnectModal = memo<TConnectModalProps>(
 								)}
 								{connectingTab === 'connect' ? (
 									<Fragment>
-										<Col className="flex-1 items-center justify-between gap-y-pageFrame">
-											<Col className="items-center gap-y-pageFrame">
-												<Icon
-													icon={currentWallet.icon}
-													className="rounded-[0.5rem] object-contain"
-													height={48}
-													width={48}
-												/>
+										<Col className="flex-1 items-center gap-y-pageFrame">
+											<Col className="flex-1 items-center justify-center gap-y-pageFrame">
+												<div className={tw(connecting && 'spinner before:bg-tezos before:content-[""]')}>
+													<div
+														className={tw(
+															connecting
+																? 'inner bg-light dark:bg-dark'
+																: 'flex h-[52px] w-[52px] items-center justify-center',
+														)}
+													>
+														<Icon
+															icon={currentWallet.icon}
+															className="rounded-[0.5rem] object-contain"
+															height={48}
+															width={48}
+														/>
+													</div>
+												</div>
 												<Row className="text-lg font-medium">Please confirm in {currentWallet.name}</Row>
 												{currentWallet.network === 'etherlink' && (
 													<Row className="text-center">
@@ -473,7 +486,7 @@ export const TConnectModal = memo<TConnectModalProps>(
 														</Labelled>
 													))}
 												</Col>
-												<Row className="items-center justify-between self-stretch">
+												<Row className="items-center justify-between">
 													<Row>Has Etherlink been added?</Row>
 													<TextButton text="Try again" onClick={() => handleChangeWallet(currentWallet)} />
 												</Row>

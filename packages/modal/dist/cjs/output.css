@@ -173,12 +173,20 @@
   height: 1.5rem;
 }
 
+.eotrzpirnbqlbfjhbqpo-h-11 {
+  height: 2.75rem;
+}
+
 .eotrzpirnbqlbfjhbqpo-h-3\/4 {
   height: 75%;
 }
 
 .eotrzpirnbqlbfjhbqpo-h-\[16px\] {
   height: 16px;
+}
+
+.eotrzpirnbqlbfjhbqpo-h-\[52px\] {
+  height: 52px;
 }
 
 .eotrzpirnbqlbfjhbqpo-min-h-6 {
@@ -189,12 +197,20 @@
   min-height: 3.625rem;
 }
 
+.eotrzpirnbqlbfjhbqpo-w-6 {
+  width: 1.5rem;
+}
+
 .eotrzpirnbqlbfjhbqpo-w-\[16px\] {
   width: 16px;
 }
 
 .eotrzpirnbqlbfjhbqpo-w-\[20px\] {
   width: 20px;
+}
+
+.eotrzpirnbqlbfjhbqpo-w-\[52px\] {
+  width: 52px;
 }
 
 .eotrzpirnbqlbfjhbqpo-flex-1 {
@@ -223,6 +239,10 @@
 
 .eotrzpirnbqlbfjhbqpo-items-center {
   align-items: center;
+}
+
+.eotrzpirnbqlbfjhbqpo-items-stretch {
+  align-items: stretch;
 }
 
 .eotrzpirnbqlbfjhbqpo-justify-end {
@@ -527,6 +547,59 @@
 
 .eotrzpirnbqlbfjhbqpo-no-tap-highlight {
   -webkit-tap-highlight-color: transparent;
+}
+
+.eotrzpirnbqlbfjhbqpo-spinner {
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eotrzpirnbqlbfjhbqpo-spinner .eotrzpirnbqlbfjhbqpo-inner {
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  position: relative;
+  z-index: 1;
+  margin: 2px;
+  height: 48px;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.eotrzpirnbqlbfjhbqpo-spinner::before {
+  content: '';
+  display: block;
+  height: 100px;
+  width: 30px;
+  transform: translate(0);
+  position: absolute;
+  animation: rotate 1s linear forwards infinite;
+  z-index: 0;
+  top: 50%;
+  transform-origin: top center;
+}
+
+.before\:eotrzpirnbqlbfjhbqpo-bg-tezos::before {
+  content: var(--tw-content);
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 99 255 / var(--tw-bg-opacity, 1));
+}
+
+.before\:eotrzpirnbqlbfjhbqpo-content-\[\"\"\]::before {
+  --tw-content: "";
+  content: var(--tw-content);
 }
 
 .dark\:eotrzpirnbqlbfjhbqpo-border-lineDark:is(body[class~="dark-mode"] *) {
