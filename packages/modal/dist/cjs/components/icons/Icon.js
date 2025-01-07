@@ -17,7 +17,6 @@ exports.Icon = (0, react_1.memo)(({ icon, ...props }) => {
             case 'safePal':
             case 'temple':
             case 'tezos':
-            case 'transparent':
             case 'trust': {
                 return true;
             }

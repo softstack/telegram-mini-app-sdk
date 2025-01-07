@@ -13,15 +13,18 @@ export type PngIconType =
 	| 'safePal'
 	| 'temple'
 	| 'tezos'
-	| 'transparent'
 	| 'trust';
 
 export type SvgIconType =
+	| 'arrowRotateRightSolid'
 	| 'checkSolid'
 	| 'chevronDownSolid'
+	| 'chevronLeftSolid'
 	| 'chevronUpSolid'
 	| 'copyRegular'
 	| 'fileLinesRegular'
+	| 'linkSolid'
+	| 'plusSolid'
 	| 'xmarkSolid';
 
 export type IconType = PngIconType | SvgIconType;

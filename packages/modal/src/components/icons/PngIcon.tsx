@@ -1,15 +1,14 @@
 import { HTMLAttributes, memo, useMemo } from 'react';
-import airGap from '../../assets/icons/air-gap.png';
-import altme from '../../assets/icons/altme.png';
-import bitget from '../../assets/icons/bitget.png';
-import etherlink from '../../assets/icons/etherlink.png';
-import kukai from '../../assets/icons/kukai.png';
-import metaMask from '../../assets/icons/meta-mask.png';
-import safePal from '../../assets/icons/safe-pal.png';
-import temple from '../../assets/icons/temple.png';
-import tezos from '../../assets/icons/tezos.png';
-import transparent from '../../assets/icons/transparent.png';
-import trust from '../../assets/icons/trust.png';
+import etherlink from '../../assets/networks/etherlink.png';
+import tezos from '../../assets/networks/tezos.png';
+import airGap from '../../assets/wallets/air-gap.png';
+import altme from '../../assets/wallets/altme.png';
+import bitget from '../../assets/wallets/bitget.png';
+import kukai from '../../assets/wallets/kukai.png';
+import metaMask from '../../assets/wallets/meta-mask.png';
+import safePal from '../../assets/wallets/safe-pal.png';
+import temple from '../../assets/wallets/temple.png';
+import trust from '../../assets/wallets/trust.png';
 import { PngIconType } from '../../types';
 import { tw } from '../../utils';
 
@@ -24,7 +23,7 @@ export interface PngIconProps extends HTMLAttributes<HTMLImageElement> {
  *
  * @param {PngIconProps} props - The properties for the PngIcon component.
  * @param {string} props.icon - The name of the icon to be displayed. Possible values are:
- *   'airGap', 'altme', 'bitget', 'etherlink', 'kukai', 'metaMask', 'safePal', 'temple', 'tezos', 'transparent', 'trust'.
+ *   'airGap', 'altme', 'bitget', 'etherlink', 'kukai', 'metaMask', 'safePal', 'temple', 'tezos', 'trust'.
  * @param {string | number} props.height - The height of the image.
  * @param {string | number} props.width - The width of the image.
  * @param {string} [props.className] - Additional CSS classes to apply to the image.
@@ -61,9 +60,6 @@ export const PngIcon = memo<PngIconProps>(({ icon, height, width, className, ...
 			}
 			case 'tezos': {
 				return tezos;
-			}
-			case 'transparent': {
-				return transparent;
 			}
 			case 'trust': {
 				return trust;

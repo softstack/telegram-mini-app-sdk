@@ -18,7 +18,7 @@ export interface TextButtonProps extends BaseButtonProps {
 export const TextButton = memo<TextButtonProps>(({ text, className, ...props }) => (
 	<BaseButton
 		className={clsx(
-			'items-center justify-center rounded-lg border border-solid border-lineGrey p-4 text-primaryText dark:text-primaryTextDark',
+			'items-center justify-center rounded-lg border border-solid border-line p-4 text-primaryText dark:text-primaryTextDark',
 			className,
 		)}
 		{...props}

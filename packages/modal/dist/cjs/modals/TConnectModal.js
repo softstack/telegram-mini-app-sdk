@@ -44,7 +44,6 @@ const clsx_1 = require("clsx");
 const react_1 = require("react");
 const react_dom_1 = require("react-dom");
 const react_jazzicon_1 = __importStar(require("react-jazzicon"));
-const react_spinners_1 = require("react-spinners");
 const react_toastify_1 = require("react-toastify");
 const Accordion_1 = require("../components/Accordion");
 const BaseButton_1 = require("../components/buttons/BaseButton");
@@ -55,19 +54,19 @@ const TextButton_1 = require("../components/buttons/TextButton");
 const Col_1 = require("../components/flex/Col");
 const Row_1 = require("../components/flex/Row");
 const Header_1 = require("../components/Header");
+const Icon_1 = require("../components/icons/Icon");
 const Labelled_1 = require("../components/Labelled");
 const constants_1 = require("../constants");
 const utils_1 = require("../utils");
 exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, appIcon, bridgeUrl, apiKey, networkFilter, etherlinkNetwork = 'ghostnet', tezosBeaconNetwork = { type: 'ghostnet' }, tezosWcNetwork = 'ghostnet', step, onChangeStep, currentNetwork, onChangeCurrentNetwork, currentWallet, onChangeCurrentWallet, etherlinkProvider, onChangeEtherlinkProvider, tezosBeaconProvider, onChangeTezosBeaconProvider, tezosWcProvider, onChangeTezosWcProvider, onDisconnect, onClose, }) => {
-    const darkMode = (0, utils_1.useDarkMode)();
     const backgroundElement = (0, react_1.useRef)(null);
     const [showNetworks, setShowNetworks] = (0, react_1.useState)(true);
     const [showWallets, setShowWallets] = (0, react_1.useState)(false);
-    const [isConnectingError, setIsConnectingError] = (0, react_1.useState)(false);
+    const [connecting, setConnecting] = (0, react_1.useState)(false);
+    const [connectingTab, setConnectingTab] = (0, react_1.useState)('connect');
     const [address, setAddress] = (0, utils_1.useVersionedState)(undefined);
     const [shortAddress, setShortAddress] = (0, utils_1.useVersionedState)(undefined);
     const [showShortAddress, setShowShortAddress] = (0, react_1.useState)(true);
-    const [copiedAddress, setCopiedAddress] = (0, react_1.useState)(false);
     (0, react_1.useEffect)(() => {
         (async () => {
             try {
@@ -149,9 +148,10 @@ exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, appIcon, bridgeUrl
     }, [currentNetwork]);
     const handleChangeWallet = (0, react_1.useCallback)(async (wallet) => {
         try {
-            onChangeStep('connecting');
             onChangeCurrentWallet(wallet);
-            setIsConnectingError(false);
+            setConnecting(true);
+            setConnectingTab('connect');
+            onChangeStep('connecting');
             switch (wallet.network) {
                 case 'etherlink': {
                     const provider = new etherlink_provider_1.TConnectEtherlinkProvider({
@@ -164,13 +164,6 @@ exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, appIcon, bridgeUrl
                         network: etherlinkNetwork,
                     });
                     provider.once('connect', (info) => {
-                        if ((etherlinkNetwork === 'mainnet' && BigInt(info.chainId) === core_1.ETHERLINK_MAINNET_CHAIN_ID) ||
-                            (etherlinkNetwork === 'ghostnet' && BigInt(info.chainId) === core_1.ETHERLINK_GHOSTNET_CHAIN_ID)) {
-                            onChangeStep('connected');
-                        }
-                        else {
-                            onChangeStep('invalidChainId');
-                        }
                         onChangeEtherlinkProvider(provider, BigInt(info.chainId));
                     });
                     await provider.connect();
@@ -213,8 +206,8 @@ exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, appIcon, bridgeUrl
             }
         }
         catch (error) {
-            setIsConnectingError(true);
             (0, utils_1.handleError)(error);
+            setConnecting(false);
         }
     }, [
         onChangeStep,
@@ -239,20 +232,6 @@ exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, appIcon, bridgeUrl
             (0, utils_1.handleError)(error);
         }
     }, []);
-    const handleCopyAddress = (0, react_1.useCallback)(() => {
-        try {
-            if (address) {
-                navigator.clipboard.writeText(address);
-                setCopiedAddress(true);
-                setTimeout(() => {
-                    setCopiedAddress(false);
-                }, 1500);
-            }
-        }
-        catch (error) {
-            (0, utils_1.handleError)(error);
-        }
-    }, [address]);
     const handleShowExplorer = (0, react_1.useCallback)(() => {
         try {
             if (currentWallet?.bridge === 'etherlink' && etherlinkProvider) {
@@ -279,13 +258,18 @@ exports.TConnectModal = (0, react_1.memo)(({ appName, appUrl, appIcon, bridgeUrl
             (0, utils_1.handleError)(error);
         }
     }, [currentWallet, address, etherlinkProvider, tezosBeaconProvider, tezosWcProvider]);
-    return (0, react_dom_1.createPortal)((0, jsx_runtime_1.jsxs)(Col_1.Col, { ref: backgroundElement, className: "fixed inset-0 z-[999999] justify-end bg-[#00000030] backdrop-blur", onClick: handleBackground, children: [(0, jsx_runtime_1.jsx)(Col_1.Col, { className: (0, clsx_1.clsx)(step === 'connected' ? 'max-h-3/4' : 'h-3/4', 'rounded-t-3xl bg-white font-sans text-primaryText dark:bg-dark dark:text-primaryTextDark'), children: step === 'connect' ? ((0, jsx_runtime_1.jsxs)(react_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(Header_1.Header, { title: "Connect Account", onClose: onClose }), (0, jsx_runtime_1.jsx)(Col_1.Col, { className: "gap-y-6 overflow-y-scroll p-pageFrame", children: filteredNetworks.length > 0 && ((0, jsx_runtime_1.jsxs)(react_1.Fragment, { children: [filteredNetworks.length > 1 && ((0, jsx_runtime_1.jsx)(Accordion_1.Accordion, { title: "Choose Network", open: showNetworks, onChangeOpen: setShowNetworks, children: filteredNetworks.map((network) => {
+    return (0, react_dom_1.createPortal)((0, jsx_runtime_1.jsxs)(Col_1.Col, { ref: backgroundElement, className: "fixed inset-0 z-[999999] justify-end bg-[#00000030] backdrop-blur", onClick: handleBackground, children: [(0, jsx_runtime_1.jsx)(Col_1.Col, { className: (0, clsx_1.clsx)(step === 'connected' ? 'max-h-3/4' : 'h-3/4', 'rounded-t-3xl bg-light font-sans text-primaryText dark:bg-dark dark:text-primaryTextDark'), children: step === 'connect' ? ((0, jsx_runtime_1.jsxs)(react_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(Header_1.Header, { title: "Connect Account", onClose: onClose }), (0, jsx_runtime_1.jsx)(Col_1.Col, { className: "gap-y-6 overflow-y-scroll p-pageFrame", children: filteredNetworks.length > 0 && ((0, jsx_runtime_1.jsxs)(react_1.Fragment, { children: [filteredNetworks.length > 1 && ((0, jsx_runtime_1.jsx)(Accordion_1.Accordion, { title: "Choose Network", open: showNetworks, onChangeOpen: setShowNetworks, children: filteredNetworks.map((network) => {
                                             const { name, icon } = network;
                                             return ((0, jsx_runtime_1.jsx)(GridButton_1.GridButton, { icon: icon, text: name, selected: network === currentNetwork, onClick: () => handleChangeNetwork(network) }, name));
                                         }) })), (0, jsx_runtime_1.jsx)(Accordion_1.Accordion, { title: "Select Wallet", open: showWallets, onChangeOpen: setShowWallets, children: wallets.map((wallet) => {
                                             const { name, icon } = wallet;
                                             return ((0, jsx_runtime_1.jsx)(GridButton_1.GridButton, { icon: icon, text: name, selected: false, onClick: () => handleChangeWallet(wallet) }, name));
-                                        }) })] })) })] })) : step === 'connecting' ? ((0, jsx_runtime_1.jsxs)(react_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(Header_1.Header, { title: "Connecting", onClose: onClose }), (0, jsx_runtime_1.jsxs)(Col_1.Col, { className: "items-center gap-y-pageFrame overflow-y-scroll p-pageFrame", children: [isConnectingError ? (currentWallet && (0, jsx_runtime_1.jsx)(TextButton_1.TextButton, { text: "Try again", onClick: () => handleChangeWallet(currentWallet) })) : ((0, jsx_runtime_1.jsxs)(react_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(react_spinners_1.BeatLoader, { size: 8, color: darkMode ? '#fff' : '#000' }), (0, jsx_runtime_1.jsxs)(Col_1.Col, { className: "items-center gap-y-2", children: [(0, jsx_runtime_1.jsx)(Row_1.Row, { children: "Connecting Wallet" }), currentWallet && (0, jsx_runtime_1.jsxs)(Row_1.Row, { className: "text-sm", children: ["Please confirm in ", currentWallet.name] })] })] })), (0, jsx_runtime_1.jsx)(react_1.Fragment, { children: currentWallet?.network === 'etherlink' && ((0, jsx_runtime_1.jsxs)(react_1.Fragment, { children: [(0, jsx_runtime_1.jsxs)(Row_1.Row, { className: "text-center text-red-500", children: ["If you have issues, please make sure Etherlink has been added to ", currentWallet.name] }), (0, jsx_runtime_1.jsx)(Row_1.Row, { children: "You can either visit the link below via your wallet\u2019s browser or add Etherlink manually" }), (0, jsx_runtime_1.jsx)(CopyButton_1.CopyButton, { text: etherlinkNetwork === 'mainnet' ? constants_1.ADD_ETHERLINK_MAINNET_URL : constants_1.ADD_ETHERLINK_GHOSTNET_URL }), (0, jsx_runtime_1.jsx)(Col_1.Col, { className: "gap-y-3 self-start pt-2", children: (etherlinkNetwork === 'mainnet' ? constants_1.ETHERLINK_MAINNET_DETAILS : constants_1.ETHERLINK_GHOSTNET_DETAILS).map(({ label, value }, index) => ((0, jsx_runtime_1.jsx)(Labelled_1.Labelled, { label: label, children: (0, jsx_runtime_1.jsx)(CopyButton_1.CopyButton, { text: value }) }, index))) })] })) })] })] })) : step === 'invalidChainId' ? ((0, jsx_runtime_1.jsxs)(react_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(Header_1.Header, { title: "Unsupported Network", onClose: onClose }), (0, jsx_runtime_1.jsxs)(Col_1.Col, { className: "gap-y-pageFrame overflow-y-scroll p-pageFrame", children: [(0, jsx_runtime_1.jsxs)(Row_1.Row, { children: ["Please select Etherlink in ", currentWallet?.name] }), (0, jsx_runtime_1.jsxs)(Row_1.Row, { children: ["If Etherlink has not been added to ", currentWallet?.name, " yet, you can find a how-to here"] }), (0, jsx_runtime_1.jsx)(TextButton_1.TextButton, { text: "I have selected Etherlink", onClick: onClose })] })] })) : step === 'connected' ? ((0, jsx_runtime_1.jsxs)(react_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(Header_1.Header, { title: "Account Details", onClose: onClose }), (0, jsx_runtime_1.jsxs)(Col_1.Col, { className: "gap-y-pageFrame overflow-y-scroll p-pageFrame", children: [(0, jsx_runtime_1.jsxs)(Col_1.Col, { className: "gap-y-pageFrame rounded-lg border border-solid border-lineGrey p-3", children: [(0, jsx_runtime_1.jsxs)(BaseButton_1.BaseButton, { className: "min-h-6 flex-row items-center gap-x-1.5", onClick: toggleShowShortAddress, children: [(0, jsx_runtime_1.jsx)(Row_1.Row, { className: "min-w[24px]", children: address && (0, jsx_runtime_1.jsx)(react_jazzicon_1.default, { diameter: 24, seed: (0, react_jazzicon_1.jsNumberForAddress)(address) }) }), (0, jsx_runtime_1.jsx)(Row_1.Row, { className: "break-all", children: showShortAddress ? shortAddress : address })] }), (0, jsx_runtime_1.jsxs)(Row_1.Row, { className: "justify-between", children: [(0, jsx_runtime_1.jsx)(HorizontalIconTextButton_1.HorizontalIconTextButton, { icon: copiedAddress ? 'checkSolid' : 'copyRegular', iconColorSuccess: copiedAddress, text: "Copy address", onClick: handleCopyAddress }), (0, jsx_runtime_1.jsx)(HorizontalIconTextButton_1.HorizontalIconTextButton, { icon: "fileLinesRegular", text: "View on explorer", onClick: handleShowExplorer })] })] }), (0, jsx_runtime_1.jsxs)(Row_1.Row, { className: "items-center justify-between", children: [(0, jsx_runtime_1.jsxs)(Row_1.Row, { className: "text-xs font-medium", children: ["Connected with ", currentWallet?.name] }), (0, jsx_runtime_1.jsx)(BaseButton_1.BaseButton, { className: "items-center justify-center rounded-lg border border-solid border-[#ff8989] bg-[#ffe1e1] p-4 text-primaryText", onClick: onDisconnect, children: "Disconnect" })] })] })] })) : undefined }), (0, jsx_runtime_1.jsx)(react_toastify_1.ToastContainer, { containerId: constants_1.TOAST_CONTAINER_ID, position: "top-center", autoClose: 5000, hideProgressBar: false, newestOnTop: false, closeOnClick: true, rtl: false, pauseOnFocusLoss: true, draggable: true, pauseOnHover: true, theme: "colored", transition: react_toastify_1.Bounce })] }), document.body);
+                                        }) })] })) })] })) : step === 'connecting' && currentWallet ? ((0, jsx_runtime_1.jsxs)(react_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(Header_1.Header, { onBack: () => onChangeStep('connect'), title: currentWallet.name, onClose: onClose }), (0, jsx_runtime_1.jsxs)(Col_1.Col, { className: "flex-1 items-stretch gap-y-pageFrame overflow-y-scroll p-pageFrame", children: [currentWallet.network === 'etherlink' && ((0, jsx_runtime_1.jsxs)(Row_1.Row, { className: "gap-x-10", children: [(0, jsx_runtime_1.jsx)(Row_1.Row, { className: "flex-1 justify-end", children: (0, jsx_runtime_1.jsx)(HorizontalIconTextButton_1.HorizontalIconTextButton, { className: (0, clsx_1.clsx)(connectingTab !== 'connect' && 'text-inactive dark:text-inactiveDark'), icon: "linkSolid", text: "Connect", onClick: () => setConnectingTab('connect') }) }), (0, jsx_runtime_1.jsx)(Row_1.Row, { className: "flex-1", children: (0, jsx_runtime_1.jsx)(HorizontalIconTextButton_1.HorizontalIconTextButton, { className: (0, clsx_1.clsx)(connectingTab !== 'addEtherlink' && 'text-inactive dark:text-inactiveDark'), icon: "plusSolid", text: "Add Etherlink", onClick: () => setConnectingTab('addEtherlink') }) })] })), connectingTab === 'connect' ? ((0, jsx_runtime_1.jsx)(react_1.Fragment, { children: (0, jsx_runtime_1.jsxs)(Col_1.Col, { className: "flex-1 items-center gap-y-pageFrame", children: [(0, jsx_runtime_1.jsxs)(Col_1.Col, { className: "flex-1 items-center justify-center gap-y-pageFrame", children: [(0, jsx_runtime_1.jsx)("div", { className: (0, utils_1.tw)(connecting &&
+                                                            `spinner before:content-[""] ${currentWallet.network === 'tezos' ? 'before:bg-tezos' : 'before:bg-etherlink'}`), children: (0, jsx_runtime_1.jsx)("div", { className: (0, utils_1.tw)(connecting
+                                                                ? 'inner bg-light dark:bg-dark'
+                                                                : 'flex h-[52px] w-[52px] items-center justify-center'), children: (0, jsx_runtime_1.jsx)(Icon_1.Icon, { icon: currentWallet.icon, className: "rounded-[0.5rem] object-contain", height: 48, width: 48 }) }) }), (0, jsx_runtime_1.jsxs)(Row_1.Row, { className: "text-lg font-medium", children: ["Please confirm in ", currentWallet.name] }), currentWallet.network === 'etherlink' && ((0, jsx_runtime_1.jsxs)(Row_1.Row, { className: "text-center", children: ["If you have issues, please make sure Etherlink has been added to ", currentWallet.name] }))] }), (0, jsx_runtime_1.jsxs)(Row_1.Row, { className: "items-center justify-between self-stretch", children: [(0, jsx_runtime_1.jsx)(Row_1.Row, { children: "Connection didn\u2019t work?" }), (0, jsx_runtime_1.jsx)(TextButton_1.TextButton, { text: "Try again", onClick: () => handleChangeWallet(currentWallet) })] })] }) })) : ((0, jsx_runtime_1.jsx)(react_1.Fragment, { children: currentWallet?.network === 'etherlink' && ((0, jsx_runtime_1.jsxs)(react_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(Col_1.Col, { className: "gap-y-3 self-start pt-2", children: (etherlinkNetwork === 'mainnet'
+                                                    ? constants_1.ETHERLINK_MAINNET_DETAILS
+                                                    : constants_1.ETHERLINK_GHOSTNET_DETAILS).map(({ label, value }, index) => ((0, jsx_runtime_1.jsx)(Labelled_1.Labelled, { label: label, children: (0, jsx_runtime_1.jsx)(CopyButton_1.CopyButton, { text: value, value: value }) }, index))) }), (0, jsx_runtime_1.jsxs)(Row_1.Row, { className: "items-center justify-between", children: [(0, jsx_runtime_1.jsx)(Row_1.Row, { children: "Has Etherlink been added?" }), (0, jsx_runtime_1.jsx)(TextButton_1.TextButton, { text: "Try again", onClick: () => handleChangeWallet(currentWallet) })] })] })) }))] })] })) : step === 'connected' ? ((0, jsx_runtime_1.jsxs)(react_1.Fragment, { children: [(0, jsx_runtime_1.jsx)(Header_1.Header, { title: "Account Details", onClose: onClose }), (0, jsx_runtime_1.jsxs)(Col_1.Col, { className: "gap-y-pageFrame overflow-y-scroll p-pageFrame", children: [(0, jsx_runtime_1.jsxs)(Col_1.Col, { className: "gap-y-pageFrame rounded-lg border border-solid border-line p-3", children: [(0, jsx_runtime_1.jsxs)(BaseButton_1.BaseButton, { className: "min-h-6 flex-row items-center gap-x-1.5", onClick: toggleShowShortAddress, children: [(0, jsx_runtime_1.jsx)(Row_1.Row, { className: "min-w[24px]", children: address && (0, jsx_runtime_1.jsx)(react_jazzicon_1.default, { diameter: 24, seed: (0, react_jazzicon_1.jsNumberForAddress)(address) }) }), (0, jsx_runtime_1.jsx)(Row_1.Row, { className: "break-all", children: showShortAddress ? shortAddress : address })] }), (0, jsx_runtime_1.jsxs)(Row_1.Row, { className: "justify-between", children: [(0, jsx_runtime_1.jsx)(CopyButton_1.CopyButton, { text: "Copy address", value: address }), (0, jsx_runtime_1.jsx)(HorizontalIconTextButton_1.HorizontalIconTextButton, { icon: "fileLinesRegular", text: "View on explorer", onClick: handleShowExplorer })] })] }), (0, jsx_runtime_1.jsxs)(Row_1.Row, { className: "items-center justify-between", children: [(0, jsx_runtime_1.jsxs)(Row_1.Row, { className: "text-xs font-medium", children: ["Connected with ", currentWallet?.name] }), (0, jsx_runtime_1.jsx)(BaseButton_1.BaseButton, { className: "items-center justify-center rounded-lg border border-solid border-[#ff8989] bg-[#ffe1e1] p-4 text-primaryText", onClick: onDisconnect, children: "Disconnect" })] })] })] })) : undefined }), (0, jsx_runtime_1.jsx)(react_toastify_1.ToastContainer, { containerId: constants_1.TOAST_CONTAINER_ID, position: "top-center", autoClose: 5000, hideProgressBar: false, newestOnTop: false, closeOnClick: true, rtl: false, pauseOnFocusLoss: true, draggable: true, pauseOnHover: true, theme: "colored", transition: react_toastify_1.Bounce })] }), document.body);
 });
 exports.TConnectModal.displayName = 'TConnectModal';
 //# sourceMappingURL=TConnectModal.js.map

@@ -81,15 +81,17 @@ export const TEZOS_GHOSTNET_EXPLORER_URL = 'https://ghostnet.tzkt.io';
 export const ETHERLINK_MAINNET_DETAILS = [
     { label: 'Network Name', value: 'Etherlink Mainnet' },
     { label: 'Chain ID', value: '42793' },
-    { label: 'Symbol', value: 'XTZ' },
     { label: 'RPC URL', value: 'https://node.mainnet.etherlink.com' },
+    { label: 'Symbol', value: 'XTZ' },
+    { label: 'Decimals', value: '18' },
     { label: 'Block Explorer URL', value: ETHERLINK_MAINNET_EXPLORER_URL },
 ];
 export const ETHERLINK_GHOSTNET_DETAILS = [
     { label: 'Network Name', value: 'Etherlink Testnet' },
     { label: 'Chain ID', value: '128123' },
-    { label: 'Symbol', value: 'XTZ' },
     { label: 'RPC URL', value: 'https://node.ghostnet.etherlink.com' },
+    { label: 'Symbol', value: 'XTZ' },
+    { label: 'Decimals', value: '18' },
     { label: 'Block Explorer URL', value: ETHERLINK_GHOSTNET_EXPLORER_URL },
 ];
 export const TOAST_CONTAINER_ID = 'qbpoorwpbcmnyejvnqad';

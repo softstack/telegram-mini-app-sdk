@@ -5,6 +5,7 @@ import { Row, RowProps } from './flex/Row';
 import { Icon } from './icons/Icon';
 
 export interface HeaderProps extends RowProps {
+	onBack?: () => void;
 	title: string;
 	onClose: () => void;
 }
@@ -19,16 +20,23 @@ export interface HeaderProps extends RowProps {
  *
  * @returns {JSX.Element} The rendered Header component.
  */
-export const Header = memo<HeaderProps>(({ title, onClose, className }) => (
+export const Header = memo<HeaderProps>(({ onBack, title, onClose, className }) => (
 	<Row
 		className={clsx(
-			'min-h-[3.625rem] items-center justify-between border-x-0 border-y border-t-0 border-solid border-lineGrey px-pageFrame',
+			'min-h-[3.625rem] items-center justify-between border-x-0 border-y border-t-0 border-solid border-line px-pageFrame',
 			className,
 		)}
 	>
+		{onBack ? (
+			<BaseButton className="h-11 w-6 items-center justify-center" onClick={onBack}>
+				<Icon icon="chevronLeftSolid" className="text-icon dark:text-iconDark" height={14} width={14} />
+			</BaseButton>
+		) : (
+			<Row className="w-6" />
+		)}
 		<Row className="text-[1.25rem] font-bold">{title}</Row>
-		<BaseButton className="size-6 items-center justify-center" onClick={onClose}>
-			<Icon icon="xmarkSolid" className="text-lineGrey" height={14} width={14} />
+		<BaseButton className="h-11 w-6 items-center justify-center" onClick={onClose}>
+			<Icon icon="xmarkSolid" className="text-icon dark:text-iconDark" height={14} width={14} />
 		</BaseButton>
 	</Row>
 ));

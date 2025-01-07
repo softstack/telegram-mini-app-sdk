@@ -6,17 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PngIcon = void 0;
 const jsx_runtime_1 = require("react/jsx-runtime");
 const react_1 = require("react");
-const air_gap_png_1 = __importDefault(require("../../assets/icons/air-gap.png"));
-const altme_png_1 = __importDefault(require("../../assets/icons/altme.png"));
-const bitget_png_1 = __importDefault(require("../../assets/icons/bitget.png"));
-const etherlink_png_1 = __importDefault(require("../../assets/icons/etherlink.png"));
-const kukai_png_1 = __importDefault(require("../../assets/icons/kukai.png"));
-const meta_mask_png_1 = __importDefault(require("../../assets/icons/meta-mask.png"));
-const safe_pal_png_1 = __importDefault(require("../../assets/icons/safe-pal.png"));
-const temple_png_1 = __importDefault(require("../../assets/icons/temple.png"));
-const tezos_png_1 = __importDefault(require("../../assets/icons/tezos.png"));
-const transparent_png_1 = __importDefault(require("../../assets/icons/transparent.png"));
-const trust_png_1 = __importDefault(require("../../assets/icons/trust.png"));
+const etherlink_png_1 = __importDefault(require("../../assets/networks/etherlink.png"));
+const tezos_png_1 = __importDefault(require("../../assets/networks/tezos.png"));
+const air_gap_png_1 = __importDefault(require("../../assets/wallets/air-gap.png"));
+const altme_png_1 = __importDefault(require("../../assets/wallets/altme.png"));
+const bitget_png_1 = __importDefault(require("../../assets/wallets/bitget.png"));
+const kukai_png_1 = __importDefault(require("../../assets/wallets/kukai.png"));
+const meta_mask_png_1 = __importDefault(require("../../assets/wallets/meta-mask.png"));
+const safe_pal_png_1 = __importDefault(require("../../assets/wallets/safe-pal.png"));
+const temple_png_1 = __importDefault(require("../../assets/wallets/temple.png"));
+const trust_png_1 = __importDefault(require("../../assets/wallets/trust.png"));
 const utils_1 = require("../../utils");
 exports.PngIcon = (0, react_1.memo)(({ icon, height, width, className, ...props }) => {
     const src = (0, react_1.useMemo)(() => {
@@ -47,9 +46,6 @@ exports.PngIcon = (0, react_1.memo)(({ icon, height, width, className, ...props 
             }
             case 'tezos': {
                 return tezos_png_1.default;
-            }
-            case 'transparent': {
-                return transparent_png_1.default;
             }
             case 'trust': {
                 return trust_png_1.default;

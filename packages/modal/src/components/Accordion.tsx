@@ -39,12 +39,12 @@ export const Accordion = memo<AccordionProps>(({ title, open, onChangeOpen, clas
 			<Row className="justify-between">
 				<Row>{title}</Row>
 				<BaseButton
-					className="size-6 items-center justify-center rounded-full border border-solid border-lineGrey bg-white dark:border-white dark:bg-dark"
+					className="size-6 items-center justify-center rounded-full border border-solid border-line bg-light dark:border-lineDark dark:bg-dark"
 					onClick={toggleOpen}
 				>
 					<Icon
 						icon={(open ?? internalOpen) ? 'chevronUpSolid' : 'chevronDownSolid'}
-						className="text-lineGrey dark:text-white"
+						className="text-icon dark:text-iconDark"
 						height={12}
 						width={12}
 					/>
